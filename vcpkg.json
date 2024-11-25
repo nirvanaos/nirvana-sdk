@@ -1,0 +1,8 @@
+{
+  "dependencies": [
+		{
+			"name": "nidl2cpp",
+			"host": true
+		}
+   ]
+}
