@@ -52,7 +52,8 @@
       "displayName": "GNU C",
       "binaryDir": "build/gc",
       "cacheVariables": {
-        "CMAKE_CXX_COMPILER": "g++"
+        "CMAKE_CXX_COMPILER": "g++",
+        "CMAKE_C_COMPILER": "gcc"
       }
     },
     {
@@ -61,7 +62,9 @@
       "displayName": "CLang",
       "binaryDir": "build/clang",
       "cacheVariables": {
-        "CMAKE_CXX_COMPILER": "clang++"
+        "CMAKE_CXX_COMPILER": "clang++",
+        "CMAKE_CXX_FLAGS": "-stdlib=libc++",
+        "CMAKE_C_COMPILER": "clang"
       }
     }
   ],

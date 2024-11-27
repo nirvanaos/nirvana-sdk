@@ -1,0 +1,7 @@
+{
+	"files.associations": {
+		"vector": "cpp",
+		"iterator": "cpp",
+		"ciso646": "cpp"
+	}
+}

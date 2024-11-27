@@ -13,6 +13,8 @@ project(nirvana-sdk CXX C)
 if(MSVC)
 	add_compile_options("/Zc:__cplusplus")
 	set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+else()
+	add_compile_options("-mlzcnt")
 endif()
 
 find_program(NIDL2CPP nidl2cpp REQUIRED)
