@@ -16,7 +16,6 @@
       "inherits": "base",
       "name": "msvs",
       "hidden": true,
-      "generator": "Visual Studio 17 2022",
       "condition": {
         "type": "equals",
         "lhs": "${hostSystemName}",
@@ -67,6 +66,20 @@
       "cacheVariables": {
         "CMAKE_CXX_COMPILER": "clang++"
       }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "win-x64-debug",
+      "displayName": "Windows x64 Debug",
+      "configurePreset": "win-x64",
+      "configuration": "Debug"
+    },
+    {
+      "name": "win-x64-release",
+      "displayName": "Windows x64 Release",
+      "configurePreset": "win-x64",
+      "configuration": "Release"
     }
   ]
 }
