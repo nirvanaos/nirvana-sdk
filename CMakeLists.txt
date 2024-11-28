@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.28)
+cmake_minimum_required(VERSION 3.25)
 set(CMAKE_CXX_SCAN_FOR_MODULES 0)
 cmake_policy(SET CMP0010 NEW)
 cmake_policy(SET CMP0053 NEW)
@@ -18,7 +18,5 @@ else()
 endif()
 
 file(GLOB installed_tools LIST_DIRECTORIES true ${VCPKG_INSTALLED_DIR}/*/tools/nidl2cpp)
-message("path=" ${CMAKE_PROGRAM_PATH})
-message("tools=" ${installed_tools})
 find_program(NIDL2CPP nidl2cpp PATHS ${installed_tools} REQUIRED)
 add_subdirectory(nirvana)

@@ -9,7 +9,7 @@
 vcpkg_from_git(
     OUT_SOURCE_PATH SOURCE_PATH
     URL "https://github.com/nirvanaos/nidl2cpp"
-    REF "539d19c5a6b2745b8457fe5317bced20222696a2"
+    REF "50bec83f2df867196585f70022ae0bf3f6ccb41c"
 )
 
 vcpkg_cmake_configure(SOURCE_PATH "${SOURCE_PATH}")
