@@ -1,11 +1,11 @@
 add_library(nirvana STATIC)
-target_include_directories(nirvana PRIVATE
+target_include_directories(nirvana PUBLIC
 	library/Include
 	orb/Include
 )
 
-#target_precompile_headers(nirvana PRIVATE 
-#	$<$<COMPILE_LANGUAGE:CXX>:${CMAKE_CURRENT_SOURCE_DIR}/pch/pch.h>)
+target_precompile_headers(nirvana PRIVATE 
+	$<$<COMPILE_LANGUAGE:CXX>:${CMAKE_CURRENT_SOURCE_DIR}/pch/pch.h>)
 
 set(IDL_OPTIONS
 	-I "${CMAKE_CURRENT_SOURCE_DIR}/orb/Include"
