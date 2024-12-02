@@ -6,3 +6,7 @@
 	path = nirvana/orb
 	url = https://github.com/nirvanaos/orb.git
 	branch = master
+[submodule "googletest/googletest"]
+	path = googletest/googletest
+	url = https://github.com/nirvanaos/googletest.git
+	branch = nirvana
