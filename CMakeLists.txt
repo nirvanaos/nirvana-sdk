@@ -60,5 +60,10 @@ function(idl_generate)
 
 endfunction()
 
+include(CTest)
+
 add_subdirectory(nirvana)
-add_subdirectory(googletest)
+
+if(BUILD_TESTING)
+	add_subdirectory(googletest)
+endif()
