@@ -13,13 +13,18 @@ set(CMAKE_CONFIGURATION_TYPES Debug Release)
 
 project(nirvana-sdk CXX C)
 
-if(MSVC)
+if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
 	add_compile_options("/Zc:sizedDealloc" "/Zc:__cplusplus")
 	set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
-else()
-	add_compile_options("-mlzcnt" "-fshort-wchar" "-fsized-deallocation")
-	set(CMAKE_CXX_FLAGS_DEBUG "-g -fno-limit-debug-info -O0")
+elseif(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+	set(CMAKE_CXX_FLAGS "-stdlib=libc++")
+	set(CMAKE_CXX_FLAGS_DEBUG "-g -O0 -fstandalone-debug")
+	add_compile_options("-mlzcnt" "-fshort-wchar" "-fsized-deallocation" "-Wall")
+elseif(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+	set(CMAKE_CXX_FLAGS_DEBUG "-g -O0")
+	add_compile_options("-mlzcnt" "-fshort-wchar" "-fsized-deallocation" "-Wall")
 endif()
+
 add_compile_definitions(__STDC_WANT_LIB_EXT1__=1)
 
 file(GLOB installed_tools LIST_DIRECTORIES true ${VCPKG_INSTALLED_DIR}/*/tools/nidl2cpp)
