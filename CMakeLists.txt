@@ -11,13 +11,17 @@ set(CMAKE_C_STANDARD_REQUIRED ON)
 
 set(CMAKE_CONFIGURATION_TYPES Debug Release)
 
+if(NOT MSVC)
+set(CMAKE_CXX_FLAGS_DEBUG "-g -fno-limit-debug-info -O0")
+endif()
+
 project(nirvana-sdk CXX C)
 
 if(MSVC)
-	add_compile_options("/Zc:__cplusplus")
+	add_compile_options("/Zc:sizedDealloc" "/Zc:__cplusplus")
 	set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
 else()
-	add_compile_options("-mlzcnt" "-fshort-wchar")
+	add_compile_options("-mlzcnt" "-fshort-wchar" "-fsized-deallocation")
 endif()
 add_compile_definitions(__STDC_WANT_LIB_EXT1__=1)
 
