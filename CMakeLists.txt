@@ -14,15 +14,33 @@ set(CMAKE_CONFIGURATION_TYPES Debug Release)
 project(nirvana-sdk CXX C)
 
 if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+
 	add_compile_options("/Zc:sizedDealloc" "/Zc:__cplusplus")
 	set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+
 elseif(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+
 	set(CMAKE_CXX_FLAGS "-stdlib=libc++")
 	set(CMAKE_CXX_FLAGS_DEBUG "-g -O0 -fstandalone-debug")
-	add_compile_options("-mlzcnt" "-fshort-wchar" "-fsized-deallocation" "-Wall")
+	add_compile_options("-fsized-deallocation" "-Wall")
+
+	#add_compile_options("-fshort-wchar")
+
+	if(${CMAKE_SYSTEM_PROCESSOR} STREQUAL "x86_64")
+		add_compile_options("-mlzcnt")
+	endif()
+
 elseif(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+
 	set(CMAKE_CXX_FLAGS_DEBUG "-g -O0")
-	add_compile_options("-mlzcnt" "-fshort-wchar" "-fsized-deallocation" "-Wall")
+	add_compile_options("-fsized-deallocation" "-Wall")
+
+	#add_compile_options("-fshort-wchar")
+
+	if(${CMAKE_SYSTEM_PROCESSOR} STREQUAL "x86_64")
+		add_compile_options("-mlzcnt")
+	endif()
+
 endif()
 
 add_compile_definitions(__STDC_WANT_LIB_EXT1__=1)
