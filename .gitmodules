@@ -10,3 +10,6 @@
 	path = googletest/googletest
 	url = https://github.com/nirvanaos/googletest.git
 	branch = nirvana
+[submodule "llvm-project"]
+	path = llvm-project
+	url = https://github.com/nirvanaos/llvm-project.git
