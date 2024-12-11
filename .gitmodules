@@ -13,3 +13,6 @@
 [submodule "llvm-project"]
 	path = llvm-project
 	url = https://github.com/nirvanaos/llvm-project.git
+[submodule "openlibm"]
+	path = openlibm
+	url = https://github.com/JuliaMath/openlibm.git
