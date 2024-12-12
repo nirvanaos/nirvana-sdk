@@ -13,19 +13,18 @@ fi
 set -e
 
 dest_dir="$PWD/sdk"
-build_dir="$PWD/build-libcxx-$platform-$config"
+build_dir="$PWD/build/libcxx-$platform-$config"
 llvm_root="$PWD/llvm-project"
-libc_config="$PWD/libc"
 
 if [[ "$platform" == "x64" ]]; then
-triple="x86_64-pc-none-elf"
+triple="x86_64-pc-none-elf"pwd
 cpu_features="AVX;AVX2;FMA;SSE2;SSE4_2"
 else
 triple="i686-pc-none-elf"
 cpu_features="MMX;SSE"
 fi
 
-nirvana="$(pwd -W)/nirvana"
+nirvana="$PWD/nirvana"
 
 set -x
 
@@ -33,6 +32,7 @@ cpp_flags="-fsized-deallocation\
  --target=$triple\
  -I"$nirvana/library/Include"\
  -I"$nirvana/library/Include/CRTL"\
+ -I"$nirvana/library/Include/CRT"\
  -I"$nirvana/orb/Include"\
  -D_LIBCPP_PROVIDES_DEFAULT_RUNE_TABLE"
 
