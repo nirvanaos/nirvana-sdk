@@ -15,18 +15,20 @@ project(nirvana-sdk CXX C)
 
 if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
 
-	add_compile_options("/Zc:sizedDealloc" "/Zc:__cplusplus")
+	add_compile_options("/Zc:sizedDealloc" "/Zc:__cplusplus" "/Zc:preprocessor")
 	set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
 
 elseif(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
 
-	set(CMAKE_CXX_FLAGS "-stdlib=libc++")
-	set(CMAKE_CXX_FLAGS_DEBUG "-g -O0 -fstandalone-debug")
+	#set(CMAKE_CXX_FLAGS "-stdlib=libc++")
+	#set(CMAKE_CXX_FLAGS_DEBUG "-g -O0 -fstandalone-debug")
 	add_compile_options("-fsized-deallocation" "-Wall")
+
+	#message("Processor:" ${CMAKE_SYSTEM_PROCESSOR})
 
 	#add_compile_options("-fshort-wchar")
 
-	if(${CMAKE_SYSTEM_PROCESSOR} STREQUAL "x86_64")
+	if((${CMAKE_SYSTEM_PROCESSOR} STREQUAL "x86_64") OR (${CMAKE_SYSTEM_PROCESSOR} STREQUAL "AMD64"))
 		add_compile_options("-mlzcnt")
 	endif()
 
