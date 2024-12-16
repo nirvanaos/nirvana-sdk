@@ -13,3 +13,7 @@
 [submodule "openlibm"]
 	path = openlibm
 	url = https://github.com/JuliaMath/openlibm.git
+[submodule "llvm-project"]
+	path = llvm-project
+	url = https://github.com/llvm/llvm-project.git
+	shallow = true
