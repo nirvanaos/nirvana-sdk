@@ -56,7 +56,7 @@ if ($LASTEXITCODE -ne 0) {
   exit $LASTEXITCODE
 }
 
-# ctest --test-dir "$build_dir"
+ctest --test-dir "$build_dir"
 
 if ($LASTEXITCODE -ne 0) {
   exit $LASTEXITCODE
