@@ -1,0 +1,93 @@
+name: Build Nirvana SDK
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events
+  push:
+    branches: [ master, develop, feature/** ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+env:
+  LLVM_PATH: "${{ github.workspace }}\\llvm-release"
+  NIRVANA_SDK: "${{ github.workspace }}\\out\\sdk"
+  NIRVANA_TOOLS: "${{ github.workspace }}\\out\\tools-windows-x64"
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: windows-latest
+
+  # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@main
+        with:
+          submodules: recursive
+
+      - name: Download LLVM
+        uses: robinraju/release-downloader@v1
+        with:
+          repository: llvm/llvm-project
+          tag: "llvmorg-21.1.0"
+          fileName: clang+llvm-21.1.0-x86_64-pc-windows-msvc.tar.xz
+
+      - name: Extract LLVM
+        shell: pwsh
+        run: './unpack-tar-xz.ps1 clang+llvm-21.1.0-x86_64-pc-windows-msvc llvm-release'
+
+      - name: Pull LLVM
+        run: ./pull_llvm.ps1
+        shell: pwsh
+
+      - name: Build tools
+        run: ./build_tools.ps1
+        shell: pwsh
+
+      - name: Install packages
+        run: ./install_packages_all.ps1
+        shell: pwsh
+
+      - name: Compile IDL
+        run: ./compile_idl.ps1
+        shell: pwsh
+
+      - name: Build math library
+        run: ./build_olibm_all.ps1
+        shell: pwsh
+
+      - name: Build libc++
+        run: ./build_libcxx_all.ps1
+        shell: pwsh
+
+      - name: Build Nirvana
+        run: ./build_nirvana_all.ps1
+        shell: pwsh
+
+      - name: Build Examples
+        shell: pwsh
+        run: |
+          cd TestORB
+          ./build.ps1
+          cd ..
+
+      - name: Archive SDK
+        uses: actions/upload-artifact@main
+        with:
+          name: nirvana-sdk@1.0.0-alpha
+          path: out/sdk
+
+      - name: Archive Tools
+        uses: actions/upload-artifact@main
+        with:
+          name: nirvana-tools-windows-x64@1.0.0-alpha
+          path: out/tools-windows-x64
+
+      - name: Archive Core SDK
+        uses: actions/upload-artifact@main
+        with:
+          name: nirvana-core-sdk@1.0.0-alpha
+          path: out/core-sdk

@@ -10,3 +10,10 @@
 	path = googletest/googletest
 	url = https://github.com/nirvanaos/googletest.git
 	branch = nirvana
+[submodule "openlibm"]
+	path = openlibm
+	url = https://github.com/nirvanaos/openlibm.git
+[submodule "TestORB"]
+	path = TestORB
+	url = https://github.com/nirvanaos/TestORB.git
+	branch = develop
