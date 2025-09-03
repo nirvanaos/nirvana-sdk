@@ -19,11 +19,6 @@ option (NIRVANA_BUILD "Build" ON)
 
 include (CTest)
 
-set (CMAKE_CXX_FLAGS_RELEASE "-fno-builtin")
-set (CMAKE_CXX_FLAGS_DEBUG "-gdwarf-4")
-set (CMAKE_C_FLAGS_RELEASE "-fno-builtin")
-set (CMAKE_C_FLAGS_DEBUG "-gdwarf-4")
-
 if (NIRVANA_IDL)
 
 find_program (NIDL2CPP nidl2cpp PATHS

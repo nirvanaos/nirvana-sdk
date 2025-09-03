@@ -15,7 +15,7 @@ if ($args.count -ge 2) {
 if ($args.count -ge 3) {
 	$system = $args[2]
 } else {
-	$system = "windows-gnu"
+	$system = "pc-windows-gnu"
 }
 
 switch ($platform) {
@@ -38,44 +38,31 @@ $platform_inc = "$sdk_dir\include\clang"
 $nirvana_dir = "$PWD\nirvana"
 $triple = "$arch-$system"
 
-$c_flags = "-nostdinc -fshort-wchar -fsized-deallocation" +
-" -Wno-user-defined-literals" +
-" -Wno-covered-switch-default" +
-" -Wno-typedef-redefinition" +
-" -Wno-nonportable-include-path" +
-" -Wno-nullability-completeness" +
-" -Wno-covered-switch-default" +
-" -Wno-unused-function" +
-" -fno-ms-compatibility" +
-" -fno-ms-extensions" +
-" -fsjlj-exceptions" +
-" --target=$triple" +
-" -I`"$platform_inc`"" +
-" -I`"$PWD\nirvana\library\include\CRTL`"" +
-" -I`"$sdk_dir\include`"" +
-" -I`"$PWD\nirvana\library\include`"" +
-" -I`"$PWD\build\nirvana\library\include`"" +
-" -I`"$PWD\nirvana\orb\include`"" +
-" -I`"$PWD\build\nirvana\orb\include`"" +
-" -D_NATIVE_WCHAR_T_DEFINED"
+$common_flags = "-Wno-user-defined-literals;" +
+"-Wno-covered-switch-default;" +
+"-Wno-typedef-redefinition;" +
+"-Wno-nonportable-include-path;" +
+"-Wno-nullability-completeness;" +
+"-Wno-covered-switch-default;" +
+"-Wno-unused-function;" +
+"--target=$triple;" +
+"-I`"$platform_inc`";" +
+"-I`"$PWD\nirvana\library\include\CRTL`";" +
+"-I`"$sdk_dir\include`";" +
+"-I`"$PWD\nirvana\library\include`";" +
+"-I`"$PWD\build\nirvana\library\include`";" +
+"-I`"$PWD\nirvana\orb\include`";" +
+"-I`"$PWD\build\nirvana\orb\include`""
 
-$extra_defines = "_LIBCXXABI_DISABLE_VISIBILITY_ANNOTATIONS;" +
-"_LIBCPP_HAS_CLOCK_GETTIME"
+$cxx_flags = $common_flags + ";-includeNirvana/force_include.h;-U_WIN32;-U__MINGW32__;-U_WIN64;-U__MINGW64__;-Wno-cast-qual"
+$extra_defines = "_LIBCPP_HAS_CLOCK_GETTIME"
 
-$cxx_flags = "-includeNirvana/force_include.h;-U_WIN32;-U__MINGW32__;-Wno-cast-qual"
-
-$cxxabi_flags = "-U_WIN32;-U__MINGW32__;-D_LIBCXXABI_DISABLE_VISIBILITY_ANNOTATIONS"
-$unwind_flags = "-Wno-format;-Wno-gnu-include-next;-D_LIBUNWIND_REMEMBER_STACK_ALLOC"
+$cxxabi_flags = $common_flags + ";-U_WIN32;-U__MINGW32__;-U_WIN64;-U__MINGW64__"
+$unwind_flags = $common_flags + ";-D_LIBUNWIND_REMEMBER_STACK_ALLOC;-Wno-format;-Wno-gnu-include-next"
 
 cmake -G Ninja -S "$llvm_root\runtimes" -B $build_dir --toolchain "$PWD\toolchain.cmake" `
  -DBUILD_SHARED_LIBS=OFF                              `
  -DCMAKE_BUILD_TYPE="$config"                         `
- -DCMAKE_C_FLAGS="$c_flags"                           `
- -DCMAKE_C_FLAGS_DEBUG="-gdwarf-4"                    `
- -DCMAKE_C_FLAGS_RELEASE="-fno-builtin"               `
- -DCMAKE_CXX_FLAGS="$c_flags"                         `
- -DCMAKE_CXX_FLAGS_DEBUG="-gdwarf-4"                  `
- -DCMAKE_CXX_FLAGS_RELEASE="-fno-builtin"             `
  -DCMAKE_CXX_STANDARD="20"                            `
  -DCMAKE_INSTALL_PREFIX="$dest_dir"                   `
  -DCMAKE_PREFIX_PATH="$tools_dir"                     `

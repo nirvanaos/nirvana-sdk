@@ -18,19 +18,12 @@ set (nirvana_includes
 target_include_directories (nirvana PUBLIC ${nirvana_includes})
 
 target_compile_options (nirvana PUBLIC
-	"-nostdinc"
 	"-U_WIN32"
 	"-U_WIN64"
   "-U__MINGW__"
   "-U__MINGW32__"
   "-U__MINGW64__"
 	"--target=${NIRVANA_TARGET_TRIPLE}"
-	"-fsized-deallocation"
-	"-fshort-wchar"
-	"-fno-ms-compatibility"
-	"-fno-ms-extensions"
-	"-fsjlj-exceptions"
-  "-Wno-character-conversion"
 )
 
 if (${NIRVANA_TARGET_PLATFORM} STREQUAL "x64")

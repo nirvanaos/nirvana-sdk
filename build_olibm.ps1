@@ -16,17 +16,15 @@ if ($args.count -ge 3) {
 	$system = $args[2]
 } else {
 #	$system = "pc-win32"
-	$system = "windows-gnu"
+	$system = "pc-windows-gnu"
 }
 
 switch ($platform) {
 	"x64" {
 		$arch = "x86_64"
-		$arch_folder = "x86_64"
 	}
 	"x86" {
 		$arch = "i686"
-		$arch_folder = "x86"
 	}
 	default {
 		Write-Host "Unknown platform"
@@ -44,25 +42,22 @@ $triple = "$arch-$system"
 $lib_name = "openlibm.lib"
 
 $include="$platform_inc;$nirvana_dir\library\include;$nirvana_dir\library\include\CRTL;$nirvana_dir\orb\include"
-$c_flags = "-Wno-reserved-identifier" +
-" -fno-ms-compatibility" + 
-" -fno-ms-extensions" +
-" -nostdinc" +
-" --target=$triple"
+$c_flags = "-Wno-reserved-identifier --target=$triple"
 
 $args = "-G Ninja -S ""$libm_root"" -B ""$build_dir"" --toolchain ""$PWD\toolchain.cmake"""  +
 "	-DBUILD_SHARED_LIBS=OFF" +
 " -DCMAKE_SYSTEM_NAME=Generic" +
 " -DCMAKE_BUILD_TYPE=$config" +
 #" -DCMAKE_MT=mt" +
-" -DCMAKE_C_FLAGS=""$c_flags""" +
+" -DC_ASM_COMPILE_FLAGS=""$c_flags""" +
 " -DCMAKE_STATIC_LIBRARY_PREFIX_C=""""" +
 " -DCMAKE_STATIC_LIBRARY_SUFFIX_C=.lib" +
-" -DOPENLIBM_ARCH_FOLDER=""$arch_folder""" +
+" -DCMAKE_SYSTEM_PROCESSOR=""$arch""" +
 " -DOPENLIBM_INCLUDE_DIRS=""$include""" +
 " -DOPENLIBM_SUPPRESS_WARNINGS=ON"
 
 #Write-Host "$args"
+#exit
 $process = Start-Process cmake -NoNewWindow -PassThru -Wait -ArgumentList $args
 if (0 -ne $process.ExitCode) {
   exit $process.ExitCode
