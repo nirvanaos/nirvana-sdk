@@ -15,7 +15,7 @@ if ($args.count -ge 2) {
 if ($args.count -ge 3) {
 	$system = $args[2]
 } else {
-	$system = "pc-windows-gnu"
+	$system = "unknown-windows-gnu"
 }
 
 switch ($platform) {
@@ -73,6 +73,7 @@ cmake -G Ninja -S "$llvm_root\runtimes" -B $build_dir --toolchain "$PWD\toolchai
  -DCMAKE_STATIC_LIBRARY_SUFFIX_C=".lib"               `
  -DCMAKE_STATIC_LIBRARY_SUFFIX_CXX=".lib"             `
  -DCMAKE_SYSTEM_NAME=Generic                          `
+ -DCMAKE_SYSTEM_PROCESSOR="$platform"                 `
  -DLLVM_ENABLE_RUNTIMES="libcxx;libcxxabi;libunwind"  `
  -DLLVM_TARGET_TRIPLE="$triple"                       `
  -DLIBCXX_ABI_FORCE_ITANIUM=ON                        `

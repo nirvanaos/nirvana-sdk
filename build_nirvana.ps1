@@ -15,7 +15,7 @@ if ($args.count -ge 2) {
 if ($args.count -ge 3) {
 	$system = $args[2]
 } else {
-	$system = "pc-windows-gnu"
+	$system = "unknown-windows-gnu"
 }
 
 switch ($platform) {
@@ -41,8 +41,7 @@ ${Env:CMAKE_PREFIX_PATH}="$PWD\build\$platform\vcpkg_installed\$vcpkg_triplet\sh
 
 cmake -G Ninja -S . -B $build_dir --toolchain "$PWD\toolchain.cmake" `
  -DCMAKE_BUILD_TYPE="$config"                         `
- -DNIRVANA_TARGET_TRIPLE="$triple"                    `
- -DNIRVANA_TARGET_PLATFORM="$platform"                `
+ -DCMAKE_SYSTEM_PROCESSOR="$platform"                 `
  -DNIRVANA_LIB_DIR="$lib_dir"                         `
  -DNIRVANA_IDL=ON                                     `
  -DNIRVANA_BUILD=ON                                   `

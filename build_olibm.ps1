@@ -16,7 +16,7 @@ if ($args.count -ge 3) {
 	$system = $args[2]
 } else {
 #	$system = "pc-win32"
-	$system = "pc-windows-gnu"
+	$system = "unknown-windows-gnu"
 }
 
 switch ($platform) {
@@ -44,14 +44,14 @@ $include="$nirvana_dir\library\include;$nirvana_dir\library\include\CRTL;$nirvan
 $c_flags = "-Wno-reserved-identifier;--target=$triple"
 
 cmake -G Ninja -S "$libm_root" -B $build_dir --toolchain "$PWD\toolchain.cmake" `
- -DBUILD_SHARED_LIBS=OFF `
- -DCMAKE_SYSTEM_NAME=Generic `
- -DCMAKE_SYSTEM_PROCESSOR="$arch" `
- -DCMAKE_BUILD_TYPE="$config" `
- -DC_ASM_COMPILE_FLAGS="$c_flags" `
- -DCMAKE_STATIC_LIBRARY_PREFIX_C="" `
+ -DBUILD_SHARED_LIBS=OFF                `
+ -DCMAKE_SYSTEM_NAME=Generic            `
+ -DCMAKE_SYSTEM_PROCESSOR="$arch"       `
+ -DCMAKE_BUILD_TYPE="$config"           `
+ -DC_ASM_COMPILE_FLAGS="$c_flags"       `
+ -DCMAKE_STATIC_LIBRARY_PREFIX_C=""     `
  -DCMAKE_STATIC_LIBRARY_SUFFIX_C=".lib" `
- -DOPENLIBM_INCLUDE_DIRS="$include" `
+ -DOPENLIBM_INCLUDE_DIRS="$include"     `
  -DOPENLIBM_SUPPRESS_WARNINGS=ON
 
 if ($LASTEXITCODE -ne 0) {

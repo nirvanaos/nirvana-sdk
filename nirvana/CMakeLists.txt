@@ -28,7 +28,7 @@ target_compile_options (nirvana PUBLIC
 
 if (${NIRVANA_TARGET_PLATFORM} STREQUAL "x64")
 	target_compile_options (nirvana PUBLIC "-mlzcnt")
-endif()
+endif ()
 
 target_compile_definitions (nirvana PUBLIC
   _LIBUNWIND_REMEMBER_STACK_ALLOC

@@ -90,6 +90,7 @@ set (CMAKE_C_COMPILER ${llvm_bin}/clang.exe)
 set (CMAKE_C_COMPILER_WORKS ON)
 set (CMAKE_ASM_COMPILER ${llvm_bin}/clang.exe)
 set (CMAKE_RC_COMPILER ${llvm_bin}/llvm-rc.exe)
+
 set (CMAKE_CXX_STANDARD_LIBRARIES "")
 
 set (c_compile_flags "-fshort-wchar -mlong-double-80\
