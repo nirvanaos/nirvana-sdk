@@ -5,17 +5,16 @@ set (NIDL2CPP ${NIRVANA_TOOLS_DIR}/nidl2cpp.exe)
 if (${NIRVANA_TARGET_PLATFORM} STREQUAL "x64")
   set (NIRVANA_TARGET_ARCH "x86_64")
 elseif (${NIRVANA_TARGET_PLATFORM} STREQUAL "x86")
-  set (NIRVANA_TARGET_ARCH "i386")
+  set (NIRVANA_TARGET_ARCH "i686")
 else ()
   message(FATAL_ERROR "Unknown NIRVANA_TARGET_PLATFORM")
 endif ()
 
-set(NIRVANA_TARGET_TRIPLE "${NIRVANA_TARGET_ARCH}-windows-gnu")
-set(NIRVANA_LIB_DIR ${NIRVANA_SDK_DIR}/lib/${NIRVANA_TARGET_PLATFORM})
+set (NIRVANA_TARGET_TRIPLE "${NIRVANA_TARGET_ARCH}-pc-windows-gnu")
+set (NIRVANA_LIB_DIR ${NIRVANA_SDK_DIR}/lib/${NIRVANA_TARGET_PLATFORM})
 
 set (NIRVANA_INCLUDES
 	${NIRVANA_SDK_DIR}/include/c++/v1
-	${NIRVANA_SDK_DIR}/include/clang
 	${NIRVANA_SDK_DIR}/include
 )
 
@@ -27,25 +26,10 @@ set (NIRVANA_LIBS
 	${NIRVANA_LIB_DIR}/$<CONFIG>/libc++experimental.lib
 	${NIRVANA_LIB_DIR}/$<CONFIG>/libm.lib
 	${NIRVANA_LIB_DIR}/$<CONFIG>/libunwind.lib
-	${NIRVANA_LIB_DIR}/$<CONFIG>/nirvana.lib
-	
+	${NIRVANA_LIB_DIR}/$<CONFIG>/nirvana.lib	
 )
 
-set (NIRVANA_COMPILE_OPTIONS
-	"-nostdinc"
-	"-U_WIN32"
-	"-U_WIN64"
-  "-U__MINGW__"
-  "-U__MINGW32__"
-  "-U__MINGW64__"
-	"--target=${NIRVANA_TARGET_TRIPLE}"
-	"-fsized-deallocation"
-	"-fshort-wchar"
-	"-fno-ms-compatibility"
-	"-fno-ms-extensions"
-	"-fsjlj-exceptions"
-  "-Wno-character-conversion"
-)
+set (NIRVANA_COMPILE_OPTIONS "--target=${NIRVANA_TARGET_TRIPLE}")
 
 set (NIRVANA_LINK_OPTIONS "LINKER:SHELL:/noentry /nodefaultlib /debug:dwarf /section:olfbind,r")
 

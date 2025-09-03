@@ -20,6 +20,7 @@ target_include_directories (nirvana PUBLIC ${nirvana_includes})
 
 target_compile_options (nirvana PUBLIC
 	"-U_WIN32"
+  "-U__MINGW__"
   "-U__MINGW32__"
   "-U__MINGW64__"
 	"--target=${NIRVANA_TARGET_TRIPLE}"

@@ -102,9 +102,14 @@ string (CONCAT cpp_compile_flags ${c_compile_flags} " -fsized-deallocation")
 set (CMAKE_CXX_FLAGS_INIT ${cpp_compile_flags})
 set (CMAKE_C_FLAGS_INIT ${c_compile_flags})
 
-set (CMAKE_CXX_FLAGS_DEBUG_INIT "-gdwarf-4")
-set (CMAKE_C_FLAGS_RELEASE_INIT "-fno-builtin")
-set (CMAKE_C_FLAGS_DEBUG_INIT "-gdwarf-4")
-set (CMAKE_ASM_FLAGS_DEBUG_INIT "-gdwarf-4")
+set (debug_flags "-gdwarf-4")
+set (release_flags "-fno-builtin")
+
+set (CMAKE_CXX_FLAGS_DEBUG_INIT ${debug_flags})
+set (CMAKE_C_FLAGS_DEBUG_INIT ${debug_flags})
+set (CMAKE_ASM_FLAGS_DEBUG_INIT ${debug_flags})
+
+set (CMAKE_CXX_FLAGS_RELEASE_INIT ${release_flags})
+set (CMAKE_C_FLAGS_RELEASE_INIT ${release_flags})
 
 list (APPEND CMAKE_MODULE_PATH "${llvm}/lib/cmake/clang")

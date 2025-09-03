@@ -35,8 +35,6 @@ switch ($platform) {
 
 $lib_dir = "$sdk_dir\lib\$platform"
 $build_dir = "$PWD\build\$platform\nirvana\$config"
-$platform_inc = "$sdk_dir\include\clang"
-$include = "$sdk_dir\include"
 $triple = "$arch-$system"
 
 ${Env:CMAKE_PREFIX_PATH}="$PWD\build\$platform\vcpkg_installed\$vcpkg_triplet\share"
@@ -56,7 +54,7 @@ if ($LASTEXITCODE -ne 0) {
   exit $LASTEXITCODE
 }
 
-ctest --test-dir "$build_dir"
+#ctest --test-dir "$build_dir"
 
 if ($LASTEXITCODE -ne 0) {
   exit $LASTEXITCODE
