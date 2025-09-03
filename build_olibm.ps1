@@ -16,17 +16,15 @@ if ($args.count -ge 3) {
 	$system = $args[2]
 } else {
 #	$system = "pc-win32"
-	$system = "windows-gnu"
+	$system = "pc-windows-gnu"
 }
 
 switch ($platform) {
 	"x64" {
 		$arch = "x86_64"
-		$arch_folder = "x86_64"
 	}
 	"x86" {
 		$arch = "i686"
-		$arch_folder = "x86"
 	}
 	default {
 		Write-Host "Unknown platform"
@@ -37,35 +35,27 @@ switch ($platform) {
 $dest_dir = "$sdk_dir\lib\$platform\$config"
 $build_dir = "$PWD\build\$platform\libm\$config"
 $libm_root = "$PWD\openlibm"
-$platform_inc = "$sdk_dir\include\clang"
 $nirvana_dir = "$PWD\nirvana"
 
 $triple = "$arch-$system"
 $lib_name = "openlibm.lib"
 
-$include="$platform_inc;$nirvana_dir\library\include;$nirvana_dir\library\include\CRTL;$nirvana_dir\orb\include"
-$c_flags = "-Wno-reserved-identifier" +
-" -fno-ms-compatibility" + 
-" -fno-ms-extensions" +
-" -nostdinc" +
-" --target=$triple"
+$include="$nirvana_dir\library\include;$nirvana_dir\library\include\CRTL;$nirvana_dir\orb\include"
+$c_flags = "-Wno-reserved-identifier;--target=$triple"
 
-$args = "-G Ninja -S ""$libm_root"" -B ""$build_dir"" --toolchain ""$PWD\toolchain.cmake"""  +
-"	-DBUILD_SHARED_LIBS=OFF" +
-" -DCMAKE_SYSTEM_NAME=Generic" +
-" -DCMAKE_BUILD_TYPE=$config" +
-#" -DCMAKE_MT=mt" +
-" -DCMAKE_C_FLAGS=""$c_flags""" +
-" -DCMAKE_STATIC_LIBRARY_PREFIX_C=""""" +
-" -DCMAKE_STATIC_LIBRARY_SUFFIX_C=.lib" +
-" -DOPENLIBM_ARCH_FOLDER=""$arch_folder""" +
-" -DOPENLIBM_INCLUDE_DIRS=""$include""" +
-" -DOPENLIBM_SUPPRESS_WARNINGS=ON"
+cmake -G Ninja -S "$libm_root" -B $build_dir --toolchain "$PWD\toolchain.cmake" `
+ -DBUILD_SHARED_LIBS=OFF `
+ -DCMAKE_SYSTEM_NAME=Generic `
+ -DCMAKE_SYSTEM_PROCESSOR="$arch" `
+ -DCMAKE_BUILD_TYPE="$config" `
+ -DC_ASM_COMPILE_FLAGS="$c_flags" `
+ -DCMAKE_STATIC_LIBRARY_PREFIX_C="" `
+ -DCMAKE_STATIC_LIBRARY_SUFFIX_C=".lib" `
+ -DOPENLIBM_INCLUDE_DIRS="$include" `
+ -DOPENLIBM_SUPPRESS_WARNINGS=ON
 
-#Write-Host "$args"
-$process = Start-Process cmake -NoNewWindow -PassThru -Wait -ArgumentList $args
-if (0 -ne $process.ExitCode) {
-  exit $process.ExitCode
+if ($LASTEXITCODE -ne 0) {
+  exit $LASTEXITCODE
 }
 
 cmake --build $build_dir
