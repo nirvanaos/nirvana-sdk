@@ -51,15 +51,16 @@ $common_flags = "-Wno-user-defined-literals;" +
 "-I$PWD\build\nirvana\library\include;" +
 "-I$nirvana_dir\orb\include;" +
 "-I$PWD\build\nirvana\orb\include;" +
-"-U__MINGW32__" +
+"-U__MINGW__;" +
+"-U__MINGW32__;" +
 "-U__MINGW64__"
 
 # Do not undefine _WIN64 because this breaks the code
 
-$cxx_flags = $common_flags + ";-includeNirvana/force_include.h;-U_WIN32;-Wno-cast-qual"
+$cxx_flags = $common_flags + ";-U_WIN32;-includeNirvana/force_include.h;-Wno-cast-qual"
 $extra_defines = "_LIBCPP_HAS_CLOCK_GETTIME"
 
-$cxxabi_flags = $common_flags + ";-U_WIN32"
+$cxxabi_flags = $cxx_flags
 $unwind_flags = $common_flags + ";-D_LIBUNWIND_REMEMBER_STACK_ALLOC;-Wno-format"
 
 cmake -G Ninja -S "$llvm_root\runtimes" -B $build_dir --toolchain "$PWD\toolchain.cmake" `
