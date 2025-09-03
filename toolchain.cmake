@@ -92,12 +92,12 @@ set (CMAKE_ASM_COMPILER ${llvm_bin}/clang.exe)
 set (CMAKE_RC_COMPILER ${llvm_bin}/llvm-rc.exe)
 set (CMAKE_CXX_STANDARD_LIBRARIES "")
 
-set (c_compile_flags "-nostdinc -fshort-wchar -mlong-double-80\
+set (c_compile_flags "-fshort-wchar -mlong-double-80\
  -fno-ms-compatibility -fno-ms-extensions\
- -Wno-character-conversion"
+ -Wno-character-conversion -fsjlj-exceptions"
 )
 
-string (CONCAT cpp_compile_flags ${c_compile_flags} " -fsized-deallocation -fsjlj-exceptions")
+string (CONCAT cpp_compile_flags ${c_compile_flags} " -fsized-deallocation")
 
 set (CMAKE_CXX_FLAGS_INIT ${cpp_compile_flags})
 set (CMAKE_C_FLAGS_INIT ${c_compile_flags})

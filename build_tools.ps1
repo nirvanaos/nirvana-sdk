@@ -21,4 +21,4 @@ if (-not (Test-Path "$llvm\$clang_lib")) {
     cmake --build $llvm
   }
 }
-xcopy "$llvm\$clang_lib\include\*.h" "$sdk_dir\include\clang" /y /i /s
+#xcopy "$llvm\$clang_lib\include\*.h" "$sdk_dir\include\clang" /y /i /s

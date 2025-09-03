@@ -6,7 +6,7 @@ set (include_dir "${CMAKE_SOURCE_DIR}/out/sdk/include")
 
 set (nirvana_includes
 	"${include_dir}/c++/v1"
-	"${include_dir}/clang"
+#	"${include_dir}/clang"
 	"${CMAKE_SOURCE_DIR}/nirvana/orb/Include"
 	"${CMAKE_SOURCE_DIR}/build/nirvana/orb/Include"
 	"${CMAKE_SOURCE_DIR}/nirvana/library/Include"
