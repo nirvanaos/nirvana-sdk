@@ -34,7 +34,6 @@ switch ($platform) {
 $dest_dir = "$sdk_dir\lib\$platform\$config"
 $build_dir = "$PWD\build\$platform\libcxx\$config"
 $llvm_root = "$PWD\llvm-project"
-$platform_inc = "$sdk_dir\include\clang"
 $nirvana_dir = "$PWD\nirvana"
 $triple = "$arch-$system"
 
@@ -46,19 +45,22 @@ $common_flags = "-Wno-user-defined-literals;" +
 "-Wno-covered-switch-default;" +
 "-Wno-unused-function;" +
 "--target=$triple;" +
-"-I`"$platform_inc`";" +
-"-I`"$PWD\nirvana\library\include\CRTL`";" +
-"-I`"$sdk_dir\include`";" +
-"-I`"$PWD\nirvana\library\include`";" +
-"-I`"$PWD\build\nirvana\library\include`";" +
-"-I`"$PWD\nirvana\orb\include`";" +
-"-I`"$PWD\build\nirvana\orb\include`""
+"-I$PWD\nirvana\library\include\CRTL;" +
+"-I$sdk_dir\include;" +
+"-I$nirvana_dir\library\include;" +
+"-I$PWD\build\nirvana\library\include;" +
+"-I$nirvana_dir\orb\include;" +
+"-I$PWD\build\nirvana\orb\include;" +
+"-U__MINGW32__" +
+"-U__MINGW64__"
 
-$cxx_flags = $common_flags + ";-includeNirvana/force_include.h;-U_WIN32;-U__MINGW32__;-U_WIN64;-U__MINGW64__;-Wno-cast-qual"
+# Do not undefine _WIN64 because this breaks the code
+
+$cxx_flags = $common_flags + ";-includeNirvana/force_include.h;-U_WIN32;-Wno-cast-qual"
 $extra_defines = "_LIBCPP_HAS_CLOCK_GETTIME"
 
-$cxxabi_flags = $common_flags + ";-U_WIN32;-U__MINGW32__;-U_WIN64;-U__MINGW64__"
-$unwind_flags = $common_flags + ";-D_LIBUNWIND_REMEMBER_STACK_ALLOC;-Wno-format;-Wno-gnu-include-next"
+$cxxabi_flags = $common_flags + ";-U_WIN32"
+$unwind_flags = $common_flags + ";-D_LIBUNWIND_REMEMBER_STACK_ALLOC;-Wno-format"
 
 cmake -G Ninja -S "$llvm_root\runtimes" -B $build_dir --toolchain "$PWD\toolchain.cmake" `
  -DBUILD_SHARED_LIBS=OFF                              `
@@ -108,6 +110,10 @@ cmake -G Ninja -S "$llvm_root\runtimes" -B $build_dir --toolchain "$PWD\toolchai
  -DLIBUNWIND_USE_COMPILER_RT=ON                       `
  -D_LIBCPP_DISABLE_VISIBILITY_ANNOTATIONS=ON          `
  -DLIBUNWIND_WEAK_PTHREAD_LIB=ON
+
+if ($LASTEXITCODE -ne 0) {
+  exit $LASTEXITCODE
+}
 
 cmake --build $build_dir
 

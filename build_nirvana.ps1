@@ -15,7 +15,7 @@ if ($args.count -ge 2) {
 if ($args.count -ge 3) {
 	$system = $args[2]
 } else {
-	$system = "windows-gnu"
+	$system = "pc-windows-gnu"
 }
 
 switch ($platform) {
