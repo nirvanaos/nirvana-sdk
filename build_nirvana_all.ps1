@@ -3,25 +3,13 @@ $sdk_dir = "$PWD\out\sdk"
 
 $failed = $false
 
-& .\build_nirvana.ps1 x64 Debug
+& .\build_nirvana.ps1 x64
 if ($LASTEXITCODE -ne 0) {
   Write-Host "Failed" $LASTEXITCODE
   $failed = $true
 }
 
-#& .\build_nirvana.ps1 x64 Release
-if ($LASTEXITCODE -ne 0) {
-  Write-Host "Failed" $LASTEXITCODE
-  $failed = $true
-}
-
-& .\build_nirvana.ps1 x86 Debug
-if ($LASTEXITCODE -ne 0) {
-  Write-Host "Failed" $LASTEXITCODE
-  $failed = $true
-}
-
-#& .\build_nirvana.ps1 x86 Release
+& .\build_nirvana.ps1 x86
 if ($LASTEXITCODE -ne 0) {
   Write-Host "Failed" $LASTEXITCODE
   $failed = $true
@@ -53,4 +41,3 @@ xcopy nirvana\orb\include\CORBA\*.inl $inc_dir\CORBA\ /y /s
 xcopy $PWD\googletest\googletest\googletest\include\gtest\*.* $inc_dir\gtest\ /y /s
 
 xcopy nirvana\cmake\* $sdk_dir\cmake\ /y /s
-

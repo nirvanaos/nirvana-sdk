@@ -3,18 +3,9 @@ if (${NIRVANA_BUILD})
 add_library (nirvana STATIC)
 
 set (include_dir "${CMAKE_SOURCE_DIR}/out/sdk/include")
-
-set (nirvana_includes
+target_include_directories (nirvana PUBLIC
 	"${include_dir}/c++/v1"
-	"${CMAKE_SOURCE_DIR}/nirvana/orb/Include"
-	"${CMAKE_SOURCE_DIR}/build/nirvana/orb/Include"
-	"${CMAKE_SOURCE_DIR}/nirvana/library/Include"
-	"${CMAKE_SOURCE_DIR}/build/nirvana/library/Include"
-	"${CMAKE_SOURCE_DIR}/nirvana/library/Include/CRTL"
-	"${include_dir}"
 )
-
-target_include_directories (nirvana PUBLIC ${nirvana_includes})
 
 # Do not undefine _WIN64 because this breaks the code
 
@@ -51,7 +42,7 @@ if (${NIRVANA_TARGET_PLATFORM} STREQUAL "x86")
   string (CONCAT nirvana_link_options ${nirvana_link_options} " /safeseh:no")
 endif ()
 
-set_target_properties(nirvana PROPERTIES
+set_target_properties (nirvana PROPERTIES
   INTERFACE_LINK_OPTIONS ${nirvana_link_options}
 )
 

@@ -40,17 +40,10 @@ $triple = "$arch-$system"
 $common_flags = "-Wno-user-defined-literals;" +
 "-Wno-covered-switch-default;" +
 "-Wno-typedef-redefinition;" +
-"-Wno-nonportable-include-path;" +
 "-Wno-nullability-completeness;" +
 "-Wno-covered-switch-default;" +
 "-Wno-unused-function;" +
 "--target=$triple;" +
-"-I$PWD\nirvana\library\include\CRTL;" +
-"-I$sdk_dir\include;" +
-"-I$nirvana_dir\library\include;" +
-"-I$PWD\build\nirvana\library\include;" +
-"-I$nirvana_dir\orb\include;" +
-"-I$PWD\build\nirvana\orb\include;" +
 "-U__MINGW__;" +
 "-U__MINGW32__;" +
 "-U__MINGW64__"

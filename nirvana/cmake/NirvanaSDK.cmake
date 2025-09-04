@@ -1,45 +1,38 @@
+include_guard ()
+include (NirvanaTargetPlatform)
+
 file (TO_CMAKE_PATH $ENV{NIRVANA_SDK} NIRVANA_SDK_DIR)
 file (TO_CMAKE_PATH $ENV{NIRVANA_TOOLS} NIRVANA_TOOLS_DIR)
 set (NIDL2CPP ${NIRVANA_TOOLS_DIR}/nidl2cpp.exe)
 
+set (platform_flags " --target=${NIRVANA_TARGET_TRIPLE}")
 if (${NIRVANA_TARGET_PLATFORM} STREQUAL "x64")
-  set (NIRVANA_TARGET_ARCH "x86_64")
-elseif (${NIRVANA_TARGET_PLATFORM} STREQUAL "x86")
-  set (NIRVANA_TARGET_ARCH "i686")
-else ()
-  message(FATAL_ERROR "Unknown NIRVANA_TARGET_PLATFORM")
+  string (CONCAT platform_flags ${platform_flags} " -mlzcnt")
 endif ()
 
-set (NIRVANA_TARGET_TRIPLE "${NIRVANA_TARGET_ARCH}-pc-windows-gnu")
-set (NIRVANA_LIB_DIR ${NIRVANA_SDK_DIR}/lib/${NIRVANA_TARGET_PLATFORM})
+string (CONCAT CMAKE_C_FLAGS ${CMAKE_C_FLAGS} ${platform_flags})
+string (CONCAT CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} ${platform_flags})
 
-set (NIRVANA_INCLUDES
-	${NIRVANA_SDK_DIR}/include/c++/v1
-	${NIRVANA_SDK_DIR}/include
-)
+set (NIRVANA_LINK_FLAGS "/incremental:no /opt:ref /nodefaultlib /debug:dwarf /section:olfbind,r\
+ /machine:${NIRVANA_TARGET_PLATFORM}")
 
-set (NIRVANA_LIBS
-	${NIRVANA_LIB_DIR}/$<CONFIG>/coreimport.lib
+if (${NIRVANA_TARGET_PLATFORM} STREQUAL "x86")
+  string (CONCAT NIRVANA_LINK_FLAGS ${NIRVANA_LINK_FLAGS} " /safeseh:no")
+endif ()
+
+set (CMAKE_CXX_LINK_EXECUTABLE "<CMAKE_LINKER> ${NIRVANA_LINK_FLAGS} <LINK_FLAGS> <OBJECTS> /out:<TARGET> <LINK_LIBRARIES>")
+
+set (NIRVANA_LIB_DIR "${NIRVANA_SDK_DIR}/lib/${NIRVANA_TARGET_PLATFORM}")
+
+link_libraries (
+	${NIRVANA_LIB_DIR}/$<CONFIG>/nirvana.lib
 	${NIRVANA_LIB_DIR}/$<CONFIG>/crtl.lib
+	${NIRVANA_LIB_DIR}/$<CONFIG>/libm.lib
 	${NIRVANA_LIB_DIR}/$<CONFIG>/libc++.lib
 	${NIRVANA_LIB_DIR}/$<CONFIG>/libc++abi.lib
 	${NIRVANA_LIB_DIR}/$<CONFIG>/libc++experimental.lib
-	${NIRVANA_LIB_DIR}/$<CONFIG>/libm.lib
 	${NIRVANA_LIB_DIR}/$<CONFIG>/libunwind.lib
-	${NIRVANA_LIB_DIR}/$<CONFIG>/nirvana.lib	
 )
-
-set (NIRVANA_COMPILE_OPTIONS "--target=${NIRVANA_TARGET_TRIPLE}")
-
-set (NIRVANA_LINK_OPTIONS "LINKER:SHELL:/noentry /nodefaultlib /debug:dwarf /section:olfbind,r")
-
-if (${NIRVANA_TARGET_PLATFORM} STREQUAL "x64")
-  set (NIRVANA_COMPILE_OPTIONS ${NIRVANA_COMPILE_OPTIONS} "-mlzcnt")
-endif ()
-
-if (${NIRVANA_TARGET_PLATFORM} STREQUAL "x86")
-  string (CONCAT NIRVANA_LINK_OPTIONS ${NIRVANA_LINK_OPTIONS} " /safeseh:no")
-endif ()
 
 function (nirvana_module_idl)
 
@@ -136,11 +129,9 @@ function (nirvana_module)
 	set (multi_args IDL_FILES)
 	cmake_parse_arguments (PARSE_ARGV 0 arg "${options}" "${one_args}" "${multi_args}")
 
-  add_library (${arg_MODULE_NAME} SHARED)
-  target_include_directories (${arg_MODULE_NAME} PRIVATE ${NIRVANA_INCLUDES})
-  target_link_libraries (${arg_MODULE_NAME} PRIVATE ${NIRVANA_LIBS})
-  target_compile_options (${arg_MODULE_NAME} PRIVATE ${NIRVANA_COMPILE_OPTIONS})
-  target_link_options (${arg_MODULE_NAME} PRIVATE ${NIRVANA_LINK_OPTIONS})
+  add_executable (${arg_MODULE_NAME})
+  target_link_libraries (${arg_MODULE_NAME} PRIVATE ${NIRVANA_LIB_DIR}/$<CONFIG>/coreimport.lib)
+  target_link_options (${arg_MODULE_NAME} PRIVATE /noentry /dll /dynamicbase)
 
   set (idl_options)
   

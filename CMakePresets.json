@@ -1,0 +1,45 @@
+{
+  "version": 7,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 7
+  },
+	"configurePresets": [
+    {
+      "name": "base",
+      "hidden": true,
+      "toolchainFile" : "toolchain.cmake",
+      "generator" : "Ninja Multi-Config"
+		},
+    {
+      "inherits": "base",
+      "name": "x64",
+      "binaryDir": "build/x64/nirvana",
+      "cacheVariables": {
+        "CMAKE_SYSTEM_PROCESSOR": "x64"
+      }
+    },
+    {
+      "inherits": "base",
+      "name": "x86",
+      "binaryDir": "build/x86/nirvana",
+      "cacheVariables": {
+        "CMAKE_SYSTEM_PROCESSOR": "x86"
+      }
+    }
+	],
+  "buildPresets": [
+    {
+      "name": "x64-debug",
+      "displayName": "x64 Debug",
+      "configurePreset": "x64",
+      "configuration": "Debug"
+    },
+    {
+      "name": "x86-debug",
+      "displayName": "x86 Debug",
+      "configurePreset": "x86",
+      "configuration": "Debug"
+    }
+  ]
+}

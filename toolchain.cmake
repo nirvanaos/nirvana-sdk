@@ -7,7 +7,7 @@ set (llvm $ENV{LLVM_PATH})
 #  set (llvm $ENV{ProgramFiles}/LLVM)
 #endif ()
 
-if (NOT EXISTS "${llvm}/lib/clang/21")
+if (NOT EXISTS "${llvm}/${clang_lib}")
   message (FATAL_ERROR "CLang 21 not found")
 endif ()
 
@@ -93,7 +93,7 @@ set (CMAKE_RC_COMPILER ${llvm_bin}/llvm-rc.exe)
 
 set (CMAKE_CXX_STANDARD_LIBRARIES "")
 
-set (c_compile_flags "-fshort-wchar -mlong-double-80\
+set (c_compile_flags "-nostdinc -fshort-wchar -mlong-double-80\
  -fno-ms-compatibility -fno-ms-extensions\
  -Wno-character-conversion -fsjlj-exceptions"
 )
@@ -113,4 +113,14 @@ set (CMAKE_ASM_FLAGS_DEBUG_INIT ${debug_flags})
 set (CMAKE_CXX_FLAGS_RELEASE_INIT ${release_flags})
 set (CMAKE_C_FLAGS_RELEASE_INIT ${release_flags})
 
-list (APPEND CMAKE_MODULE_PATH "${llvm}/lib/cmake/clang")
+include_directories (SYSTEM
+  "${llvm}/${clang_lib}/include"
+	"${CMAKE_CURRENT_LIST_DIR}/nirvana/library/Include/CRTL"
+	"${CMAKE_CURRENT_LIST_DIR}/out/sdk/include"
+	"${CMAKE_CURRENT_LIST_DIR}/nirvana/library/Include"
+	"${CMAKE_CURRENT_LIST_DIR}/build/nirvana/library/Include"
+	"${CMAKE_CURRENT_LIST_DIR}/nirvana/orb/Include"
+	"${CMAKE_CURRENT_LIST_DIR}/build/nirvana/orb/Include"
+)
+
+list (APPEND CMAKE_PREFIX_PATH "${llvm}/lib/cmake/clang")

@@ -1,15 +1,3 @@
-set (NIRVANA_TARGET_PLATFORM ${CMAKE_SYSTEM_PROCESSOR})
-string (TOLOWER ${NIRVANA_TARGET_PLATFORM} NIRVANA_TARGET_PLATFORM)
-
-if (${NIRVANA_TARGET_PLATFORM} STREQUAL "x64" OR ${NIRVANA_TARGET_PLATFORM} STREQUAL "amd64" OR ${NIRVANA_TARGET_PLATFORM} STREQUAL "x86_64")
-  set (NIRVANA_TARGET_ARCH "x86_64")
-elseif(${NIRVANA_TARGET_PLATFORM} STREQUAL "x86" OR ${NIRVANA_TARGET_PLATFORM} STREQUAL "i386" OR ${NIRVANA_TARGET_PLATFORM} STREQUAL "i686")
-  set (NIRVANA_TARGET_ARCH "i686")
-else ()
-  message(FATAL_ERROR "Unsupported target platform: ${NIRVANA_TARGET_PLATFORM}")
-endif ()
-set (NIRVANA_TARGET_TRIPLE "${NIRVANA_TARGET_ARCH}-unknown-windows-gnu")
-
 cmake_minimum_required (VERSION 3.25)
 set (CMAKE_CXX_SCAN_FOR_MODULES 0)
 cmake_policy (SET CMP0010 NEW)
@@ -30,6 +18,8 @@ option (NIRVANA_IDL "Compile IDL" ON)
 option (NIRVANA_BUILD "Build" ON)
 
 include (CTest)
+include ("${CMAKE_SOURCE_DIR}/nirvana/cmake/NirvanaTargetPlatform.cmake")
+set (NIRVANA_LIB_DIR "${CMAKE_SOURCE_DIR}/out/sdk/lib/${NIRVANA_TARGET_PLATFORM}")
 
 if (NIRVANA_IDL)
 
@@ -37,6 +27,8 @@ find_program (NIDL2CPP nidl2cpp PATHS
   ${CMAKE_SOURCE_DIR}/build/x64/vcpkg_installed/x64-windows/tools/nidl2cpp
   ${CMAKE_SOURCE_DIR}/build/x86/vcpkg_installed/x64-windows/tools/nidl2cpp
 REQUIRED)
+
+set (mockhost_DIR "${CMAKE_SOURCE_DIR}/build/${NIRVANA_TARGET_PLATFORM}/vcpkg_installed/${NIRVANA_TARGET_PLATFORM}-windows/share/mockhost")
 
 set (idl_options
 	-I "${CMAKE_CURRENT_SOURCE_DIR}/nirvana/orb/Include"

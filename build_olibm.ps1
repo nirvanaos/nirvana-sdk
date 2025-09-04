@@ -40,7 +40,6 @@ $nirvana_dir = "$PWD\nirvana"
 $triple = "$arch-$system"
 $lib_name = "openlibm.lib"
 
-$include="$nirvana_dir\library\include;$nirvana_dir\library\include\CRTL;$nirvana_dir\orb\include"
 $c_flags = "-Wno-reserved-identifier;--target=$triple"
 
 cmake -G Ninja -S "$libm_root" -B $build_dir --toolchain "$PWD\toolchain.cmake" `
@@ -51,7 +50,6 @@ cmake -G Ninja -S "$libm_root" -B $build_dir --toolchain "$PWD\toolchain.cmake" 
  -DC_ASM_COMPILE_FLAGS="$c_flags"       `
  -DCMAKE_STATIC_LIBRARY_PREFIX_C=""     `
  -DCMAKE_STATIC_LIBRARY_SUFFIX_C=".lib" `
- -DOPENLIBM_INCLUDE_DIRS="$include"     `
  -DOPENLIBM_SUPPRESS_WARNINGS=ON
 
 if ($LASTEXITCODE -ne 0) {

@@ -89,16 +89,18 @@ set (CMAKE_C_COMPILER ${llvm_bin}/clang.exe)
 set (CMAKE_C_COMPILER_WORKS ON)
 set (CMAKE_ASM_COMPILER ${llvm_bin}/clang.exe)
 set (CMAKE_RC_COMPILER ${llvm_bin}/llvm-rc.exe)
+set (CMAKE_LINKER ${llvm_bin}/lld-link.exe)
+
 set (CMAKE_CXX_STANDARD_LIBRARIES "")
 set (CMAKE_SYSTEM_NAME Generic)
-list (APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}")
 
-set (c_compile_flags "-fshort-wchar -mlong-double-80\
+set (c_compile_flags "-nostdinc -fshort-wchar -mlong-double-80\
  -fno-ms-compatibility -fno-ms-extensions -U_WIN32 -U__MINGW__ -U__MINGW32__ -U__MINGW64__\
  -Wno-character-conversion -fsjlj-exceptions"
 )
 
-string (CONCAT cpp_compile_flags ${c_compile_flags} " -fsized-deallocation")
+set (cpp_compile_flags ${c_compile_flags})
+string (CONCAT cpp_compile_flags ${cpp_compile_flags} " -fsized-deallocation")
 
 set (CMAKE_CXX_FLAGS_INIT ${cpp_compile_flags})
 set (CMAKE_C_FLAGS_INIT ${c_compile_flags})
@@ -113,3 +115,11 @@ set (CMAKE_ASM_FLAGS_DEBUG_INIT ${debug_flags})
 set (CMAKE_CXX_FLAGS_RELEASE_INIT ${release_flags})
 set (CMAKE_C_FLAGS_RELEASE_INIT ${release_flags})
 
+file (TO_CMAKE_PATH $ENV{NIRVANA_SDK} NIRVANA_SDK_DIR)
+include_directories (SYSTEM
+	${NIRVANA_SDK_DIR}/include/c++/v1
+  "${llvm}/${clang_lib}/include"
+	${NIRVANA_SDK_DIR}/include
+)
+
+list (APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}")
