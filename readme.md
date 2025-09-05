@@ -4,7 +4,62 @@ This is a part of the Nirvana project.
 
 ## Purpose
 
-This repository is used for building the Nirvana SDK.
+This repository is used for building and testing the Nirvana SDK.
+
+## Contents
+
+### Nirvana runtime library
+
+```
+#include <Nirvana/Nirvana.h>
+```
+
+- Runtime support for IDL compiled C++ code.
+- IDL definitions of the Nirvana Core interfaces.
+- Various utilities.
+
+### Standard C library
+
+Nirvana SDK includes POSIX compatible standard C runtime library built over the Nirvana runtime library.
+
+### Standard C++ library
+
+Nirvana SDK contains LLVM libc++ library built over Nirvana standard C library.
+
+#### Standard math library
+
+Nirvana SDK includes clone of Openlibm https://github.com/JuliaMath/openlibm which provides standard C mathematical API.
+
+### CMake modules
+
+nirvana.cmake file used as CMake toolchain to use the Nirvana SDK.
+NirvanaSDK.cmake contains convenient functions for Nirvana modules development with Nirvana SDK and CMake.
+
+### Google test library
+
+Google test library libgoogletest-nirvana.a built over Nirvana runtime libraries.
+It may be used for unit test creation.
+
+## How to use
+
+The SDK installation included in the Nirvana setup.
+
+## Test and debug strategy
+
+Nirvana C runtime library interacts with Nirvana Core via 3 interfaces:
+
+```
+module Nirvana {
+pseudo interface Nirvana::Memory;
+pseudo interface Nirvana::POSIX
+pseudo interface Nirvana::Debug
+}
+```
+
+SDK repository includes the special mock module for testing libraries without the Nirvana Core: libmockimport.
+It provides above interfaces and redirects Core interface calls into calls to a host OS.
+This lets test and debug SDK components without the Nirvana Core, over the development host OS.
+Currently only Microsoft Windows supported as host OS for the SDK development.
 
 ## How to build
 
@@ -15,8 +70,10 @@ This repository is used for building the Nirvana SDK.
 
 ### Prepare build environment
 
+```
 .\prepare.ps1
+```
 
 ### Build and debug
 
-Use CMakePresets.json
+Use CMake with settings from CMakePresets.json file.
