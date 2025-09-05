@@ -124,3 +124,4 @@ include_directories (SYSTEM
 )
 
 list (APPEND CMAKE_PREFIX_PATH "${llvm}/lib/cmake/clang")
+list (APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/nirvana/cmake")

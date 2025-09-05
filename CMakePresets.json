@@ -16,7 +16,7 @@
       "name": "x64",
       "binaryDir": "build/x64/nirvana",
       "cacheVariables": {
-        "CMAKE_SYSTEM_PROCESSOR": "x64"
+        "NIRVANA_TARGET_PLATFORM": "x64"
       }
     },
     {
@@ -24,7 +24,7 @@
       "name": "x86",
       "binaryDir": "build/x86/nirvana",
       "cacheVariables": {
-        "CMAKE_SYSTEM_PROCESSOR": "x86"
+        "NIRVANA_TARGET_PLATFORM": "x86"
       }
     }
 	],

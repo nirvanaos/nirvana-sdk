@@ -18,7 +18,7 @@ option (NIRVANA_IDL "Compile IDL" ON)
 option (NIRVANA_BUILD "Build" ON)
 
 include (CTest)
-include ("${CMAKE_SOURCE_DIR}/nirvana/cmake/NirvanaTargetPlatform.cmake")
+include (NirvanaTargetPlatform)
 set (NIRVANA_LIB_DIR "${CMAKE_SOURCE_DIR}/out/sdk/lib/${NIRVANA_TARGET_PLATFORM}")
 
 if (NIRVANA_IDL)
