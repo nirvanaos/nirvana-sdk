@@ -37,13 +37,16 @@ set (c_compile_flags "-nostdinc -fshort-wchar -mlong-double-80\
 )
 
 if (${NIRVANA_TARGET_PLATFORM} STREQUAL "x64")
-	string (CONCAT c_compile_flags ${c_compile_flags} " -mlzcnt")
+	string (CONCAT c_compile_flags ${c_compile_flags} " -mlzcnt -m64 -msse2 -mfpmath=sse")
+elseif (${NIRVANA_TARGET_PLATFORM} STREQUAL "x86")
+	string (CONCAT c_compile_flags ${c_compile_flags} " -m32 -msse2 -mfpmath=sse")
 endif ()
 
 string (CONCAT cpp_compile_flags ${c_compile_flags} " -fsized-deallocation")
 
 set (CMAKE_CXX_FLAGS_INIT ${cpp_compile_flags})
 set (CMAKE_C_FLAGS_INIT ${c_compile_flags})
+set (CMAKE_ASM_FLAGS_INIT ${c_compile_flags})
 
 set (debug_flags "-gdwarf-4")
 set (release_flags "-fno-builtin")
