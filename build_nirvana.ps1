@@ -18,7 +18,7 @@ if ($LASTEXITCODE -ne 0) {
   exit $LASTEXITCODE
 }
 
-#ctest --test-dir "$build_dir"
+ctest --preset=$platform-debug
 
 if ($LASTEXITCODE -ne 0) {
   exit $LASTEXITCODE

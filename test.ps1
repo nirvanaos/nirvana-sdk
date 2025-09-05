@@ -9,6 +9,4 @@ if ($args.count -ge 2) {
 	$config = "Debug"
 }
 
-$build_dir = "$PWD\build\$platform\nirvana\$config"
-
-ctest --test-dir "$build_dir"
+ctest --preset=$platform-debug

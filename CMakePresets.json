@@ -41,5 +41,19 @@
       "configurePreset": "x86",
       "configuration": "Debug"
     }
+  ],
+  "testPresets": [
+    {
+      "name": "x64-debug",
+      "displayName": "x64 Debug",
+      "configurePreset": "x64",
+      "configuration": "Debug"
+    },
+    {
+      "name": "x86-debug",
+      "displayName": "x86 Debug",
+      "configurePreset": "x86",
+      "configuration": "Debug"
+    }
   ]
 }
