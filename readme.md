@@ -22,13 +22,13 @@ This repository is used for building and testing the Nirvana SDK.
 
 Nirvana SDK includes POSIX compatible standard C runtime library built over the Nirvana runtime library.
 
-### Standard C++ library
-
-Nirvana SDK contains LLVM libc++ library built over Nirvana standard C library.
-
 #### Standard math library
 
-Nirvana SDK includes clone of Openlibm https://github.com/JuliaMath/openlibm which provides standard C mathematical API.
+Nirvana SDK includes clone of [Openlibm library](https://github.com/JuliaMath/openlibm) which provides standard C mathematical API.
+
+### Standard C++ library
+
+Nirvana SDK contains [LLVM libc++ library](https://libcxx.llvm.org/) built over Nirvana standard C library.
 
 ### CMake modules
 
@@ -50,13 +50,15 @@ Nirvana C runtime library interacts with Nirvana Core via 3 interfaces:
 
 ```
 module Nirvana {
-pseudo interface Nirvana::Memory;
-pseudo interface Nirvana::POSIX
-pseudo interface Nirvana::Debug
-}
+
+pseudo interface Memory;
+pseudo interface POSIX;
+pseudo interface Debug;
+
+};
 ```
 
-SDK repository includes the special mock module for testing libraries without the Nirvana Core: libmockimport.
+SDK repository includes the special mock module for testing libraries without the Nirvana Core.
 It provides above interfaces and redirects Core interface calls into calls to a host OS.
 This lets test and debug SDK components without the Nirvana Core, over the development host OS.
 Currently only Microsoft Windows supported as host OS for the SDK development.
@@ -65,8 +67,11 @@ Currently only Microsoft Windows supported as host OS for the SDK development.
 
 ### Prerequisites
 
+Currently, only Microsoft Windows may be used as host OS for development.
+
 - Download and unpack https://github.com/llvm/llvm-project/releases/download/llvmorg-21.1.0/clang+llvm-21.1.0-x86_64-pc-windows-msvc.tar.xz
 - Set environment variable LLVM_PATH to unpacked directory.
+- CMake and Ninja must be installed.
 
 ### Prepare build environment
 
