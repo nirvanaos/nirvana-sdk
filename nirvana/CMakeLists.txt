@@ -11,15 +11,7 @@ target_include_directories (nirvana PUBLIC
 
 target_compile_options (nirvana PUBLIC
 	"-U_WIN32"
-  "-U__MINGW__"
-  "-U__MINGW32__"
-  "-U__MINGW64__"
-	"--target=${NIRVANA_TARGET_TRIPLE}"
 )
-
-if (${NIRVANA_TARGET_PLATFORM} STREQUAL "x64")
-	target_compile_options (nirvana PUBLIC "-mlzcnt")
-endif ()
 
 target_compile_definitions (nirvana PUBLIC
   _LIBUNWIND_REMEMBER_STACK_ALLOC
@@ -29,21 +21,11 @@ target_precompile_headers (nirvana PRIVATE
 	$<$<COMPILE_LANGUAGE:CXX>:${CMAKE_CURRENT_SOURCE_DIR}/pch/pch.h>)
 
 target_link_libraries (nirvana PUBLIC
-	${NIRVANA_LIB_DIR}/$<CONFIG>/libc++.lib
-	${NIRVANA_LIB_DIR}/$<CONFIG>/libc++experimental.lib
-	${NIRVANA_LIB_DIR}/$<CONFIG>/libm.lib
-	${NIRVANA_LIB_DIR}/$<CONFIG>/libc++abi.lib
-	${NIRVANA_LIB_DIR}/$<CONFIG>/libunwind.lib
-)
-
-set (nirvana_link_options "LINKER:SHELL:/nodefaultlib /debug:dwarf /opt:ref /machine:${NIRVANA_TARGET_PLATFORM} /section:olfbind,r /section:initonce,rw")
-
-if (${NIRVANA_TARGET_PLATFORM} STREQUAL "x86")
-  string (CONCAT nirvana_link_options ${nirvana_link_options} " /safeseh:no")
-endif ()
-
-set_target_properties (nirvana PROPERTIES
-  INTERFACE_LINK_OPTIONS ${nirvana_link_options}
+	${NIRVANA_LIB_DIR}/$<CONFIG>/libc++.a
+	${NIRVANA_LIB_DIR}/$<CONFIG>/libc++experimental.a
+	${NIRVANA_LIB_DIR}/$<CONFIG>/libm.a
+	${NIRVANA_LIB_DIR}/$<CONFIG>/libc++abi.a
+	${NIRVANA_LIB_DIR}/$<CONFIG>/libunwind.a
 )
 
 elseif (${NIRVANA_IDL})

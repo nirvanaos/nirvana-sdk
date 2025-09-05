@@ -5,33 +5,16 @@ file (TO_CMAKE_PATH $ENV{NIRVANA_SDK} NIRVANA_SDK_DIR)
 file (TO_CMAKE_PATH $ENV{NIRVANA_TOOLS} NIRVANA_TOOLS_DIR)
 set (NIDL2CPP ${NIRVANA_TOOLS_DIR}/nidl2cpp.exe)
 
-set (platform_flags " --target=${NIRVANA_TARGET_TRIPLE}")
-if (${NIRVANA_TARGET_PLATFORM} STREQUAL "x64")
-  string (CONCAT platform_flags ${platform_flags} " -mlzcnt")
-endif ()
-
-string (CONCAT CMAKE_C_FLAGS ${CMAKE_C_FLAGS} ${platform_flags})
-string (CONCAT CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} ${platform_flags})
-
-set (NIRVANA_LINK_FLAGS "/incremental:no /opt:ref /nodefaultlib /debug:dwarf /section:olfbind,r\
- /machine:${NIRVANA_TARGET_PLATFORM}")
-
-if (${NIRVANA_TARGET_PLATFORM} STREQUAL "x86")
-  string (CONCAT NIRVANA_LINK_FLAGS ${NIRVANA_LINK_FLAGS} " /safeseh:no")
-endif ()
-
-set (CMAKE_CXX_LINK_EXECUTABLE "<CMAKE_LINKER> ${NIRVANA_LINK_FLAGS} <LINK_FLAGS> <OBJECTS> /out:<TARGET> <LINK_LIBRARIES>")
-
 set (NIRVANA_LIB_DIR "${NIRVANA_SDK_DIR}/lib/${NIRVANA_TARGET_PLATFORM}")
 
 link_libraries (
-	${NIRVANA_LIB_DIR}/$<CONFIG>/nirvana.lib
-	${NIRVANA_LIB_DIR}/$<CONFIG>/crtl.lib
-	${NIRVANA_LIB_DIR}/$<CONFIG>/libm.lib
-	${NIRVANA_LIB_DIR}/$<CONFIG>/libc++.lib
-	${NIRVANA_LIB_DIR}/$<CONFIG>/libc++abi.lib
-	${NIRVANA_LIB_DIR}/$<CONFIG>/libc++experimental.lib
-	${NIRVANA_LIB_DIR}/$<CONFIG>/libunwind.lib
+	${NIRVANA_LIB_DIR}/$<CONFIG>/libnirvana.a
+	${NIRVANA_LIB_DIR}/$<CONFIG>/libcrtl.a
+	${NIRVANA_LIB_DIR}/$<CONFIG>/libm.a
+	${NIRVANA_LIB_DIR}/$<CONFIG>/libc++.a
+	${NIRVANA_LIB_DIR}/$<CONFIG>/libc++abi.a
+	${NIRVANA_LIB_DIR}/$<CONFIG>/libc++experimental.a
+	${NIRVANA_LIB_DIR}/$<CONFIG>/libunwind.a
 )
 
 function (nirvana_module_idl)

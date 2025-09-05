@@ -15,7 +15,7 @@
       "inherits": "base",
       "name": "x64",
       "binaryDir": "build/x64/nirvana",
-      "cacheVariables": {
+      "environment": {
         "NIRVANA_TARGET_PLATFORM": "x64"
       }
     },
@@ -23,7 +23,7 @@
       "inherits": "base",
       "name": "x86",
       "binaryDir": "build/x86/nirvana",
-      "cacheVariables": {
+      "environment": {
         "NIRVANA_TARGET_PLATFORM": "x86"
       }
     }

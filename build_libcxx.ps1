@@ -12,41 +12,18 @@ if ($args.count -ge 2) {
 } else {
 	$config = "Debug"
 }
-if ($args.count -ge 3) {
-	$system = $args[2]
-} else {
-	$system = "unknown-windows-gnu"
-}
-
-switch ($platform) {
-	"x64" {
-		$arch = "x86_64"
-	}
-	"x86" {
-		$arch = "i686"
-	}
-	default {
-		Write-Host "Unknown platform"
-		Exit -1
-	}
-}
 
 $dest_dir = "$sdk_dir\lib\$platform\$config"
 $build_dir = "$PWD\build\$platform\libcxx\$config"
 $llvm_root = "$PWD\llvm-project"
 $nirvana_dir = "$PWD\nirvana"
-$triple = "$arch-$system"
 
 $common_flags = "-Wno-user-defined-literals;" +
 "-Wno-covered-switch-default;" +
 "-Wno-typedef-redefinition;" +
 "-Wno-nullability-completeness;" +
 "-Wno-covered-switch-default;" +
-"-Wno-unused-function;" +
-"--target=$triple;" +
-"-U__MINGW__;" +
-"-U__MINGW32__;" +
-"-U__MINGW64__"
+"-Wno-unused-function"
 
 # Do not undefine _WIN64 because this breaks the code
 
@@ -56,6 +33,8 @@ $extra_defines = "_LIBCPP_HAS_CLOCK_GETTIME"
 $cxxabi_flags = $cxx_flags
 $unwind_flags = $common_flags + ";-D_LIBUNWIND_REMEMBER_STACK_ALLOC;-Wno-format"
 
+$Env:NIRVANA_TARGET_PLATFORM = "$platform"
+
 cmake -G Ninja -S "$llvm_root\runtimes" -B $build_dir --toolchain "$PWD\toolchain.cmake" `
  -DBUILD_SHARED_LIBS=OFF                              `
  -DCMAKE_BUILD_TYPE="$config"                         `
@@ -63,10 +42,7 @@ cmake -G Ninja -S "$llvm_root\runtimes" -B $build_dir --toolchain "$PWD\toolchai
  -DCMAKE_INSTALL_PREFIX="$dest_dir"                   `
  -DCMAKE_PREFIX_PATH="$tools_dir"                     `
  -DCMAKE_POLICY_DEFAULT_CMP0177=NEW                   `
- -DCMAKE_STATIC_LIBRARY_SUFFIX_C=".lib"               `
- -DCMAKE_STATIC_LIBRARY_SUFFIX_CXX=".lib"             `
  -DCMAKE_SYSTEM_NAME=Generic                          `
- -DCMAKE_SYSTEM_PROCESSOR="$platform"                 `
  -DLLVM_ENABLE_RUNTIMES="libcxx;libcxxabi;libunwind"  `
  -DLLVM_TARGET_TRIPLE="$triple"                       `
  -DLIBCXX_ABI_FORCE_ITANIUM=ON                        `
