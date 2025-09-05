@@ -23,20 +23,18 @@ if ($failed) {
 $inc_dir = "$sdk_dir\include"
 $nirvana_dir = "$PWD\nirvana"
 
-xcopy nirvana\library\include\*.h $inc_dir\ /y
+xcopy nirvana\library\Include\*.h $inc_dir\ /y /s
+xcopy nirvana\library\Include\*.idl $inc_dir\ /y /s
+xcopy nirvana\library\Include\*.inl $inc_dir\ /y /s
+xcopy build\nirvana\library\Include\*.h $inc_dir\ /y /s
 
-xcopy nirvana\library\include\CRTL\*.h $inc_dir\ /y /s
-xcopy nirvana\library\include\CRTL\*. $inc_dir\ /y /s
+xcopy nirvana\orb\include\*.h $inc_dir\ /y /s
+xcopy nirvana\orb\include\*.idl $inc_dir\ /y /s
+xcopy nirvana\orb\include\*.inl $inc_dir\ /y /s
+xcopy build\nirvana\orb\include\*.h $inc_dir\ /y /s
 
-xcopy nirvana\library\include\Nirvana\*.h $inc_dir\Nirvana\ /y /s
-xcopy build\nirvana\library\include\Nirvana\*.h $inc_dir\Nirvana\ /y /s
-xcopy nirvana\library\include\Nirvana\*.idl $inc_dir\Nirvana\ /y /s
-xcopy nirvana\library\include\Nirvana\*.inl $inc_dir\Nirvana\ /y /s
-
-xcopy nirvana\orb\include\CORBA\*.h $inc_dir\CORBA\ /y /s
-xcopy build\nirvana\orb\include\CORBA\*.h $inc_dir\CORBA\ /y /s
-xcopy nirvana\orb\include\CORBA\*.idl $inc_dir\CORBA\ /y /s
-xcopy nirvana\orb\include\CORBA\*.inl $inc_dir\CORBA\ /y /s
+xcopy nirvana\library\CRTL\Include\*.h $inc_dir\ /y /s
+xcopy nirvana\library\CRTL\Include\*. $inc_dir\ /y /s
 
 xcopy $PWD\googletest\googletest\googletest\include\gtest\*.* $inc_dir\gtest\ /y /s
 

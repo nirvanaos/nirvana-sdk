@@ -60,7 +60,7 @@ set (CMAKE_C_FLAGS_RELEASE_INIT ${release_flags})
 
 include_directories (SYSTEM
   "${llvm}/${clang_lib}/include"
-	"${CMAKE_CURRENT_LIST_DIR}/nirvana/library/Include/CRTL"
+	"${CMAKE_CURRENT_LIST_DIR}/nirvana/library/CRTL/Include"
 	"${CMAKE_CURRENT_LIST_DIR}/out/sdk/include"
 	"${CMAKE_CURRENT_LIST_DIR}/nirvana/library/Include"
 	"${CMAKE_CURRENT_LIST_DIR}/build/nirvana/library/Include"

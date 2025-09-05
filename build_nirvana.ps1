@@ -33,5 +33,5 @@ xcopy "$build_dir\googletest\Debug\libgoogletest-nirvana.a" "$dest_dir\Debug\" /
 
 $core_lib_dir = "$core_sdk_dir\lib\$platform\$config"
 
-xcopy "$build_dir\nirvana\library\CRTL\impl\win\Debug\libcrtl-main.a" "$core_lib_dir\Debug\" /y
+xcopy "$build_dir\nirvana\library\CRTL\Source\impl\win\Debug\libcrtl-main.a" "$core_lib_dir\Debug\" /y
 xcopy "$build_dir\nirvana\library\Mock\Debug\libmockimport.a" "$core_lib_dir\Debug\" /y
