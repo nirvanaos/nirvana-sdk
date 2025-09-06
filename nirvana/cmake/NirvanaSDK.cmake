@@ -114,7 +114,7 @@ function (nirvana_module)
 
   add_executable (${arg_MODULE_NAME})
   target_link_libraries (${arg_MODULE_NAME} PRIVATE ${NIRVANA_LIB_DIR}/$<CONFIG>/libcoreimport.a)
-  target_link_options (${arg_MODULE_NAME} PRIVATE /noentry /dll /dynamicbase)
+  target_link_options (${arg_MODULE_NAME} PRIVATE /noentry /dll /dynamicbase $<$<CONFIG:Debug>:/debug>)
 
   set (idl_options)
   
