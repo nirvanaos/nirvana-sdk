@@ -17,6 +17,8 @@ project (nirvana-sdk CXX C ASM)
 option (NIRVANA_IDL "Compile IDL" ON)
 option (NIRVANA_BUILD "Build" ON)
 
+if (${NIRVANA_BUILD})
+
 include (CTest)
 
 set (NIRVANA_LIB_DIR "${CMAKE_SOURCE_DIR}/out/sdk/lib/${NIRVANA_TARGET_PLATFORM}")
@@ -47,6 +49,16 @@ add_compile_options (
 add_compile_definitions (
   _LIBUNWIND_REMEMBER_STACK_ALLOC
 )
+
+link_libraries (
+	${NIRVANA_LIB_DIR}/$<CONFIG>/libc++.a
+	${NIRVANA_LIB_DIR}/$<CONFIG>/libc++experimental.a
+	${NIRVANA_LIB_DIR}/$<CONFIG>/libm.a
+	${NIRVANA_LIB_DIR}/$<CONFIG>/libc++abi.a
+	${NIRVANA_LIB_DIR}/$<CONFIG>/libunwind.a
+)
+
+endif ()
 
 if (NIRVANA_IDL)
 
