@@ -44,7 +44,6 @@ cmake -G Ninja -S "$llvm_root\runtimes" -B $build_dir --toolchain "$PWD\toolchai
  -DCMAKE_POLICY_DEFAULT_CMP0177=NEW                   `
  -DCMAKE_SYSTEM_NAME=Generic                          `
  -DLLVM_ENABLE_RUNTIMES="libcxx;libcxxabi;libunwind"  `
- -DLLVM_TARGET_TRIPLE="$triple"                       `
  -DLIBCXX_ABI_FORCE_ITANIUM=ON                        `
  -DLIBCXX_ABI_VERSION=2                               `
  -DLIBCXX_ADDITIONAL_COMPILE_FLAGS="$cxx_flags"       `
