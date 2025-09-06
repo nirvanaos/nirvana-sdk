@@ -43,7 +43,7 @@ add_compile_options (
 	"-U_WIN32"
 )
 
-// ? Is it really need?
+# ? Is it really need?
 add_compile_definitions (
   _LIBUNWIND_REMEMBER_STACK_ALLOC
 )

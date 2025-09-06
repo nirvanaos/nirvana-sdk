@@ -29,11 +29,11 @@ $cpp_with_containers = $common_flags + ";-includeNirvana/force_include.h"
 
 # Do not undefine _WIN64 because this breaks the code
 #$cxx_flags = $cpp_with_containers + ";-U_WIN32;-D__FreeBSD__"
-$cxx_flags = $cpp_with_containers + ";-U_WIN32
+$cxx_flags = $cpp_with_containers + ";-U_WIN32"
 
 $extra_defines = "_LIBCPP_HAS_CLOCK_GETTIME"
 
-$cxxabi_flags = $cpp_with_containers + ";-U_WIN32"
+$cxxabi_flags = $cpp_with_containers
 
 $unwind_flags = $common_flags + ";-D_LIBUNWIND_REMEMBER_STACK_ALLOC;-Wno-format"
 
