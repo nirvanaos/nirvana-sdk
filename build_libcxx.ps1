@@ -25,14 +25,24 @@ $common_flags = "-Wno-user-defined-literals;" +
 "-Wno-covered-switch-default;" +
 "-Wno-unused-function"
 
-# Do not undefine _WIN64 because this breaks the code
+$cpp_with_containers = $common_flags + ";-includeNirvana/force_include.h"
 
-$cxx_flags = $common_flags + ";-U_WIN32;-includeNirvana/force_include.h;-Wno-cast-qual"
+# If we keep _WIN32 defined in libc++ it includes Windows.h and other Windows stuff.
+# We mustn't depend on any Windows things so we undefine _WIN32 in libc++.
+# Do not undefine _WIN64 because this breaks the code.
+#$cxx_flags = $cpp_with_containers + ";-U_WIN32;-D__FreeBSD__"
+$cxx_flags = $cpp_with_containers + ";-U_WIN32"
+
 $extra_defines = "_LIBCPP_HAS_CLOCK_GETTIME"
 
-$cxxabi_flags = $cxx_flags
+# If we undefine _WIN32 in libc++abi it uses wrong calling convention.
+# So we keep _WIN32 defined in libc++abi build.
+$cxxabi_flags = $cpp_with_containers
+
+# libunwind compilation fails without the _WIN32 defined.
 $unwind_flags = $common_flags + ";-D_LIBUNWIND_REMEMBER_STACK_ALLOC;-Wno-format"
 
+# Tell the SDK toolchain about the target platform.
 $Env:NIRVANA_TARGET_PLATFORM = "$platform"
 
 cmake -G Ninja -S "$llvm_root\runtimes" -B $build_dir --toolchain "$PWD\toolchain.cmake" `

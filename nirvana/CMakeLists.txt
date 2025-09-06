@@ -2,21 +2,6 @@ if (${NIRVANA_BUILD})
 
 add_library (nirvana STATIC)
 
-set (include_dir "${CMAKE_SOURCE_DIR}/out/sdk/include")
-target_include_directories (nirvana PUBLIC
-	"${include_dir}/c++/v1"
-)
-
-# Do not undefine _WIN64 because this breaks the code
-
-target_compile_options (nirvana PUBLIC
-	"-U_WIN32"
-)
-
-target_compile_definitions (nirvana PUBLIC
-  _LIBUNWIND_REMEMBER_STACK_ALLOC
-)
-
 target_precompile_headers (nirvana PRIVATE 
 	$<$<COMPILE_LANGUAGE:CXX>:${CMAKE_CURRENT_SOURCE_DIR}/pch/pch.h>)
 
