@@ -48,7 +48,8 @@ set (CMAKE_CXX_FLAGS_INIT ${cpp_compile_flags})
 set (CMAKE_C_FLAGS_INIT ${c_compile_flags})
 set (CMAKE_ASM_FLAGS_INIT ${c_compile_flags})
 
-set (debug_flags "-gdwarf-4")
+#set (debug_flags "-gdwarf-4")
+set (debug_flags "-gcodeview")
 set (release_flags "-fno-builtin")
 
 set (CMAKE_CXX_FLAGS_DEBUG_INIT ${debug_flags})
