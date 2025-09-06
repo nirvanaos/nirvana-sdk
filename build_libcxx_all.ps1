@@ -34,4 +34,5 @@ if ($failed) {
 
 $inc_dir = "$sdk_dir\include"
 $inc_src = "$PWD\build\x64\libcxx\Debug\include"
+Remove-Item "$inc_src\c++\v1\thread"
 xcopy $inc_src $inc_dir /s /y
