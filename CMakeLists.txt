@@ -33,6 +33,21 @@ set (CMAKE_C_LINK_EXECUTABLE "<CMAKE_LINKER> ${NIRVANA_LINK_FLAGS} <LINK_FLAGS> 
 
 add_link_options ($<$<CONFIG:Debug>:/debug>)
 
+include_directories (
+	"${CMAKE_SOURCE_DIR}/out/sdk/include/c++/v1"
+)
+
+# Do not undefine _WIN64 because this breaks the code
+
+add_compile_options (
+	"-U_WIN32"
+)
+
+// ? Is it really need?
+add_compile_definitions (
+  _LIBUNWIND_REMEMBER_STACK_ALLOC
+)
+
 if (NIRVANA_IDL)
 
 find_program (NIDL2CPP nidl2cpp PATHS
