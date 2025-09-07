@@ -63,15 +63,17 @@ It provides above interfaces and redirects Core interface calls into calls to a 
 This lets test and debug SDK components without the Nirvana Core, over the development host OS.
 Currently only Microsoft Windows supported as host OS for the SDK development.
 
-## How to build
+## How to develop
 
 ### Prerequisites
 
 Currently, only Microsoft Windows may be used as host OS for development.
 
-- Download and unpack https://github.com/llvm/llvm-project/releases/download/llvmorg-21.1.0/clang+llvm-21.1.0-x86_64-pc-windows-msvc.tar.xz
+- Download and unpack [clang+llvm-21.1.0-x86_64-pc-windows-msvc](https://github.com/llvm/llvm-project/releases/download/llvmorg-21.1.0/clang+llvm-21.1.0-x86_64-pc-windows-msvc.tar.xz)
 - Set environment variable LLVM_PATH to unpacked directory.
 - CMake and Ninja must be installed.
+
+We recommend use Visual Studio Code as IDE.
 
 ### Prepare build environment
 
@@ -79,6 +81,11 @@ Currently, only Microsoft Windows may be used as host OS for development.
 .\prepare.ps1
 ```
 
-### Build and debug
+### Build
 
 Use CMake with settings from CMakePresets.json file.
+
+### Debug
+
+For debugging we recommend [GDB DAP extension](https://marketplace.visualstudio.com/items?itemName=OlegTolmatcev.gdb-dap).
+Usage of lldb-dp even with the version 21.1 currently causes problems.
