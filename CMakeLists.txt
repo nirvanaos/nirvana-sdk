@@ -34,6 +34,7 @@ set (CMAKE_CXX_LINK_EXECUTABLE "<CMAKE_LINKER> ${NIRVANA_LINK_FLAGS} <LINK_FLAGS
 set (CMAKE_C_LINK_EXECUTABLE "<CMAKE_LINKER> ${NIRVANA_LINK_FLAGS} <LINK_FLAGS> <OBJECTS> /out:<TARGET> <LINK_LIBRARIES>")
 
 add_link_options ($<$<CONFIG:Debug>:/debug:dwarf>)
+#add_link_options ($<$<CONFIG:Debug>:/debug>)
 
 include_directories (
 	"${CMAKE_SOURCE_DIR}/out/sdk/include/c++/v1"

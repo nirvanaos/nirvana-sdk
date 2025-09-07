@@ -30,15 +30,28 @@ Nirvana SDK includes clone of [Openlibm library](https://github.com/JuliaMath/op
 
 Nirvana SDK contains [LLVM libc++ library](https://libcxx.llvm.org/) built over Nirvana standard C library.
 
-### CMake modules
-
-nirvana.cmake file used as CMake toolchain to use the Nirvana SDK.
-NirvanaSDK.cmake contains convenient functions for Nirvana modules development with Nirvana SDK and CMake.
-
 ### Google test library
 
 Google test library libgoogletest-nirvana.a built over Nirvana runtime libraries.
 It may be used for unit test creation.
+
+### Platforms
+
+Nirvana was initially designed portable to different platforms.
+
+Currently supported platforms are:
+
+- x64 (AMD 64)
+- x86 (Intel 386)
+
+Other platforms will be added in the future.
+
+For each platform SDK includes Debug and Release libraries.
+
+### CMake modules
+
+nirvana.cmake file used as CMake toolchain to use the Nirvana SDK.
+NirvanaSDK.cmake contains convenient functions for Nirvana modules development with Nirvana SDK and CMake.
 
 ## How to use
 
@@ -87,5 +100,7 @@ Use CMake with settings from CMakePresets.json file.
 
 ### Debug
 
-For debugging we recommend [GDB DAP extension](https://marketplace.visualstudio.com/items?itemName=OlegTolmatcev.gdb-dap).
-Usage of lldb-dp even with the version 21.1 currently causes problems.
+For debugging x64 platform use [LLDB DAP extension](https://marketplace.visualstudio.com/items?itemName=llvm-vs-code-extensions.lldb-dap) with lldb-dap.executable-path set to lldb-dap.exe path in the LLVM release unpacked.
+
+For debugging x86 platform I'm using [GDB DAP extension](https://marketplace.visualstudio.com/items?itemName=OlegTolmatcev.gdb-dap)
+because using lldb-dap currently causes problems.
