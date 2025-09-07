@@ -9,7 +9,10 @@
       "name": "base",
       "hidden": true,
       "toolchainFile" : "toolchain.cmake",
-      "generator" : "Ninja Multi-Config"
+      "generator" : "Ninja Multi-Config",
+      "cacheVariables": {
+        "NIRVANA_IDL": false
+      }
 		},
     {
       "inherits": "base",

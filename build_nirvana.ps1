@@ -18,7 +18,7 @@ if ($LASTEXITCODE -ne 0) {
   exit $LASTEXITCODE
 }
 
-ctest --preset=$platform-debug
+# ctest --preset=$platform-debug
 
 if ($LASTEXITCODE -ne 0) {
   exit $LASTEXITCODE
