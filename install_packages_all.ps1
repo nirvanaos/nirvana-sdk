@@ -4,15 +4,15 @@ $core_sdk_dir = "$PWD\out\core-sdk"
 
 $failed = $false
 
-$process = Start-Process powershell -NoNewWindow -UseNewEnvironment -PassThru -Wait -ArgumentList ".\install_packages.ps1 x64"
-if (0 -ne $process.ExitCode) {
-  Write-Host "Failed: " $process.ExitCode
+& .\install_packages.ps1 x64
+if ($LASTEXITCODE -ne 0) {
+  Write-Host "Failed" $LASTEXITCODE
   $failed = $true
 }
 
-$process = Start-Process powershell -NoNewWindow -UseNewEnvironment -PassThru -Wait -ArgumentList ".\install_packages.ps1 x86"
-if (0 -ne $process.ExitCode) {
-  Write-Host "Failed: " $process.ExitCode
+& .\install_packages.ps1 x86
+if ($LASTEXITCODE -ne 0) {
+  Write-Host "Failed" $LASTEXITCODE
   $failed = $true
 }
 
