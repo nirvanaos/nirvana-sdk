@@ -24,7 +24,7 @@ set (LLVM_TARGET_TRIPLE ${NIRVANA_TARGET_TRIPLE})
 # Do not undefine _WIN64 because this breaks the unwind code
 
 set (c_compile_flags "-nostdinc -fshort-wchar -mlong-double-80\
- -Wno-character-conversion -fseh-exceptions\
+ -Wno-character-conversion -fdwarf-exceptions\
  -U__MINGW__ -U__MINGW32__ -U__MINGW64__\
  --target=${NIRVANA_TARGET_TRIPLE}"
 )

@@ -26,13 +26,15 @@ $win_inc = "-isystem${msvc_inc_dir};" +
 "-DWIN32_LEAN_AND_MEAN"
 
 $c_flags = "-fms-compatibility;-fms-extensions;-fms-compatibility-version=19.44.35215;" +
-"$win_inc;" +
 "-D_MSC_FULL_VER=194435215;-D_MSC_VER=1944;-D_MSVC_LANG=__cplusplus;-D_MSC_EXTENSIONS=1;" +
+"$win_inc;" +
 "-D_M_HYBRID=0;" +
 "-D_LIBUNWIND_REMEMBER_STACK_ALLOC;" +
 "-D_LIBUNWIND_IS_NATIVE_ONLY;" +
 "-D_LIBUNWIND_HAS_NO_THREADS;" +
-"-D_LIBUNWIND_SUPPORT_SEH_UNWIND;"
+#"-D_LIBUNWIND_SUPPORT_SEH_UNWIND;" +
+"-D_LIBUNWIND_SUPPORT_DWARF_UNWIND;"
+#"-DNTSTATUS=LSTATUS;"
 # +
 #"-D_LIBUNWIND_BUILD_SJLJ_APIS;"
 
@@ -87,6 +89,7 @@ cmake -G Ninja -S "$llvm_root\runtimes" -B $build_dir --toolchain "$PWD\toolchai
  -DLIBUNWIND_ENABLE_STATIC=ON                         `
  -DLIBUNWIND_INSTALL_LIBRARY_DIR="$dest_dir"          `
  -DLIBUNWIND_INSTALL_HEADERS=OFF                      `
+ -DLIBUNWIND_IS_BAREMETAL=ON                          `
  -DLIBUNWIND_HIDE_SYMBOLS=ON                          `
  -DLIBUNWIND_SHARED_OUTPUT_NAME="unwind-shared"       `
  -DLIBUNWIND_USE_COMPILER_RT=ON                       `
