@@ -44,6 +44,8 @@ include_directories (
 
 add_compile_options (
 	"-U_WIN32"
+  "-fno-ms-compatibility"
+  "-fno-ms-extensions"
 )
 
 # ? Is it really need?

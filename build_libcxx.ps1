@@ -16,7 +16,6 @@ if ($args.count -ge 2) {
 $dest_dir = "$sdk_dir\lib\$platform\$config"
 $build_dir = "$PWD\build\$platform\libcxx\$config"
 $llvm_root = "$PWD\llvm-project"
-$nirvana_dir = "$PWD\nirvana"
 
 $common_flags = "-Wno-user-defined-literals;" +
 "-Wno-covered-switch-default;" +
@@ -25,7 +24,7 @@ $common_flags = "-Wno-user-defined-literals;" +
 "-Wno-covered-switch-default;" +
 "-Wno-unused-function"
 
-$cpp_with_containers = $common_flags + ";-includeNirvana/force_include.h"
+$cpp_with_containers = $common_flags + ";-includeNirvana/force_include.h;-fno-ms-compatibility;-fno-ms-extensions"
 
 # If we keep _WIN32 defined in libc++ it includes Windows.h and other Windows stuff.
 # We mustn't depend on any Windows things so we undefine _WIN32 in libc++.
@@ -39,9 +38,6 @@ $extra_defines = "_LIBCPP_HAS_CLOCK_GETTIME"
 # So we keep _WIN32 defined in libc++abi build.
 $cxxabi_flags = $cpp_with_containers
 
-# libunwind compilation fails without the _WIN32 defined.
-$unwind_flags = $common_flags + ";-D_LIBUNWIND_REMEMBER_STACK_ALLOC;-Wno-format"
-
 # Tell the SDK toolchain about the target platform.
 $Env:NIRVANA_TARGET_PLATFORM = "$platform"
 
@@ -53,7 +49,8 @@ cmake -G Ninja -S "$llvm_root\runtimes" -B $build_dir --toolchain "$PWD\toolchai
  -DCMAKE_PREFIX_PATH="$tools_dir"                     `
  -DCMAKE_POLICY_DEFAULT_CMP0177=NEW                   `
  -DCMAKE_SYSTEM_NAME=Generic                          `
- -DLLVM_ENABLE_RUNTIMES="libcxx;libcxxabi;libunwind"  `
+ -DLLVM_ENABLE_RUNTIMES="libcxx;libcxxabi"            `
+ -D_LIBCPP_DISABLE_VISIBILITY_ANNOTATIONS=ON          `
  -DLIBCXX_ABI_FORCE_ITANIUM=ON                        `
  -DLIBCXX_ABI_VERSION=2                               `
  -DLIBCXX_ADDITIONAL_COMPILE_FLAGS="$cxx_flags"       `
@@ -80,15 +77,6 @@ cmake -G Ninja -S "$llvm_root\runtimes" -B $build_dir --toolchain "$PWD\toolchai
  -DLIBCXXABI_INSTALL_HEADERS=OFF                      `
  -DLIBCXXABI_SHARED_OUTPUT_NAME="c++abi-shared"       `
  -DLIBCXXABI_USE_LLVM_UNWINDER=ON                     `
- -DLIBUNWIND_ADDITIONAL_COMPILE_FLAGS="$unwind_flags" `
- -DLIBUNWIND_ENABLE_SHARED=OFF                        `
- -DLIBUNWIND_ENABLE_STATIC=ON                         `
- -DLIBUNWIND_INSTALL_LIBRARY_DIR="$dest_dir"          `
- -DLIBUNWIND_INSTALL_HEADERS=OFF                      `
- -DLIBUNWIND_HIDE_SYMBOLS=ON                          `
- -DLIBUNWIND_SHARED_OUTPUT_NAME="unwind-shared"       `
- -DLIBUNWIND_USE_COMPILER_RT=ON                       `
- -D_LIBCPP_DISABLE_VISIBILITY_ANNOTATIONS=ON          `
  -DLIBUNWIND_WEAK_PTHREAD_LIB=ON
 
 if ($LASTEXITCODE -ne 0) {
