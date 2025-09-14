@@ -50,8 +50,8 @@ if ($platform -ne "x86") {
   "-D_MSC_FULL_VER=194435215;-D_MSC_VER=1944;" +
   "-D_MSVC_LANG=__cplusplus;-D_MSC_EXTENSIONS=1;" +
   "-Wno-nonportable-include-path;-Wno-switch;" +
-  "$win_inc;" +
-  "-D_LIBUNWIND_REMEMBER_STACK_ALLOC;"
+  "$win_inc;"
+  
 
   if ($platform -eq "x64") {
     $arch = "-D_M_AMD64;-D_M_X64"
@@ -72,7 +72,7 @@ if ($platform -ne "x86") {
 # So we keep _WIN32 defined in libc++abi build.
 $cxxabi_flags = $cpp_with_containers + $windows_flags
 
-$unwind_flags += $common_flags + $windows_flags + ";-Wno-format"
+$unwind_flags += $common_flags + $windows_flags + ";-D_LIBUNWIND_REMEMBER_STACK_ALLOC;-Wno-format"
 
 # Tell the SDK toolchain about the target platform.
 $Env:NIRVANA_TARGET_PLATFORM = "$platform"
@@ -113,7 +113,7 @@ cmake -G Ninja -S "$llvm_root\runtimes" -B $build_dir --toolchain "$PWD\toolchai
  -DLIBCXXABI_INSTALL_LIBRARY_DIR="$dest_dir"          `
  -DLIBCXXABI_INSTALL_INCLUDE_DIR="$build_dir/include/c++abi" `
  -DLIBCXXABI_INSTALL_INCLUDE_TARGET_DIR="$build_dir/include/c++abi" `
- -DLIBCXXABI_INSTALL_HEADERS=OFF                      `
+ -DLIBCXXABI_INSTALL_HEADERS=ON                       `
  -DLIBCXXABI_SHARED_OUTPUT_NAME="c++abi-shared"       `
  -DLIBCXXABI_USE_LLVM_UNWINDER=ON                     `
  -DLIBUNWIND_ADDITIONAL_COMPILE_FLAGS="$unwind_flags" `
