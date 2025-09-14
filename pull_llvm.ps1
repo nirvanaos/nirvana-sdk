@@ -1,4 +1,4 @@
-$llvm_url = "https://github.com/llvm/llvm-project.git"
+$llvm_url = "https://github.com/nirvanaos/llvm-project.git"
 $llvm_tag = "main" # "llvmorg-21.1.0"
 $llvm_root = "./llvm-project"
 if (!(Test-Path "$llvm_root\.git")) {
