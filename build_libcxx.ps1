@@ -16,6 +16,7 @@ if ($args.count -ge 2) {
 $dest_dir = "$sdk_dir\lib\$platform\$config"
 $build_dir = "$PWD\build\$platform\libcxx\$config"
 $llvm_root = "$PWD\llvm-project"
+$nirvana_dir = "$PWD\nirvana"
 
 $common_flags = "-Wno-user-defined-literals;" +
 "-Wno-covered-switch-default;" +
@@ -24,7 +25,7 @@ $common_flags = "-Wno-user-defined-literals;" +
 "-Wno-covered-switch-default;" +
 "-Wno-unused-function"
 
-$cpp_with_containers = $common_flags + ";-includeNirvana/force_include.h;-fno-ms-compatibility;-fno-ms-extensions"
+$cpp_with_containers = $common_flags + ";-includeNirvana/force_include.h"
 
 # If we keep _WIN32 defined in libc++ it includes Windows.h and other Windows stuff.
 # We mustn't depend on any Windows things so we undefine _WIN32 in libc++.
@@ -38,6 +39,35 @@ $extra_defines = "_LIBCPP_HAS_CLOCK_GETTIME"
 # So we keep _WIN32 defined in libc++abi build.
 $cxxabi_flags = $cpp_with_containers
 
+# libunwind flags
+
+$win_sdk_inc_dir = "${env:WindowsSdkDir}Include\${env:WindowsSDKVersion}"
+$msvc_inc_dir = "${env:VCToolsInstallDir}include"
+
+$win_inc = "-isystem${msvc_inc_dir};" +
+"-isystem${win_sdk_inc_dir}um;" +
+"-isystem${win_sdk_inc_dir}shared;" +
+"-DWIN32_LEAN_AND_MEAN"
+
+$unwind_flags = $common_flags + ";-fms-compatibility;-fms-extensions;-fms-compatibility-version=19.44.35215;" +
+#"-D_MSC_FULL_VER=194435215;-D_MSC_VER=1944;-D_MSVC_LANG=__cplusplus;-D_MSC_EXTENSIONS=1;" +
+"$win_inc;" +
+"-D_LIBUNWIND_REMEMBER_STACK_ALLOC;" +
+# Enabled by default "-D_LIBUNWIND_IS_NATIVE_ONLY;" +
+"-D_LIBUNWIND_SUPPORT_DWARF_UNWIND;"
+
+if ($platform -eq "x64") {
+  $arch = "-D_M_AMD64;-D_M_X64"
+} elseif ($platform -eq "x86") {
+  $arch = "-D_M_IX86;-D_INTEGRAL_MAX_BITS=64"
+} elseif ($platform -eq "arm") {
+  $arch = "-D_M_ARM"
+} elseif ($platform -eq "arm64") {
+  $arch = "-D_M_ARM64"
+}
+
+$unwind_flags += "$arch;-Wno-format"
+
 # Tell the SDK toolchain about the target platform.
 $Env:NIRVANA_TARGET_PLATFORM = "$platform"
 
@@ -49,8 +79,7 @@ cmake -G Ninja -S "$llvm_root\runtimes" -B $build_dir --toolchain "$PWD\toolchai
  -DCMAKE_PREFIX_PATH="$tools_dir"                     `
  -DCMAKE_POLICY_DEFAULT_CMP0177=NEW                   `
  -DCMAKE_SYSTEM_NAME=Generic                          `
- -DLLVM_ENABLE_RUNTIMES="libcxx;libcxxabi"            `
- -D_LIBCPP_DISABLE_VISIBILITY_ANNOTATIONS=ON          `
+ -DLLVM_ENABLE_RUNTIMES="libcxx;libcxxabi;libunwind"  `
  -DLIBCXX_ABI_FORCE_ITANIUM=ON                        `
  -DLIBCXX_ABI_VERSION=2                               `
  -DLIBCXX_ADDITIONAL_COMPILE_FLAGS="$cxx_flags"       `
@@ -63,8 +92,10 @@ cmake -G Ninja -S "$llvm_root\runtimes" -B $build_dir --toolchain "$PWD\toolchai
  -DLIBCXX_EXTRA_SITE_DEFINES="$extra_defines"         `
  -DLIBCXX_HAS_EXTERNAL_THREAD_API=ON                  `
  -DLIBCXX_HERMETIC_STATIC_LIBRARY=ON                  `
+ -DLIBCXX_INSTALL_INCLUDE_DIR="$build_dir/include/c++" `
+ -DLIBCXX_INSTALL_INCLUDE_TARGET_DIR="$build_dir/include/c++" `
  -DLIBCXX_INSTALL_LIBRARY_DIR="$dest_dir"             `
- -DLIBCXX_INSTALL_HEADERS=OFF                         `
+ -DLIBCXX_INSTALL_HEADERS=ON                          `
  -DLIBCXX_INSTALL_MODULES=OFF                         `
  -DLIBCXX_NO_VCRUNTIME=1                              `
  -DLIBCXX_SHARED_OUTPUT_NAME="c++-shared"             `
@@ -74,9 +105,22 @@ cmake -G Ninja -S "$llvm_root\runtimes" -B $build_dir --toolchain "$PWD\toolchai
  -DLIBCXXABI_HAS_EXTERNAL_THREAD_API=ON               `
  -DLIBCXXABI_HERMETIC_STATIC_LIBRARY=ON               `
  -DLIBCXXABI_INSTALL_LIBRARY_DIR="$dest_dir"          `
- -DLIBCXXABI_INSTALL_HEADERS=OFF                      `
+ -DLIBCXXABI_INSTALL_INCLUDE_DIR="$build_dir/include/c++abi" `
+ -DLIBCXXABI_INSTALL_INCLUDE_TARGET_DIR="$build_dir/include/c++abi" `
+ -DLIBCXXABI_INSTALL_HEADERS=ON                       `
  -DLIBCXXABI_SHARED_OUTPUT_NAME="c++abi-shared"       `
  -DLIBCXXABI_USE_LLVM_UNWINDER=ON                     `
+ -DLIBUNWIND_ADDITIONAL_COMPILE_FLAGS="$unwind_flags" `
+ -DLIBUNWIND_ENABLE_SHARED=OFF                        `
+ -DLIBUNWIND_ENABLE_STATIC=ON                         `
+ -DLIBUNWIND_INSTALL_LIBRARY_DIR="$dest_dir"          `
+ -DLIBUNWIND_INSTALL_INCLUDE_DIR="$build_dir/include/unwind" `
+ -DLIBUNWIND_INSTALL_HEADERS=ON                       `
+ -DLIBUNWIND_IS_BAREMETAL=ON                          `
+ -DLIBUNWIND_HIDE_SYMBOLS=ON                          `
+ -DLIBUNWIND_SHARED_OUTPUT_NAME="unwind-shared"       `
+ -DLIBUNWIND_USE_COMPILER_RT=ON                       `
+ -D_LIBCPP_DISABLE_VISIBILITY_ANNOTATIONS=ON          `
  -DLIBUNWIND_WEAK_PTHREAD_LIB=ON
 
 if ($LASTEXITCODE -ne 0) {

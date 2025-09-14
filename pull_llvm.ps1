@@ -6,5 +6,5 @@ if (!(Test-Path "$llvm_root\.git")) {
 }
 
 cd $llvm_root
-git fetch --depth=1
+git fetch --depth=1 $llvm_url
 cd ..
