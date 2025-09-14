@@ -19,7 +19,7 @@ set (CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
 
 list (APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/nirvana/cmake")
 include (NirvanaTargetPlatform)
-set (LLVM_TARGET_TRIPLE ${NIRVANA_TARGET_TRIPLE})
+set (LLVM_DEFAULT_TARGET_TRIPLE ${NIRVANA_TARGET_TRIPLE} CACHE STRING "" FORCE)
 
 # Do not undefine _WIN64 because this breaks the unwind code
 

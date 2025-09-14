@@ -7,15 +7,21 @@ set (NIDL2CPP ${NIRVANA_TOOLS_DIR}/nidl2cpp.exe)
 
 set (NIRVANA_LIB_DIR "${NIRVANA_SDK_DIR}/lib/${NIRVANA_TARGET_PLATFORM}")
 
-link_libraries (
-	${NIRVANA_LIB_DIR}/$<CONFIG>/libnirvana.a
-	${NIRVANA_LIB_DIR}/$<CONFIG>/libcrtl.a
-	${NIRVANA_LIB_DIR}/$<CONFIG>/libm.a
-	${NIRVANA_LIB_DIR}/$<CONFIG>/libc++.a
-	${NIRVANA_LIB_DIR}/$<CONFIG>/libc++abi.a
-	${NIRVANA_LIB_DIR}/$<CONFIG>/libc++experimental.a
-	${NIRVANA_LIB_DIR}/$<CONFIG>/libunwind.a
+set (nirvana_libs 
+	"${NIRVANA_LIB_DIR}/$<CONFIG>/libc++.a"
+	"${NIRVANA_LIB_DIR}/$<CONFIG>/libc++experimental.a"
+	"${NIRVANA_LIB_DIR}/$<CONFIG>/libc++abi.a"
+	"${NIRVANA_LIB_DIR}/$<CONFIG>/libcrtl.a"
+	"${NIRVANA_LIB_DIR}/$<CONFIG>/libnirvana.a"
+	"${NIRVANA_LIB_DIR}/$<CONFIG>/libm.a"
+	"${NIRVANA_LIB_DIR}/$<CONFIG>/libunwind.a"
 )
+
+if (NOT (${NIRVANA_TARGET_PLATFORM} STREQUAL "x86"))
+	list (APPEND nirvana_libs "${NIRVANA_LIB_DIR}/kernel32.Lib")
+endif ()
+
+link_libraries (${nirvana_libs})
 
 function (nirvana_module_idl)
 
@@ -113,7 +119,7 @@ function (nirvana_module)
 	cmake_parse_arguments (PARSE_ARGV 0 arg "${options}" "${one_args}" "${multi_args}")
 
   add_executable (${arg_MODULE_NAME})
-  target_link_libraries (${arg_MODULE_NAME} PRIVATE ${NIRVANA_LIB_DIR}/$<CONFIG>/libcoreimport.a)
+  target_link_libraries (${arg_MODULE_NAME} PRIVATE "${NIRVANA_LIB_DIR}/$<CONFIG>/libcoreimport.a")
   target_link_options (${arg_MODULE_NAME} PRIVATE /noentry /dll /dynamicbase $<$<CONFIG:Debug>:/debug>)
 
   set (idl_options)

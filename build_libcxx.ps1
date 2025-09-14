@@ -1,6 +1,5 @@
 $ErrorActionPreference = "Stop"
 $sdk_dir = "$PWD\out\sdk"
-$tools_dir = "$PWD\out\tools-windows-x64"
 
 if ($args.count -ge 1) {
 	$platform = $args[0]
@@ -50,17 +49,16 @@ if ($platform -ne "x86") {
   "-D_MSC_FULL_VER=194435215;-D_MSC_VER=1944;" +
   "-D_MSVC_LANG=__cplusplus;-D_MSC_EXTENSIONS=1;" +
   "-Wno-nonportable-include-path;-Wno-switch;" +
-  "$win_inc;"
-  
+  "$win_inc"
 
   if ($platform -eq "x64") {
-    $arch = "-D_M_AMD64;-D_M_X64"
+    $arch = ";-D_M_AMD64;-D_M_X64"
   } elseif ($platform -eq "x86") {
-    $arch = "-D_M_IX86;-D_INTEGRAL_MAX_BITS=64"
+    $arch = ";-D_M_IX86;-D_INTEGRAL_MAX_BITS=64"
   } elseif ($platform -eq "arm") {
-    $arch = "-D_M_ARM"
+    $arch = ";-D_M_ARM"
   } elseif ($platform -eq "arm64") {
-    $arch = "-D_M_ARM64"
+    $arch = ";-D_M_ARM64"
   }
 
   $windows_flags += $arch
@@ -82,7 +80,6 @@ cmake -G Ninja -S "$llvm_root\runtimes" -B $build_dir --toolchain "$PWD\toolchai
  -DCMAKE_BUILD_TYPE="$config"                         `
  -DCMAKE_CXX_STANDARD="20"                            `
  -DCMAKE_INSTALL_PREFIX="$dest_dir"                   `
- -DCMAKE_PREFIX_PATH="$tools_dir"                     `
  -DCMAKE_POLICY_DEFAULT_CMP0177=NEW                   `
  -DCMAKE_SYSTEM_NAME=Generic                          `
  -DLLVM_ENABLE_RUNTIMES="libcxx;libcxxabi;libunwind"  `
@@ -130,15 +127,23 @@ cmake -G Ninja -S "$llvm_root\runtimes" -B $build_dir --toolchain "$PWD\toolchai
  -D_LIBCPP_DISABLE_VISIBILITY_ANNOTATIONS=ON          `
  -DLIBUNWIND_WEAK_PTHREAD_LIB=ON
 
+$Env:NIRVANA_TARGET_PLATFORM = ""
+
 if ($LASTEXITCODE -ne 0) {
   exit $LASTEXITCODE
 }
 
 cmake --build $build_dir
-
 if ($LASTEXITCODE -ne 0) {
   exit $LASTEXITCODE
 }
 
 cmake --install $build_dir
-exit $LASTEXITCODE
+if ($LASTEXITCODE -ne 0) {
+  exit $LASTEXITCODE
+}
+
+# For SEH we need Kernel32 library
+if ($platform -ne "x86") {
+  xcopy "${env:WindowsSdkDir}Lib\${env:WindowsSDKLibVersion}um\$platform\kernel32.Lib" "$sdk_dir\lib\$platform\" /y /f
+}
