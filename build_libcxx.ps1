@@ -36,7 +36,8 @@ $cxx_flags = $cpp_with_containers + ";-U_WIN32"
 $extra_defines = "_LIBCPP_HAS_CLOCK_GETTIME"
 
 # Windows flags
-if ($platform -eq "x64") {
+# For x86 we use SJLJ exceptions. For other platforms - SEH.
+if ($platform -ne "x86") {
 
   $win_sdk_inc_dir = "${env:WindowsSdkDir}Include\${env:WindowsSDKVersion}"
   $msvc_inc_dir = "${env:VCToolsInstallDir}include"
@@ -48,7 +49,7 @@ if ($platform -eq "x64") {
   $windows_flags = ";-fms-compatibility;-fms-extensions;-fms-compatibility-version=19.44.35215;" +
   "-D_MSC_FULL_VER=194435215;-D_MSC_VER=1944;" +
   "-D_MSVC_LANG=__cplusplus;-D_MSC_EXTENSIONS=1;" +
-  "-Wno-nonportable-include-path;" +
+  "-Wno-nonportable-include-path;-Wno-switch;" +
   "$win_inc;" +
   "-D_LIBUNWIND_REMEMBER_STACK_ALLOC;"
 
@@ -100,7 +101,7 @@ cmake -G Ninja -S "$llvm_root\runtimes" -B $build_dir --toolchain "$PWD\toolchai
  -DLIBCXX_INSTALL_INCLUDE_DIR="$build_dir/include/c++" `
  -DLIBCXX_INSTALL_INCLUDE_TARGET_DIR="$build_dir/include/c++" `
  -DLIBCXX_INSTALL_LIBRARY_DIR="$dest_dir"             `
- -DLIBCXX_INSTALL_HEADERS=OFF                         `
+ -DLIBCXX_INSTALL_HEADERS=ON                          `
  -DLIBCXX_INSTALL_MODULES=OFF                         `
  -DLIBCXX_NO_VCRUNTIME=1                              `
  -DLIBCXX_SHARED_OUTPUT_NAME="c++-shared"             `

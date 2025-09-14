@@ -42,7 +42,7 @@ set (CMAKE_CXX_COMPILER ${llvm_bin}/clang++.exe)
 set (CMAKE_C_COMPILER ${llvm_bin}/clang.exe)
 set (CMAKE_ASM_COMPILER ${llvm_bin}/clang.exe)
 
-string (CONCAT cpp_compile_flags ${c_compile_flags} " -fsized-deallocation")
+string (CONCAT cpp_compile_flags ${c_compile_flags} " -nostdinc++ -fsized-deallocation")
 
 set (CMAKE_CXX_FLAGS_INIT ${cpp_compile_flags})
 set (CMAKE_C_FLAGS_INIT ${c_compile_flags})
