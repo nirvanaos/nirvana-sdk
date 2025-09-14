@@ -32,13 +32,13 @@ include (NirvanaTargetPlatform)
 
 set (c_compile_flags "-nostdinc -fshort-wchar -mlong-double-80\
  -fno-ms-compatibility -fno-ms-extensions -U_WIN32 -U__MINGW__ -U__MINGW32__ -U__MINGW64__\
- -Wno-character-conversion -fsjlj-exceptions --target=${NIRVANA_TARGET_TRIPLE}"
+ -Wno-character-conversion --target=${NIRVANA_TARGET_TRIPLE}"
 )
 
 if (${NIRVANA_TARGET_PLATFORM} STREQUAL "x64")
-	string (CONCAT c_compile_flags ${c_compile_flags} " -mlzcnt -m64 -msse2 -mfpmath=sse")
+	string (CONCAT c_compile_flags ${c_compile_flags} " -fseh-exceptions -mlzcnt -m64 -msse2 -mfpmath=sse")
 elseif (${NIRVANA_TARGET_PLATFORM} STREQUAL "x86")
-	string (CONCAT c_compile_flags ${c_compile_flags} " -m32 -msse2 -mfpmath=sse")
+	string (CONCAT c_compile_flags ${c_compile_flags} " -fsjlj-exceptions -m32 -msse2 -mfpmath=sse")
 endif ()
 
 string (CONCAT cpp_compile_flags ${c_compile_flags} " -fsized-deallocation")
