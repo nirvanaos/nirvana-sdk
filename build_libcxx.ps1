@@ -35,38 +35,43 @@ $cxx_flags = $cpp_with_containers + ";-U_WIN32"
 
 $extra_defines = "_LIBCPP_HAS_CLOCK_GETTIME"
 
-# If we undefine _WIN32 in libc++abi it uses wrong calling convention.
-# So we keep _WIN32 defined in libc++abi build.
-$cxxabi_flags = $cpp_with_containers
-
-# libunwind flags
-
-$win_sdk_inc_dir = "${env:WindowsSdkDir}Include\${env:WindowsSDKVersion}"
-$msvc_inc_dir = "${env:VCToolsInstallDir}include"
-
-$win_inc = "-isystem${msvc_inc_dir};" +
-"-isystem${win_sdk_inc_dir}um;" +
-"-isystem${win_sdk_inc_dir}shared;" +
-"-DWIN32_LEAN_AND_MEAN"
-
-$unwind_flags = $common_flags + ";-fms-compatibility;-fms-extensions;-fms-compatibility-version=19.44.35215;" +
-#"-D_MSC_FULL_VER=194435215;-D_MSC_VER=1944;-D_MSVC_LANG=__cplusplus;-D_MSC_EXTENSIONS=1;" +
-"$win_inc;" +
-"-D_LIBUNWIND_REMEMBER_STACK_ALLOC;" +
-# Enabled by default "-D_LIBUNWIND_IS_NATIVE_ONLY;" +
-"-D_LIBUNWIND_SUPPORT_DWARF_UNWIND;"
-
+# Windows flags
 if ($platform -eq "x64") {
-  $arch = "-D_M_AMD64;-D_M_X64"
-} elseif ($platform -eq "x86") {
-  $arch = "-D_M_IX86;-D_INTEGRAL_MAX_BITS=64"
-} elseif ($platform -eq "arm") {
-  $arch = "-D_M_ARM"
-} elseif ($platform -eq "arm64") {
-  $arch = "-D_M_ARM64"
+
+  $win_sdk_inc_dir = "${env:WindowsSdkDir}Include\${env:WindowsSDKVersion}"
+  $msvc_inc_dir = "${env:VCToolsInstallDir}include"
+
+  $win_inc = "-isystem${msvc_inc_dir};" +
+  "-isystem${win_sdk_inc_dir}um;" +
+  "-isystem${win_sdk_inc_dir}shared"
+
+  $windows_flags = ";-fms-compatibility;-fms-extensions;-fms-compatibility-version=19.44.35215;" +
+  "-D_MSC_FULL_VER=194435215;-D_MSC_VER=1944;" +
+  "-D_MSVC_LANG=__cplusplus;-D_MSC_EXTENSIONS=1;" +
+  "-Wno-nonportable-include-path;" +
+  "$win_inc;" +
+  "-D_LIBUNWIND_REMEMBER_STACK_ALLOC;"
+
+  if ($platform -eq "x64") {
+    $arch = "-D_M_AMD64;-D_M_X64"
+  } elseif ($platform -eq "x86") {
+    $arch = "-D_M_IX86;-D_INTEGRAL_MAX_BITS=64"
+  } elseif ($platform -eq "arm") {
+    $arch = "-D_M_ARM"
+  } elseif ($platform -eq "arm64") {
+    $arch = "-D_M_ARM64"
+  }
+
+  $windows_flags += $arch
+} else {
+  $windows_flags = ""
 }
 
-$unwind_flags += "$arch;-Wno-format"
+# If we undefine _WIN32 in libc++abi it uses wrong calling convention.
+# So we keep _WIN32 defined in libc++abi build.
+$cxxabi_flags = $cpp_with_containers + $windows_flags
+
+$unwind_flags += $common_flags + $windows_flags + ";-Wno-format"
 
 # Tell the SDK toolchain about the target platform.
 $Env:NIRVANA_TARGET_PLATFORM = "$platform"
@@ -95,7 +100,7 @@ cmake -G Ninja -S "$llvm_root\runtimes" -B $build_dir --toolchain "$PWD\toolchai
  -DLIBCXX_INSTALL_INCLUDE_DIR="$build_dir/include/c++" `
  -DLIBCXX_INSTALL_INCLUDE_TARGET_DIR="$build_dir/include/c++" `
  -DLIBCXX_INSTALL_LIBRARY_DIR="$dest_dir"             `
- -DLIBCXX_INSTALL_HEADERS=ON                          `
+ -DLIBCXX_INSTALL_HEADERS=OFF                         `
  -DLIBCXX_INSTALL_MODULES=OFF                         `
  -DLIBCXX_NO_VCRUNTIME=1                              `
  -DLIBCXX_SHARED_OUTPUT_NAME="c++-shared"             `
@@ -107,17 +112,18 @@ cmake -G Ninja -S "$llvm_root\runtimes" -B $build_dir --toolchain "$PWD\toolchai
  -DLIBCXXABI_INSTALL_LIBRARY_DIR="$dest_dir"          `
  -DLIBCXXABI_INSTALL_INCLUDE_DIR="$build_dir/include/c++abi" `
  -DLIBCXXABI_INSTALL_INCLUDE_TARGET_DIR="$build_dir/include/c++abi" `
- -DLIBCXXABI_INSTALL_HEADERS=ON                       `
+ -DLIBCXXABI_INSTALL_HEADERS=OFF                      `
  -DLIBCXXABI_SHARED_OUTPUT_NAME="c++abi-shared"       `
  -DLIBCXXABI_USE_LLVM_UNWINDER=ON                     `
  -DLIBUNWIND_ADDITIONAL_COMPILE_FLAGS="$unwind_flags" `
  -DLIBUNWIND_ENABLE_SHARED=OFF                        `
  -DLIBUNWIND_ENABLE_STATIC=ON                         `
+ -DLIBUNWIND_ENABLE_THREADS=ON                        `
+ -DLIBUNWIND_HIDE_SYMBOLS=ON                          `
  -DLIBUNWIND_INSTALL_LIBRARY_DIR="$dest_dir"          `
  -DLIBUNWIND_INSTALL_INCLUDE_DIR="$build_dir/include/unwind" `
- -DLIBUNWIND_INSTALL_HEADERS=ON                       `
+ -DLIBUNWIND_INSTALL_HEADERS=OFF                      `
  -DLIBUNWIND_IS_BAREMETAL=ON                          `
- -DLIBUNWIND_HIDE_SYMBOLS=ON                          `
  -DLIBUNWIND_SHARED_OUTPUT_NAME="unwind-shared"       `
  -DLIBUNWIND_USE_COMPILER_RT=ON                       `
  -D_LIBCPP_DISABLE_VISIBILITY_ANNOTATIONS=ON          `
