@@ -52,13 +52,13 @@ if ($platform -ne "x86") {
   "$win_inc"
 
   if ($platform -eq "x64") {
-    $arch = ";-D_M_AMD64;-D_M_X64"
+    $arch = ";-D_M_AMD64=100;-D_M_X64=100"
   } elseif ($platform -eq "x86") {
-    $arch = ";-D_M_IX86;-D_INTEGRAL_MAX_BITS=64"
+    $arch = ";-D_M_IX86=600;-D_INTEGRAL_MAX_BITS=64"
   } elseif ($platform -eq "arm") {
-    $arch = ";-D_M_ARM"
+    $arch = ";-D_M_ARM=7"
   } elseif ($platform -eq "arm64") {
-    $arch = ";-D_M_ARM64"
+    $arch = ";-D_M_ARM64=1"
   }
 
   $windows_flags += $arch
@@ -70,7 +70,8 @@ if ($platform -ne "x86") {
 # So we keep _WIN32 defined in libc++abi build.
 $cxxabi_flags = $cpp_with_containers + $windows_flags
 
-$unwind_flags += $common_flags + $windows_flags + ";-D_LIBUNWIND_REMEMBER_STACK_ALLOC;-Wno-format"
+$unwind_flags += $common_flags + $windows_flags + ";-Wno-format"
+# $unwind_flags += ";-D_LIBUNWIND_REMEMBER_STACK_ALLOC"
 
 # Tell the SDK toolchain about the target platform.
 $Env:NIRVANA_TARGET_PLATFORM = "$platform"
@@ -116,12 +117,10 @@ cmake -G Ninja -S "$llvm_root\runtimes" -B $build_dir --toolchain "$PWD\toolchai
  -DLIBUNWIND_ADDITIONAL_COMPILE_FLAGS="$unwind_flags" `
  -DLIBUNWIND_ENABLE_SHARED=OFF                        `
  -DLIBUNWIND_ENABLE_STATIC=ON                         `
- -DLIBUNWIND_ENABLE_THREADS=ON                        `
  -DLIBUNWIND_HIDE_SYMBOLS=ON                          `
  -DLIBUNWIND_INSTALL_LIBRARY_DIR="$dest_dir"          `
  -DLIBUNWIND_INSTALL_INCLUDE_DIR="$build_dir/include/unwind" `
  -DLIBUNWIND_INSTALL_HEADERS=OFF                      `
- -DLIBUNWIND_IS_BAREMETAL=ON                          `
  -DLIBUNWIND_SHARED_OUTPUT_NAME="unwind-shared"       `
  -DLIBUNWIND_USE_COMPILER_RT=ON                       `
  -D_LIBCPP_DISABLE_VISIBILITY_ANNOTATIONS=ON          `
