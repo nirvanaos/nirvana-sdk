@@ -79,7 +79,6 @@ $Env:NIRVANA_TARGET_PLATFORM = "$platform"
 cmake -G Ninja -S "$llvm_root\runtimes" -B $build_dir --toolchain "$PWD\toolchain.cmake" `
  -DBUILD_SHARED_LIBS=OFF                              `
  -DCMAKE_BUILD_TYPE="$config"                         `
- -DCMAKE_CXX_STANDARD="20"                            `
  -DCMAKE_INSTALL_PREFIX="$dest_dir"                   `
  -DCMAKE_POLICY_DEFAULT_CMP0177=NEW                   `
  -DCMAKE_SYSTEM_NAME=Generic                          `
