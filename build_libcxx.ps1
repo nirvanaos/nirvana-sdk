@@ -35,43 +35,37 @@ $cxx_flags = $cpp_with_containers + ";-U_WIN32"
 $extra_defines = "_LIBCPP_HAS_CLOCK_GETTIME"
 
 # Windows flags
-# For x86 we use SJLJ exceptions. For other platforms - SEH.
-if ($platform -ne "x86") {
+$win_sdk_inc_dir = "${env:WindowsSdkDir}Include\${env:WindowsSDKVersion}"
+$msvc_inc_dir = "${env:VCToolsInstallDir}include"
 
-  $win_sdk_inc_dir = "${env:WindowsSdkDir}Include\${env:WindowsSDKVersion}"
-  $msvc_inc_dir = "${env:VCToolsInstallDir}include"
+$win_inc = "-isystem${msvc_inc_dir};" +
+"-isystem${win_sdk_inc_dir}um;" +
+"-isystem${win_sdk_inc_dir}shared"
 
-  $win_inc = "-isystem${msvc_inc_dir};" +
-  "-isystem${win_sdk_inc_dir}um;" +
-  "-isystem${win_sdk_inc_dir}shared"
+$windows_flags = ";-fms-compatibility;-fms-extensions;-fms-compatibility-version=19.44.35215;" +
+"-D_MSC_FULL_VER=194435215;-D_MSC_VER=1944;" +
+"-D_MSVC_LANG=__cplusplus;-D_MSC_EXTENSIONS=1;" +
+"-Wno-nonportable-include-path;-Wno-switch;" +
+"$win_inc"
 
-  $windows_flags = ";-fms-compatibility;-fms-extensions;-fms-compatibility-version=19.44.35215;" +
-  "-D_MSC_FULL_VER=194435215;-D_MSC_VER=1944;" +
-  "-D_MSVC_LANG=__cplusplus;-D_MSC_EXTENSIONS=1;" +
-  "-Wno-nonportable-include-path;-Wno-switch;" +
-  "$win_inc"
-
-  if ($platform -eq "x64") {
-    $arch = ";-D_M_AMD64=100;-D_M_X64=100"
-  } elseif ($platform -eq "x86") {
-    $arch = ";-D_M_IX86=600;-D_INTEGRAL_MAX_BITS=64"
-  } elseif ($platform -eq "arm") {
-    $arch = ";-D_M_ARM=7"
-  } elseif ($platform -eq "arm64") {
-    $arch = ";-D_M_ARM64=1"
-  }
-
-  $windows_flags += $arch
-} else {
-  $windows_flags = ""
+if ($platform -eq "x64") {
+  $arch = ";-D_M_AMD64=100;-D_M_X64=100"
+} elseif ($platform -eq "x86") {
+  $arch = ";-D_M_IX86=600;-D_INTEGRAL_MAX_BITS=64"
+} elseif ($platform -eq "arm") {
+  $arch = ";-D_M_ARM=7"
+} elseif ($platform -eq "arm64") {
+  $arch = ";-D_M_ARM64=1"
 }
+
+$windows_flags += $arch
 
 # If we undefine _WIN32 in libc++abi it uses wrong calling convention.
 # So we keep _WIN32 defined in libc++abi build.
 $cxxabi_flags = $cpp_with_containers + $windows_flags
 
 $unwind_flags += $common_flags + $windows_flags + ";-Wno-format"
-# $unwind_flags += ";-D_LIBUNWIND_REMEMBER_STACK_ALLOC"
+$unwind_flags += ";-D_LIBUNWIND_REMEMBER_STACK_ALLOC"
 
 # Tell the SDK toolchain about the target platform.
 $Env:NIRVANA_TARGET_PLATFORM = "$platform"
