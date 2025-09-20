@@ -23,11 +23,14 @@ set (LLVM_DEFAULT_TARGET_TRIPLE ${NIRVANA_TARGET_TRIPLE} CACHE STRING "" FORCE)
 
 # Do not undefine _WIN64 because this breaks the unwind code
 
-set (c_compile_flags "-nostdinc -fshort-wchar -mlong-double-80 -fdwarf-exceptions\
+set (c_compile_flags "-nostdinc -fshort-wchar -fdwarf-exceptions\
  -Wno-character-conversion\
  -U__MINGW__ -U__MINGW32__ -U__MINGW64__\
  --target=${NIRVANA_TARGET_TRIPLE}"
 )
+
+#string (CONCAT c_compile_flags ${c_compile_flags} " -mlong-double-80")
+string (CONCAT c_compile_flags ${c_compile_flags} " -mlong-double-64")
 
 if (${NIRVANA_TARGET_PLATFORM} STREQUAL "x64")
 	string (CONCAT c_compile_flags ${c_compile_flags} " -mlzcnt -m64 -msse2 -mfpmath=sse")
