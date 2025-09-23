@@ -24,21 +24,15 @@ include (CTest)
 set (NIRVANA_LIB_DIR "${CMAKE_SOURCE_DIR}/out/sdk/lib/${NIRVANA_TARGET_PLATFORM}")
 set (mockhost_DIR "${CMAKE_SOURCE_DIR}/build/${NIRVANA_TARGET_PLATFORM}/vcpkg_installed/${NIRVANA_TARGET_PLATFORM}-windows/share/mockhost")
 
-set (NIRVANA_LINK_FLAGS "/incremental:no /opt:ref /nodefaultlib /machine:${NIRVANA_TARGET_PLATFORM}")
+add_link_options (-fuse-ld=lld -nostdlib "LINKER:/incremental:no,/opt:ref,/nodefaultlib,/machine:${NIRVANA_TARGET_PLATFORM}")
 
 if (${NIRVANA_TARGET_PLATFORM} STREQUAL "x86")
-  string (CONCAT NIRVANA_LINK_FLAGS ${NIRVANA_LINK_FLAGS} " /safeseh:no")
+  add_link_options ("LINKER:/safeseh:no")
 endif ()
 
-set (CMAKE_CXX_LINK_EXECUTABLE "<CMAKE_LINKER> ${NIRVANA_LINK_FLAGS} <LINK_FLAGS> <OBJECTS> /out:<TARGET> <LINK_LIBRARIES>")
-set (CMAKE_C_LINK_EXECUTABLE "<CMAKE_LINKER> ${NIRVANA_LINK_FLAGS} <LINK_FLAGS> <OBJECTS> /out:<TARGET> <LINK_LIBRARIES>")
+add_link_options ("$<$<CONFIG:Debug>:LINKER:/debug:dwarf>")
 
-add_link_options ($<$<CONFIG:Debug>:/debug:dwarf>)
-#add_link_options ($<$<CONFIG:Debug>:/debug>)
-
-include_directories (
-	"${CMAKE_SOURCE_DIR}/out/sdk/include/c++/v1"
-)
+include_directories ("${CMAKE_SOURCE_DIR}/out/sdk/include/c++/v1")
 
 # Do not undefine _WIN64 because this breaks the code
 

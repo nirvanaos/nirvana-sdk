@@ -73,5 +73,5 @@ include_directories (SYSTEM
 )
 
 set (CMAKE_RC_COMPILER ${llvm_bin}/llvm-rc.exe)
-set (CMAKE_LINKER ${llvm_bin}/lld-link.exe)
+#set (CMAKE_LINKER ${llvm_bin}/lld-link.exe)
 set (CMAKE_CXX_STANDARD_LIBRARIES "")
