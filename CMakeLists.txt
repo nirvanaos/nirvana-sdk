@@ -24,7 +24,7 @@ include (CTest)
 set (NIRVANA_LIB_DIR "${CMAKE_SOURCE_DIR}/out/sdk/lib/${NIRVANA_TARGET_PLATFORM}")
 set (mockhost_DIR "${CMAKE_SOURCE_DIR}/build/${NIRVANA_TARGET_PLATFORM}/vcpkg_installed/${NIRVANA_TARGET_PLATFORM}-windows/share/mockhost")
 
-add_link_options (-fuse-ld=lld -nostdlib "LINKER:/incremental:no,/opt:ref,/nodefaultlib,/machine:${NIRVANA_TARGET_PLATFORM}")
+add_link_options (-fuse-ld=lld -nodefaultlibs "LINKER:/incremental:no,/opt:ref,/nodefaultlib,/machine:${NIRVANA_TARGET_PLATFORM}")
 
 if (${NIRVANA_TARGET_PLATFORM} STREQUAL "x86")
   add_link_options ("LINKER:/safeseh:no")
