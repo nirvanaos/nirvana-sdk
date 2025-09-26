@@ -135,8 +135,3 @@ cmake --install $build_dir
 if ($LASTEXITCODE -ne 0) {
   exit $LASTEXITCODE
 }
-
-# For SEH we need Kernel32 library
-if ($platform -ne "x86") {
-  xcopy "${env:WindowsSdkDir}Lib\${env:WindowsSDKLibVersion}um\$platform\kernel32.Lib" "$sdk_dir\lib\$platform\" /y /f
-}
