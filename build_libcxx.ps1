@@ -117,7 +117,7 @@ cmake -G Ninja -S "$llvm_root\runtimes" -B $build_dir --toolchain "$PWD\toolchai
  -DLIBUNWIND_INSTALL_HEADERS=OFF                      `
  -DLIBUNWIND_SHARED_OUTPUT_NAME="unwind-shared"       `
  -DLIBUNWIND_USE_COMPILER_RT=ON                       `
- -D_LIBCPP_DISABLE_VISIBILITY_ANNOTATIONS=ON          `
+ -DLIBUNWIND_IS_BAREMETAL=ON                          `
  -DLIBUNWIND_WEAK_PTHREAD_LIB=ON
 
 $Env:NIRVANA_TARGET_PLATFORM = ""
