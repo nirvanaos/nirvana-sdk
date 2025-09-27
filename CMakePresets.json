@@ -53,7 +53,7 @@
       "configuration": "Debug",
       "output": {
         "outputOnFailure": true,
-        "outputJUnitFile": "test-results/x64.debug.xml"
+        "outputJUnitFile": "test-results/debug.xml"
       }
     },
     {
@@ -63,7 +63,7 @@
       "configuration": "Debug",
       "output": {
         "outputOnFailure": true,
-        "outputJUnitFile": "test-results/x86.debug.xml"
+        "outputJUnitFile": "test-results/debug.xml"
       }
     }
   ]
