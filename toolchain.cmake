@@ -23,16 +23,19 @@ set (LLVM_DEFAULT_TARGET_TRIPLE ${NIRVANA_TARGET_TRIPLE} CACHE STRING "" FORCE)
 
 # Do not undefine _WIN64 because this breaks the unwind code
 
-set (c_compile_flags "-nostdinc -fshort-wchar -mlong-double-80\
+set (c_compile_flags "-nostdinc -fshort-wchar -fdwarf-exceptions\
  -Wno-character-conversion\
  -U__MINGW__ -U__MINGW32__ -U__MINGW64__\
  --target=${NIRVANA_TARGET_TRIPLE}"
 )
 
+#string (CONCAT c_compile_flags ${c_compile_flags} " -mlong-double-80")
+string (CONCAT c_compile_flags ${c_compile_flags} " -mlong-double-64")
+
 if (${NIRVANA_TARGET_PLATFORM} STREQUAL "x64")
-	string (CONCAT c_compile_flags ${c_compile_flags} " -fseh-exceptions -mlzcnt -m64 -msse2 -mfpmath=sse")
+	string (CONCAT c_compile_flags ${c_compile_flags} " -mlzcnt -m64 -msse2 -mfpmath=sse")
 elseif (${NIRVANA_TARGET_PLATFORM} STREQUAL "x86")
-	string (CONCAT c_compile_flags ${c_compile_flags} " -fsjlj-exceptions -m32 -msse2 -mfpmath=sse")
+	string (CONCAT c_compile_flags ${c_compile_flags} " -m32 -msse2 -mfpmath=sse")
 endif ()
 
 set (LLVM_DIR "${llvm}/lib/cmake/llvm")
@@ -70,6 +73,5 @@ include_directories (SYSTEM
 )
 
 set (CMAKE_RC_COMPILER ${llvm_bin}/llvm-rc.exe)
-set (CMAKE_LINKER ${llvm_bin}/lld-link.exe)
+#set (CMAKE_LINKER ${llvm_bin}/lld-link.exe)
 set (CMAKE_CXX_STANDARD_LIBRARIES "")
-

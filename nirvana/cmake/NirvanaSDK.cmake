@@ -17,10 +17,6 @@ set (nirvana_libs
 	"${NIRVANA_LIB_DIR}/$<CONFIG>/libunwind.a"
 )
 
-if (NOT (${NIRVANA_TARGET_PLATFORM} STREQUAL "x86"))
-	list (APPEND nirvana_libs "${NIRVANA_LIB_DIR}/kernel32.Lib")
-endif ()
-
 link_libraries (${nirvana_libs})
 
 function (nirvana_module_idl)
