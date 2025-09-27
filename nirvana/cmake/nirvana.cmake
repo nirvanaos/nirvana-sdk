@@ -72,10 +72,11 @@ if (${NIRVANA_TARGET_PLATFORM} STREQUAL "x86")
   string (CONCAT NIRVANA_LINK_FLAGS ${NIRVANA_LINK_FLAGS} " /safeseh:no")
 endif ()
 
-add_link_options (
-	-fuse-ld=lld
-	-nodefaultlibs
-	"LINKER:SHELL:/incremental:no /opt:ref /nodefaultlib /noimplib /machine:${NIRVANA_TARGET_PLATFORM}")
+add_link_options (-fuse-ld=lld -nodefaultlibs
+"LINKER:SHELL:/incremental:no /opt:ref /nodefaultlib /noimplib /section:olfbind,r /merge:.eh_frame=.rdata\
+ /machine:${NIRVANA_TARGET_PLATFORM} /libpath:'${NIRVANA_SDK_DIR}/lib/${NIRVANA_TARGET_PLATFORM}/$<CONFIG>'")
+
+#link_directories ("${NIRVANA_SDK_DIR}/lib/${NIRVANA_TARGET_PLATFORM}/$<CONFIG>")
 
 if (${NIRVANA_TARGET_PLATFORM} STREQUAL "x86")
   add_link_options ("LINKER:/safeseh:no")
@@ -86,5 +87,3 @@ add_link_options ("$<$<CONFIG:Debug>:LINKER:/debug:dwarf>")
 set (NIRVANA_STANDARD_LIBRARIES "-lc++ -lc++experimental -lc++abi -lcrtl -lnirvana -lm -lunwind")
 set (CMAKE_C_STANDARD_LIBRARIES ${NIRVANA_STANDARD_LIBRARIES})
 set (CMAKE_CXX_STANDARD_LIBRARIES ${NIRVANA_STANDARD_LIBRARIES})
-
-link_directories ("${NIRVANA_SDK_DIR}/lib/${NIRVANA_TARGET_PLATFORM}/$<CONFIG>")

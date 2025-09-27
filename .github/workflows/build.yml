@@ -67,6 +67,13 @@ jobs:
         run: ./build_nirvana_all.ps1
         shell: pwsh
 
+      - name: Test Results
+        uses: EnricoMi/publish-unit-test-result-action/windows@v2
+        id: test-results
+        if: always()
+        with:
+            files: "test-results/**/*.xml"
+						
       - name: Build Examples
         shell: pwsh
         run: |

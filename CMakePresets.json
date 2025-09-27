@@ -50,13 +50,21 @@
       "name": "x64-debug",
       "displayName": "x64 Debug",
       "configurePreset": "x64",
-      "configuration": "Debug"
+      "configuration": "Debug",
+      "output": {
+        "outputOnFailure": true,
+        "outputJUnitFile": "test-results/x64.debug.xml"
+      }
     },
     {
       "name": "x86-debug",
       "displayName": "x86 Debug",
       "configurePreset": "x86",
-      "configuration": "Debug"
+      "configuration": "Debug",
+      "output": {
+        "outputOnFailure": true,
+        "outputJUnitFile": "test-results/x86.debug.xml"
+      }
     }
   ]
 }
