@@ -1,23 +1,11 @@
 include_guard ()
-include (NirvanaTargetPlatform)
+#include (NirvanaTargetPlatform)
+
+link_directories ("${NIRVANA_SDK_DIR}/lib/${NIRVANA_TARGET_PLATFORM}/$<CONFIG>")
 
 file (TO_CMAKE_PATH $ENV{NIRVANA_SDK} NIRVANA_SDK_DIR)
 file (TO_CMAKE_PATH $ENV{NIRVANA_TOOLS} NIRVANA_TOOLS_DIR)
 set (NIDL2CPP ${NIRVANA_TOOLS_DIR}/nidl2cpp.exe)
-
-set (NIRVANA_LIB_DIR "${NIRVANA_SDK_DIR}/lib/${NIRVANA_TARGET_PLATFORM}")
-
-set (nirvana_libs 
-	"${NIRVANA_LIB_DIR}/$<CONFIG>/libc++.a"
-	"${NIRVANA_LIB_DIR}/$<CONFIG>/libc++experimental.a"
-	"${NIRVANA_LIB_DIR}/$<CONFIG>/libc++abi.a"
-	"${NIRVANA_LIB_DIR}/$<CONFIG>/libcrtl.a"
-	"${NIRVANA_LIB_DIR}/$<CONFIG>/libnirvana.a"
-	"${NIRVANA_LIB_DIR}/$<CONFIG>/libm.a"
-	"${NIRVANA_LIB_DIR}/$<CONFIG>/libunwind.a"
-)
-
-link_libraries (${nirvana_libs})
 
 function (nirvana_module_idl)
 
@@ -115,8 +103,8 @@ function (nirvana_module)
 	cmake_parse_arguments (PARSE_ARGV 0 arg "${options}" "${one_args}" "${multi_args}")
 
   add_executable (${arg_MODULE_NAME})
-  target_link_libraries (${arg_MODULE_NAME} PRIVATE "${NIRVANA_LIB_DIR}/$<CONFIG>/libcoreimport.a")
-  target_link_options (${arg_MODULE_NAME} PRIVATE /noentry /dll /dynamicbase $<$<CONFIG:Debug>:/debug>)
+  target_link_libraries (${arg_MODULE_NAME} PRIVATE libcoreimport.a)
+  target_link_options (${arg_MODULE_NAME} PRIVATE "LINKER:/noentry,/dll,/dynamicbase")
 
   set (idl_options)
   
@@ -166,6 +154,6 @@ function (nirvana_test)
 	set (multi_args IDL_FILES)
 	cmake_parse_arguments (PARSE_ARGV 0 arg "${options}" "${one_args}" "${multi_args}")
   nirvana_process (MODULE_NAME ${arg_MODULE_NAME} IDL_FILES ${arg_IDL_FILES})
-  target_link_libraries (${arg_MODULE_NAME} PRIVATE ${NIRVANA_LIB_DIR}/$<CONFIG>/libgoogletest-nirvana.a)
+  target_link_libraries (${arg_MODULE_NAME} PRIVATE libgoogletest-nirvana.a)
   target_compile_definitions (${arg_MODULE_NAME} PRIVATE GTEST_HAS_POSIX_RE=0 GTEST_HAS_SEH=0)
 endfunction ()

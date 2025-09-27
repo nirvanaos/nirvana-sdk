@@ -30,15 +30,15 @@ set (CMAKE_SYSTEM_NAME Generic)
 list (APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}")
 include (NirvanaTargetPlatform)
 
-set (c_compile_flags "-nostdinc -fshort-wchar -mlong-double-80\
+set (c_compile_flags "-nostdinc -fshort-wchar -fdwarf-exceptions -mlong-double-64\
  -fno-ms-compatibility -fno-ms-extensions -U_WIN32 -U__MINGW__ -U__MINGW32__ -U__MINGW64__\
  -Wno-character-conversion --target=${NIRVANA_TARGET_TRIPLE}"
 )
 
 if (${NIRVANA_TARGET_PLATFORM} STREQUAL "x64")
-	string (CONCAT c_compile_flags ${c_compile_flags} " -fseh-exceptions -mlzcnt -m64 -msse2 -mfpmath=sse")
+	string (CONCAT c_compile_flags ${c_compile_flags} " -mlzcnt -m64 -msse2 -mfpmath=sse")
 elseif (${NIRVANA_TARGET_PLATFORM} STREQUAL "x86")
-	string (CONCAT c_compile_flags ${c_compile_flags} " -fsjlj-exceptions -m32 -msse2 -mfpmath=sse")
+	string (CONCAT c_compile_flags ${c_compile_flags} " -m32 -msse2 -mfpmath=sse")
 endif ()
 
 string (CONCAT cpp_compile_flags ${c_compile_flags} " -fsized-deallocation")
@@ -72,5 +72,18 @@ if (${NIRVANA_TARGET_PLATFORM} STREQUAL "x86")
   string (CONCAT NIRVANA_LINK_FLAGS ${NIRVANA_LINK_FLAGS} " /safeseh:no")
 endif ()
 
-set (CMAKE_CXX_LINK_EXECUTABLE "<CMAKE_LINKER> ${NIRVANA_LINK_FLAGS} <LINK_FLAGS> <OBJECTS> /out:<TARGET> <LINK_LIBRARIES>")
-set (CMAKE_C_LINK_EXECUTABLE "<CMAKE_LINKER> ${NIRVANA_LINK_FLAGS} <LINK_FLAGS> <OBJECTS> /out:<TARGET> <LINK_LIBRARIES>")
+add_link_options (
+	-fuse-ld=lld
+	-nodefaultlibs
+	"LINKER:SHELL:/incremental:no /opt:ref /nodefaultlib /noimplib /machine:${NIRVANA_TARGET_PLATFORM}")
+
+if (${NIRVANA_TARGET_PLATFORM} STREQUAL "x86")
+  add_link_options ("LINKER:/safeseh:no")
+endif ()
+
+add_link_options ("$<$<CONFIG:Debug>:LINKER:/debug:dwarf>")
+
+set (NIRVANA_STANDARD_LIBRARIES "-lc++ -lc++experimental -lc++abi -lcrtl -lnirvana -lm -lunwind")
+set (CMAKE_C_STANDARD_LIBRARIES ${NIRVANA_STANDARD_LIBRARIES})
+set (CMAKE_CXX_STANDARD_LIBRARIES ${NIRVANA_STANDARD_LIBRARIES})
+
