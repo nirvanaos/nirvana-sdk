@@ -108,6 +108,7 @@ cmake -G Ninja -S "$llvm_root\runtimes" -B $build_dir --toolchain "$PWD\toolchai
  -DLIBCXXABI_SHARED_OUTPUT_NAME="c++abi-shared"       `
  -DLIBCXXABI_USE_LLVM_UNWINDER=ON                     `
  -DLIBUNWIND_ADDITIONAL_COMPILE_FLAGS="$unwind_flags" `
+ -DLIBUNWIND_DISABLE_FDE_CACHE=ON                     `
  -DLIBUNWIND_ENABLE_SHARED=OFF                        `
  -DLIBUNWIND_ENABLE_STATIC=ON                         `
  -DLIBUNWIND_HIDE_SYMBOLS=ON                          `
