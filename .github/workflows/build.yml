@@ -73,7 +73,7 @@ jobs:
         if: always()
         with:
           files: "test-results/**/*.xml"
-						
+
       - name: Build Examples
         shell: pwsh
         run: |
