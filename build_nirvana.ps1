@@ -18,8 +18,6 @@ if ($LASTEXITCODE -ne 0) {
   exit $LASTEXITCODE
 }
 
-ctest --preset=$platform-debug
-
 $dest_dir = "$lib_dir\$config"
 
 xcopy "$build_dir\nirvana\Debug\*.*" "$dest_dir\Debug\" /y

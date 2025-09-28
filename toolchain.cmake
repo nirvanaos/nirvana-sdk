@@ -2,14 +2,14 @@
 
 set (clang_lib lib/clang/21) # Required CLang version
 
-set (llvm $ENV{LLVM_PATH})
+set (LLVM_PATH $ENV{LLVM_PATH})
 
-if (NOT EXISTS "${llvm}/${clang_lib}")
+if (NOT EXISTS "${LLVM_PATH}/${clang_lib}")
   message (FATAL_ERROR "CLang 21 not found")
 endif ()
 
-cmake_path (NORMAL_PATH llvm)
-set (llvm_bin ${llvm}/bin)
+cmake_path (NORMAL_PATH LLVM_PATH)
+set (llvm_bin ${LLVM_PATH}/bin)
 find_program (CLANG "clang++" PATHS ${llvm_bin})
 if (NOT CLANG)
   message (FATAL_ERROR "CLang compiler not found in " ${llvm_bin})
@@ -38,8 +38,8 @@ elseif (${NIRVANA_TARGET_PLATFORM} STREQUAL "x86")
 	string (CONCAT c_compile_flags ${c_compile_flags} " -m32 -msse2 -mfpmath=sse")
 endif ()
 
-set (LLVM_DIR "${llvm}/lib/cmake/llvm")
-set (Clang_DIR "${llvm}/lib/cmake/clang")
+set (LLVM_DIR "${LLVM_PATH}/lib/cmake/llvm")
+set (Clang_DIR "${LLVM_PATH}/lib/cmake/clang")
 
 set (CMAKE_CXX_COMPILER ${llvm_bin}/clang++.exe)
 set (CMAKE_C_COMPILER ${llvm_bin}/clang.exe)
@@ -63,7 +63,7 @@ set (CMAKE_CXX_FLAGS_RELEASE_INIT ${release_flags})
 set (CMAKE_C_FLAGS_RELEASE_INIT ${release_flags})
 
 include_directories (SYSTEM
-  "${llvm}/${clang_lib}/include"
+  "${LLVM_PATH}/${clang_lib}/include"
 	"${CMAKE_CURRENT_LIST_DIR}/nirvana/library/CRTL/Include"
 	"${CMAKE_CURRENT_LIST_DIR}/out/sdk/include"
 	"${CMAKE_CURRENT_LIST_DIR}/nirvana/library/Include"

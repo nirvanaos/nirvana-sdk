@@ -24,15 +24,17 @@ include (CTest)
 set (NIRVANA_LIB_DIR "${CMAKE_SOURCE_DIR}/out/sdk/lib/${NIRVANA_TARGET_PLATFORM}")
 set (mockhost_DIR "${CMAKE_SOURCE_DIR}/build/${NIRVANA_TARGET_PLATFORM}/vcpkg_installed/${NIRVANA_TARGET_PLATFORM}-windows/share/mockhost")
 
-add_link_options (-fuse-ld=lld -nodefaultlibs
+# We need to specify --sysroot to avoid searching mingw32 possible installed.
+# Without the --sysroot CLang search mingw32 library paths.
+# If mingw32 is installed (GitHub) this causes library collisions.
+add_link_options (-fuse-ld=lld -nodefaultlibs "--sysroot=${LLVM_PATH}"
 "LINKER:SHELL:/incremental:no /opt:ref /nodefaultlib /noimplib /section:olfbind,r /merge:.eh_frame=.rdata\
- /machine:${NIRVANA_TARGET_PLATFORM} /libpath:$<TARGET_FILE_DIR:crtl>")
+ /machine:${NIRVANA_TARGET_PLATFORM} '-L$<TARGET_FILE_DIR:crtl>'\
+$<$<CONFIG:Debug>: /debug:dwarf>")
 
 if (${NIRVANA_TARGET_PLATFORM} STREQUAL "x86")
   add_link_options ("LINKER:/safeseh:no")
 endif ()
-
-add_link_options ("$<$<CONFIG:Debug>:LINKER:/debug:dwarf>")
 
 include_directories ("${CMAKE_SOURCE_DIR}/out/sdk/include/c++/v1")
 

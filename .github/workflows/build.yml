@@ -20,6 +20,9 @@ jobs:
   build:
     # The type of runner that the job will run on
     runs-on: windows-latest
+    permissions:
+      checks: write
+      pull-requests: write
 
   # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -67,19 +70,23 @@ jobs:
         run: ./build_nirvana_all.ps1
         shell: pwsh
 
-      - name: Test Results
-        uses: EnricoMi/publish-unit-test-result-action/windows@v2
-        id: test-results
-        if: always()
-        with:
-          files: "build/*/nirvana/test-results/*.xml"
-
       - name: Build Examples
         shell: pwsh
         run: |
           cd TestORB
           ./build.ps1
           cd ..
+
+      - name: Run Tests
+        run: ./test_all.ps1
+        shell: pwsh
+
+      - name: Test Results
+        uses: EnricoMi/publish-unit-test-result-action/windows@v2
+        id: test-results
+        if: (!cancelled())
+        with:
+          files: "build/*/nirvana/test-results/*.xml"
 
       - name: Archive SDK
         uses: actions/upload-artifact@main
