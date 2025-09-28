@@ -9,4 +9,5 @@ if ($args.count -ge 2) {
 	$config = "Debug"
 }
 
-ctest --preset=$platform-debug
+$lc_config = $config.ToLower()
+ctest --preset=$platform-$lc_config

@@ -39,10 +39,22 @@
       "configuration": "Debug"
     },
     {
+      "name": "x64-release",
+      "displayName": "x64 Release",
+      "configurePreset": "x64",
+      "configuration": "Release"
+    },
+    {
       "name": "x86-debug",
       "displayName": "x86 Debug",
       "configurePreset": "x86",
       "configuration": "Debug"
+    },
+    {
+      "name": "x86-release",
+      "displayName": "x86 Release",
+      "configurePreset": "x86",
+      "configuration": "Release"
     }
   ],
   "testPresets": [
@@ -57,6 +69,16 @@
       }
     },
     {
+      "name": "x64-release",
+      "displayName": "x64 Release",
+      "configurePreset": "x64",
+      "configuration": "Release",
+      "output": {
+        "outputOnFailure": true,
+        "outputJUnitFile": "test-results/release.xml"
+      }
+    },
+    {
       "name": "x86-debug",
       "displayName": "x86 Debug",
       "configurePreset": "x86",
@@ -64,6 +86,16 @@
       "output": {
         "outputOnFailure": true,
         "outputJUnitFile": "test-results/debug.xml"
+      }
+    },
+    {
+      "name": "x86-release",
+      "displayName": "x86 Release",
+      "configurePreset": "x86",
+      "configuration": "Release",
+      "output": {
+        "outputOnFailure": true,
+        "outputJUnitFile": "test-results/release.xml"
       }
     }
   ]
