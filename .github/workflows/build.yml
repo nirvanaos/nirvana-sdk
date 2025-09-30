@@ -10,8 +10,6 @@ on:
   workflow_dispatch:
 
 env:
-  # We should initialize GitFlow with '-' separators instead of '/', e.g. 'feature-'
-  SDK_VERSION: "1.0.0${{ github.ref_name != 'master' && (contains(github.ref_name, '/') && '-feature' || format ('-{0}', github.ref_name)) || '' }}"
   LLVM_PATH: "${{ github.workspace }}\\llvm-release"
   NIRVANA_SDK: "${{ github.workspace }}\\out\\sdk"
   NIRVANA_TOOLS: "${{ github.workspace }}\\out\\tools-windows-x64"
@@ -93,25 +91,25 @@ jobs:
       - name: Archive SDK
         uses: actions/upload-artifact@main
         with:
-          name: "nirvana-sdk@${{ env.SDK_VERSION }}"
+          name: nirvana-sdk
           path: out/sdk
 
       - name: Archive Tools
         uses: actions/upload-artifact@main
         with:
-          name: "nirvana-tools-windows-x64@${{ env.SDK_VERSION }}"
+          name: nirvana-tools-windows-x64
           path: out/tools-windows-x64
 
       - name: Archive Core SDK
         uses: actions/upload-artifact@main
         with:
-          name: "nirvana-core-sdk@${{ env.SDK_VERSION }}"
+          name: nirvana-core-sdk
           path: out/core-sdk
 
       - name: Archive Sources
         uses: actions/upload-artifact@main
         with:
-          name: "nirvana-sdk-sources@${{ env.SDK_VERSION }}"
+          name: nirvana-sdk-sources
           path: |
             nirvana/library/Source/
             nirvana/library/CRTL/Source/
