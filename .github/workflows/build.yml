@@ -11,7 +11,7 @@ on:
 
 env:
   # We should initialize GitFlow with '-' separators instead of '/', e.g. 'feature-'
-  SDK_VERSION: "1.0.0${{ github.ref == 'refs/heads/master' && '' || contains(github.ref_name, '/') && '-feature' || format ('-{0}', github.ref_name) }}"
+  SDK_VERSION: "1.0.0${{ github.ref_name == 'master' && '' || (contains(github.ref_name, '/') && '-feature' || format ('-{0}', github.ref_name)) }}"
   LLVM_PATH: "${{ github.workspace }}\\llvm-release"
   NIRVANA_SDK: "${{ github.workspace }}\\out\\sdk"
   NIRVANA_TOOLS: "${{ github.workspace }}\\out\\tools-windows-x64"
