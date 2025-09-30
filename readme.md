@@ -4,13 +4,18 @@ This is a part of the [Nirvana project](https://github.com/nirvanaos/home).
 
 ## Purpose
 
-This repository is used for building and testing the Nirvana SDK.
+This repository is used for building the Nirvana SDK.
+
+## GitFlow issues
+
+Initialize GitFlow with '-' separators instead of '/', e.g. 'feature-'.
+This will provide the correct artifacts names.
 
 ## Contents
 
 ### Nirvana runtime library
 
-```
+```C
 #include <Nirvana/Nirvana.h>
 ```
 
@@ -24,7 +29,7 @@ Nirvana SDK includes POSIX compatible standard C runtime library built over the 
 
 #### Standard math library
 
-Nirvana SDK includes clone of [Openlibm library](https://github.com/JuliaMath/openlibm) which provides standard C mathematical API.
+Nirvana SDK includes fork of [Openlibm library](https://github.com/JuliaMath/openlibm) which provides standard C mathematical API.
 
 ### Standard C++ library
 
