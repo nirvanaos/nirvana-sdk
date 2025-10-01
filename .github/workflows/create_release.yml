@@ -36,8 +36,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           VERSION: "${{ steps.branch_version.outputs.major }}.${{ steps.branch_version.outputs.minor }}.${{ steps.branch_version.outputs.patch }}"
         with:
-          tag_name: $VERSION
-          release_name: "Release $VERSION"
+          tag_name: ${{ env.VERSION }}
+          release_name: "Release ${{ env.VERSION }}"
           draft: true
           prerelease: false
 
