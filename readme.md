@@ -6,11 +6,6 @@ This is a part of the [Nirvana project](https://github.com/nirvanaos/home).
 
 This repository is used for building the Nirvana SDK.
 
-## GitFlow issues
-
-Initialize GitFlow with '-' separators instead of '/', e.g. 'feature-'.
-This will provide the correct artifacts names.
-
 ## Contents
 
 ### Nirvana runtime library
