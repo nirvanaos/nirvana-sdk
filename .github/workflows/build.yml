@@ -113,7 +113,5 @@ jobs:
             llvm-project/libcxx/src/
             llvm-project/libcxxabi/src/
             llvm-project/libunwind/src/
-            build/nirvana/**/*.cpp
-            !build/nirvana/CMakeFiles/
+            build/idl/**/*.cpp
             googletest/googletest/googletest/src/
-

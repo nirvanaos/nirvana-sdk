@@ -70,9 +70,9 @@ include_directories (SYSTEM
 	"${CMAKE_CURRENT_LIST_DIR}/nirvana/library/CRTL/Include"
 	"${CMAKE_CURRENT_LIST_DIR}/out/sdk/include"
 	"${CMAKE_CURRENT_LIST_DIR}/nirvana/library/Include"
-	"${CMAKE_CURRENT_LIST_DIR}/build/nirvana/library/Include"
+	"${CMAKE_CURRENT_LIST_DIR}/build/idl/library/Include"
 	"${CMAKE_CURRENT_LIST_DIR}/nirvana/orb/Include"
-	"${CMAKE_CURRENT_LIST_DIR}/build/nirvana/orb/Include"
+	"${CMAKE_CURRENT_LIST_DIR}/build/idl/orb/Include"
 )
 
 set (CMAKE_RC_COMPILER ${llvm_bin}/llvm-rc.exe)

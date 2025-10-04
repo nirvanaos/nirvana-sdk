@@ -22,4 +22,3 @@ if ($failed) {
 }
 
 xcopy "$PWD\build\x64\vcpkg_installed\x64-windows\tools\nidl2cpp\nidl2cpp.exe" "$tools_dir\" /y
-xcopy "$PWD\build\x64\vcpkg_installed\x64-windows\include\mockhost\*.*" "$core_sdk_dir\include\mockhost\" /y
