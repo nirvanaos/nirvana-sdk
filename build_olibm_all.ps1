@@ -4,25 +4,13 @@ $libm_root = "$PWD\openlibm"
 
 $failed = $false
 
-& .\build_olibm.ps1 x64 Debug
+& .\build_olibm.ps1 x64
 if ($LASTEXITCODE -ne 0) {
   Write-Host "Failed" $LASTEXITCODE
   $failed = $true
 }
 
-& .\build_olibm.ps1 x64 Release
-if ($LASTEXITCODE -ne 0) {
-  Write-Host "Failed" $LASTEXITCODE
-  $failed = $true
-}
-
-& .\build_olibm.ps1 x86 Debug
-if ($LASTEXITCODE -ne 0) {
-  Write-Host "Failed" $LASTEXITCODE
-  $failed = $true
-}
-
-& .\build_olibm.ps1 x86 Release
+& .\build_olibm.ps1 x86
 if ($LASTEXITCODE -ne 0) {
   Write-Host "Failed" $LASTEXITCODE
   $failed = $true

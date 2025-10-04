@@ -25,7 +25,7 @@ if ($LASTEXITCODE -ne 0) {
   exit $LASTEXITCODE
 }
 
-$process = Start-Process powershell -NoNewWindow -PassThru -Wait -ArgumentList ".\build_libcxx_all.ps1"
-if ($process.ExitCode -ne 0) {
-  exit $process.ExitCode
+& "$PSScriptRoot\build_libcxx_all.ps1"
+if ($LASTEXITCODE -ne 0) {
+  exit $LASTEXITCODE
 }

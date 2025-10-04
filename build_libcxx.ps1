@@ -6,14 +6,12 @@ if ($args.count -ge 1) {
 } else {
 	$platform = "x64"
 }
-if ($args.count -ge 2) {
-	$config = $args[1]
-} else {
-	$config = "Debug"
-}
 
-$dest_dir = "$sdk_dir\lib\$platform\$config"
-$build_dir = "$PWD\build\$platform\libcxx\$config"
+& .\vsdevshell.ps1
+Enter-VsDevShell -VsInstallPath:"$visualStudioPath" -SkipAutomaticLocation -HostArch amd64 -Arch amd64
+
+$dest_dir = "$sdk_dir\lib\$platform"
+$build_dir = "$PWD\build\$platform\libcxx"
 $llvm_root = "$PWD\llvm-project"
 $nirvana_dir = "$PWD\nirvana"
 
@@ -70,9 +68,8 @@ $unwind_flags += ";-D_LIBUNWIND_REMEMBER_STACK_ALLOC"
 # Tell the SDK toolchain about the target platform.
 $Env:NIRVANA_TARGET_PLATFORM = "$platform"
 
-cmake -G Ninja -S "$llvm_root\runtimes" -B $build_dir --toolchain "$PWD\toolchain.cmake" `
+cmake -G "Ninja Multi-Config" -S "$llvm_root\runtimes" -B $build_dir --toolchain "$PWD\toolchain.cmake" `
  -DBUILD_SHARED_LIBS=OFF                              `
- -DCMAKE_BUILD_TYPE="$config"                         `
  -DCMAKE_INSTALL_PREFIX="$dest_dir"                   `
  -DCMAKE_POLICY_DEFAULT_CMP0177=NEW                   `
  -DCMAKE_SYSTEM_NAME=Generic                          `
@@ -91,7 +88,7 @@ cmake -G Ninja -S "$llvm_root\runtimes" -B $build_dir --toolchain "$PWD\toolchai
  -DLIBCXX_HERMETIC_STATIC_LIBRARY=ON                  `
  -DLIBCXX_INSTALL_INCLUDE_DIR="$build_dir/include/c++" `
  -DLIBCXX_INSTALL_INCLUDE_TARGET_DIR="$build_dir/include/c++" `
- -DLIBCXX_INSTALL_LIBRARY_DIR="$dest_dir"             `
+ -DLIBCXX_INSTALL_LIBRARY_DIR="$dest_dir/$<CONFIG>"   `
  -DLIBCXX_INSTALL_HEADERS=ON                          `
  -DLIBCXX_INSTALL_MODULES=OFF                         `
  -DLIBCXX_NO_VCRUNTIME=1                              `
@@ -101,7 +98,7 @@ cmake -G Ninja -S "$llvm_root\runtimes" -B $build_dir --toolchain "$PWD\toolchai
  -DLIBCXXABI_ENABLE_SHARED=OFF                        `
  -DLIBCXXABI_HAS_EXTERNAL_THREAD_API=ON               `
  -DLIBCXXABI_HERMETIC_STATIC_LIBRARY=ON               `
- -DLIBCXXABI_INSTALL_LIBRARY_DIR="$dest_dir"          `
+ -DLIBCXXABI_INSTALL_LIBRARY_DIR="$dest_dir/$<CONFIG>" `
  -DLIBCXXABI_INSTALL_INCLUDE_DIR="$build_dir/include/c++abi" `
  -DLIBCXXABI_INSTALL_INCLUDE_TARGET_DIR="$build_dir/include/c++abi" `
  -DLIBCXXABI_INSTALL_HEADERS=ON                       `
@@ -112,7 +109,7 @@ cmake -G Ninja -S "$llvm_root\runtimes" -B $build_dir --toolchain "$PWD\toolchai
  -DLIBUNWIND_ENABLE_SHARED=OFF                        `
  -DLIBUNWIND_ENABLE_STATIC=ON                         `
  -DLIBUNWIND_HIDE_SYMBOLS=ON                          `
- -DLIBUNWIND_INSTALL_LIBRARY_DIR="$dest_dir"          `
+ -DLIBUNWIND_INSTALL_LIBRARY_DIR="$dest_dir/$<CONFIG>" `
  -DLIBUNWIND_INSTALL_INCLUDE_DIR="$build_dir/include/unwind" `
  -DLIBUNWIND_INSTALL_HEADERS=OFF                      `
  -DLIBUNWIND_SHARED_OUTPUT_NAME="unwind-shared"       `
@@ -126,12 +123,22 @@ if ($LASTEXITCODE -ne 0) {
   exit $LASTEXITCODE
 }
 
-cmake --build $build_dir
+cmake --build $build_dir --config Debug
 if ($LASTEXITCODE -ne 0) {
   exit $LASTEXITCODE
 }
 
-cmake --install $build_dir
+cmake --build $build_dir --config Release
+if ($LASTEXITCODE -ne 0) {
+  exit $LASTEXITCODE
+}
+
+cmake --install $build_dir --config Debug
+if ($LASTEXITCODE -ne 0) {
+  exit $LASTEXITCODE
+}
+
+cmake --install $build_dir --config Release
 if ($LASTEXITCODE -ne 0) {
   exit $LASTEXITCODE
 }
