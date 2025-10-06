@@ -8,7 +8,6 @@ REQUIRED)
 set (idl_options
 	-I "${CMAKE_CURRENT_SOURCE_DIR}/orb/Include"
 	-I "${CMAKE_CURRENT_SOURCE_DIR}/library/Include"
-	-inc_cpp "../../pch/pch.h"
 	-D CCM_NOEVENT -D CCM_LW
 )
 
@@ -55,7 +54,7 @@ if (${NIRVANA_BUILD})
 add_library (nirvana STATIC)
 
 target_precompile_headers (nirvana PRIVATE 
-	$<$<COMPILE_LANGUAGE:CXX>:${CMAKE_CURRENT_SOURCE_DIR}/pch/pch.h>)
+	$<$<COMPILE_LANGUAGE:CXX>:<Nirvana/Nirvana.h$<ANGLE-R>>)
 
 elseif (${NIRVANA_IDL})
 

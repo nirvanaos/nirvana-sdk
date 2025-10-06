@@ -1,6 +1,6 @@
 {
   "dependencies": [
-		"nidl2cpp",
+    "nidl2cpp",
     "mockhost"
   ]
 }
