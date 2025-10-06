@@ -71,26 +71,41 @@ pseudo interface Debug;
 };
 ```
 
-SDK repository includes the special mock module for testing libraries without the Nirvana Core.
+SDK repository includes the special mock library for testing libraries without the Nirvana Core.
 It provides above interfaces and redirects Core interface calls into calls to a host OS.
 This lets test and debug SDK components without the Nirvana Core, over the development host OS.
 Currently only Microsoft Windows supported as host OS for the SDK development.
 
-## How to develop
+## How to build in Windows
 
 ### Prerequisites
 
-Currently, only Microsoft Windows may be used as host OS for development.
+#### Microsoft Visual Studio
+
+#### LLVM
 
 - Download and unpack [clang+llvm-21.1.0-x86_64-pc-windows-msvc](https://github.com/llvm/llvm-project/releases/download/llvmorg-21.1.0/clang+llvm-21.1.0-x86_64-pc-windows-msvc.tar.xz)
 - Set environment variable LLVM_PATH to unpacked directory.
-- CMake and Ninja must be installed.
+
+#### CMake
+
+https://cmake.org/download/
+
+#### Ninja
+
+https://ninja-build.org/
+
+#### Visual Studio Code
 
 We recommend use Visual Studio Code as IDE.
 
+https://code.visualstudio.com/
+
 ### Prepare build environment
 
-```
+First we need to build all third-party libraries and tools:
+
+```console
 .\prepare.ps1
 ```
 

@@ -3,11 +3,6 @@ if ($args.count -ge 1) {
 } else {
 	$platform = "x64"
 }
-if ($args.count -ge 2) {
-	$config = $args[1]
-} else {
-	$config = "Debug"
-}
 
-$lc_config = $config.ToLower()
-ctest --preset=$platform-$lc_config
+ctest --preset=$platform-debug
+ctest --preset=$platform-release

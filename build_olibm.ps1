@@ -9,7 +9,7 @@ if ($args.count -ge 1) {
 }
 
 $dest_dir = "$sdk_dir\lib\$platform"
-$build_dir = "$PWD\build\$platform\libm"
+$build_dir = "$PWD\build\libm\$platform"
 $libm_root = "$PWD\openlibm"
 $nirvana_dir = "$PWD\nirvana"
 

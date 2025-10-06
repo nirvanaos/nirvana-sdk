@@ -11,7 +11,7 @@ if ($args.count -ge 1) {
 Enter-VsDevShell -VsInstallPath:"$visualStudioPath" -SkipAutomaticLocation -HostArch amd64 -Arch amd64
 
 $dest_dir = "$sdk_dir\lib\$platform"
-$build_dir = "$PWD\build\$platform\libcxx"
+$build_dir = "$PWD\build\libcxx\$platform"
 $llvm_root = "$PWD\llvm-project"
 $nirvana_dir = "$PWD\nirvana"
 

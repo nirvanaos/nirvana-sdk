@@ -12,7 +12,7 @@ on:
 env:
   LLVM_PATH: "${{ github.workspace }}\\llvm-release"
   NIRVANA_SDK: "${{ github.workspace }}\\out\\sdk"
-  NIRVANA_TOOLS: "${{ github.workspace }}\\out\\tools-windows-x64"
+  NIRVANA_TOOLS: "${{ github.workspace }}\\out\\tools\\windows\\x64"
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -82,30 +82,36 @@ jobs:
         id: test-results
         if: (!cancelled())
         with:
-          files: "build/*/nirvana/test-results/*.xml"
+          files: "build/nirvana/*/test-results/*.xml"
 
       - name: Archive SDK
         uses: actions/upload-artifact@main
         with:
-          name: nirvana-sdk
+          name: sdk
           path: out/sdk
 
       - name: Archive Tools
         uses: actions/upload-artifact@main
         with:
-          name: nirvana-tools-windows-x64
-          path: out/tools-windows-x64
+          name: tools-windows-x64
+          path: out/tools/windows/x64
+
+      - name: Archive Tools
+        uses: actions/upload-artifact@main
+        with:
+          name: tools-windows-x86
+          path: out/tools/windows/x86
 
       - name: Archive Core SDK
         uses: actions/upload-artifact@main
         with:
-          name: nirvana-core-sdk
+          name: core-sdk
           path: out/core-sdk
 
       - name: Archive Sources
         uses: actions/upload-artifact@main
         with:
-          name: nirvana-sdk-sources
+          name: sdk-sources
           path: |
             nirvana/library/Source/
             nirvana/library/CRTL/Source/

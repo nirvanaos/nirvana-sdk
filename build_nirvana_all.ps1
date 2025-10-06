@@ -2,23 +2,10 @@ $ErrorActionPreference = "Stop"
 $sdk_dir = "$PWD\out\sdk"
 $core_sdk_dir = "$PWD\out\core-sdk"
 
-$failed = $false
-
-& .\build_nirvana.ps1 x64
+& .\run_platforms.ps1 ".\build_nirvana.ps1"
 if ($LASTEXITCODE -ne 0) {
-  Write-Host "Failed" $LASTEXITCODE
-  $failed = $true
-}
-
-& .\build_nirvana.ps1 x86
-if ($LASTEXITCODE -ne 0) {
-  Write-Host "Failed" $LASTEXITCODE
-  $failed = $true
-}
-
-if ($failed) {
-  Write-Host "Failed"  
-  exit -1;
+	Write-Host "Failed: " $LASTEXITCODE
+  exit $LASTEXITCODE
 }
 
 $inc_dir = "$sdk_dir\include"

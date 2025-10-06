@@ -9,7 +9,7 @@ if ($args.count -ge 1) {
 }
 
 $lib_dir = "$sdk_dir\lib\$platform"
-$build_dir = "$PWD\build\$platform\nirvana"
+$build_dir = "$PWD\build\nirvana\$platform"
 
 cmake --preset=$platform
 cmake --build --preset=$platform-debug

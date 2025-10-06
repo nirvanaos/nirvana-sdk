@@ -1,30 +1,5 @@
-$failed = $false
-
-& .\test.ps1 x64 Debug
+& .\run_platforms.ps1 ".\test.ps1"
 if ($LASTEXITCODE -ne 0) {
-  Write-Host "Failed" $LASTEXITCODE
-  $failed = $true
+	Write-Host "Failed: " $LASTEXITCODE
 }
-
-& .\test.ps1 x64 Release
-if ($LASTEXITCODE -ne 0) {
-  Write-Host "Failed" $LASTEXITCODE
-  $failed = $true
-}
-
-& .\test.ps1 x86 Debug
-if ($LASTEXITCODE -ne 0) {
-  Write-Host "Failed" $LASTEXITCODE
-  $failed = $true
-}
-
-& .\test.ps1 x86 Release
-if ($LASTEXITCODE -ne 0) {
-  Write-Host "Failed" $LASTEXITCODE
-  $failed = $true
-}
-
-if ($failed) {
-  Write-Host "Failed"  
-  exit -1;
-}
+exit $LASTEXITCODE

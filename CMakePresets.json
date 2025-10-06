@@ -17,7 +17,7 @@
     {
       "inherits": "base",
       "name": "x64",
-      "binaryDir": "build/x64/nirvana",
+      "binaryDir": "build/nirvana/x64",
       "environment": {
         "NIRVANA_TARGET_PLATFORM": "x64"
       }
@@ -25,7 +25,7 @@
     {
       "inherits": "base",
       "name": "x86",
-      "binaryDir": "build/x86/nirvana",
+      "binaryDir": "build/nirvana/x86",
       "environment": {
         "NIRVANA_TARGET_PLATFORM": "x86"
       }

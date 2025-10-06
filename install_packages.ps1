@@ -1,6 +1,6 @@
 $ErrorActionPreference = "Stop"
-$sdk_dir = "$PWD\out\sdk"
 $core_sdk_dir = "$PWD\out\core-sdk\windows"
+$tools_dir = "$PWD\out\tools\windows"
 
 if ($args.count -ge 1) {
 	$platform = $args[0]
@@ -29,3 +29,5 @@ xcopy "$install_root\$vcpkg_triplet\debug\lib\mockhost.lib" "$core_sdk_dir\lib\$
 
 xcopy "$install_root\$vcpkg_triplet\bin\mockhost.dll" "$core_sdk_dir\bin\$platform\Release\" /y
 xcopy "$install_root\$vcpkg_triplet\debug\bin\mockhost.dll" "$core_sdk_dir\bin\$platform\Debug\" /y
+
+xcopy "$install_root\$vcpkg_triplet\tools\nidl2cpp\nidl2cpp.exe" "$tools_dir\$platform\" /y

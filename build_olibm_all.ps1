@@ -2,23 +2,10 @@ $ErrorActionPreference = "Stop"
 $sdk_dir = "$PWD\out\sdk"
 $libm_root = "$PWD\openlibm"
 
-$failed = $false
-
-& .\build_olibm.ps1 x64
+& .\run_platforms.ps1 ".\build_olibm.ps1"
 if ($LASTEXITCODE -ne 0) {
-  Write-Host "Failed" $LASTEXITCODE
-  $failed = $true
-}
-
-& .\build_olibm.ps1 x86
-if ($LASTEXITCODE -ne 0) {
-  Write-Host "Failed" $LASTEXITCODE
-  $failed = $true
-}
-
-if ($failed) {
-  Write-Host "Failed"
-  exit -1;
+	Write-Host "Failed: " $LASTEXITCODE
+  exit $LASTEXITCODE
 }
 
 $inc_dir = "$sdk_dir\include"
