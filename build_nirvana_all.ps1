@@ -30,3 +30,4 @@ xcopy nirvana\library\Mock\Include\*.h $core_inc_dir\ /y /s
 xcopy $PWD\googletest\googletest\googletest\include\gtest\*.* $inc_dir\gtest\ /y /s
 
 xcopy nirvana\cmake\* $sdk_dir\cmake\ /y /s
+xcopy nirvana\triplets\* $sdk_dir\triplets\ /y /s
