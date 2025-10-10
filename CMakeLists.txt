@@ -14,6 +14,8 @@ set (CMAKE_CONFIGURATION_TYPES Debug Release)
 
 project (nirvana-sdk CXX C ASM)
 
+set (CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/$<CONFIG>)
+
 option (NIRVANA_IDL "Compile IDL" ON)
 option (NIRVANA_BUILD "Build" ON)
 

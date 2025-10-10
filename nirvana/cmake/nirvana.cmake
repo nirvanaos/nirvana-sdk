@@ -30,7 +30,7 @@ list (APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}")
 include (NirvanaTargetPlatform)
 
 set (c_compile_flags "-nostdinc -fshort-wchar -fdwarf-exceptions -mlong-double-64\
- -fno-ms-compatibility -fno-ms-extensions -U_WIN32 -U__MINGW__ -U__MINGW32__ -U__MINGW64__\
+ -U_WIN32 -U__MINGW__ -U__MINGW32__ -U__MINGW64__\
  -fno-builtin-memcpy -fno-builtin-wmemcpy -fno-builtin-memmove -fno-builtin-wmemmove\
  -fno-builtin-strcpy -fno-builtin-wcscpy -fno-builtin-strncpy -fno-builtin-wcsncpy\
  -Wno-character-conversion --target=${NIRVANA_TARGET_TRIPLE}"
