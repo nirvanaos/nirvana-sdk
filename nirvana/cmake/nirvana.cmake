@@ -71,10 +71,11 @@ include_directories (SYSTEM
 # If mingw32 is installed (GitHub) this causes library collisions.
 add_link_options (-fuse-ld=lld -nodefaultlibs "--sysroot=${LLVM_PATH}"
 "LINKER:SHELL:/incremental:no /opt:ref /nodefaultlib /noimplib /section:olfbind,r /merge:.eh_frame=.rdata\
-  /machine:${NIRVANA_TARGET_PLATFORM} '-L${NIRVANA_SDK_DIR}/lib/${NIRVANA_TARGET_PLATFORM}/$<CONFIG>'\
- $<$<CONFIG:Debug>: /debug:dwarf>")
+  /machine:${NIRVANA_TARGET_PLATFORM}$<$<CONFIG:Debug>: /debug:dwarf>")
 
-#link_directories ("${NIRVANA_SDK_DIR}/lib/${NIRVANA_TARGET_PLATFORM}/$<CONFIG>")
+link_directories ("${NIRVANA_SDK_DIR}/lib/${NIRVANA_TARGET_PLATFORM}/$<CONFIG>")
+#set(CMAKE_CXX_STANDARD_LINK_DIRECTORIES "${NIRVANA_SDK_DIR}/lib/${NIRVANA_TARGET_PLATFORM}/$<CONFIG>")
+#set(CMAKE_C_STANDARD_LINK_DIRECTORIES "${NIRVANA_SDK_DIR}/lib/${NIRVANA_TARGET_PLATFORM}/$<CONFIG>")
 
 if (${NIRVANA_TARGET_PLATFORM} STREQUAL "x86")
   add_link_options ("LINKER:/safeseh:no")
@@ -83,8 +84,9 @@ endif ()
 #set (NIRVANA_STANDARD_LIBRARIES "-lc++ -lc++experimental -lc++abi -lcrtl -lnirvana -lm -lunwind")
 #set (CMAKE_C_STANDARD_LIBRARIES ${NIRVANA_STANDARD_LIBRARIES})
 #set (CMAKE_CXX_STANDARD_LIBRARIES ${NIRVANA_STANDARD_LIBRARIES})
+
 link_libraries (
-	c++
+ c++
 	c++experimental
 	c++abi
 	crtl

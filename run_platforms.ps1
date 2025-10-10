@@ -16,7 +16,7 @@ foreach ($platform in $platforms) {
 $failed = $false
 for ($idx = 0; $idx -lt $processes.Count; $idx++) {
 	if ($processes[$idx].ExitCode -ne 0) {
-		Write-Host "Failed: '" + $command + " " $platforms[$idx] + "' = " $processes[$idx].ExitCode
+		Write-Host "Failed:" $command $platforms[$idx] "=" $processes[$idx].ExitCode
 		$failed = $true
 	}
 }
