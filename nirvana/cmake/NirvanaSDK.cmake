@@ -49,7 +49,7 @@ function (nirvana_module_idl module_name)
 
   set (idl_root "${CMAKE_CURRENT_BINARY_DIR}/${module_name}.generated")
   if (client_h OR server)
-    target_include_directories (${module_name} PRIVATE ${idl_root})
+    target_include_directories (${module_name} PUBLIC ${idl_root})
   endif ()
 
 	foreach (f IN LISTS arg_IDL_FILES)
