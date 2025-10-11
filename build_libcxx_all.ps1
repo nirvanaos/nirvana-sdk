@@ -13,10 +13,12 @@ $inc_src = "$PWD\build\libcxx\x64\include\c++"
 # Remove concurrency support headers
 Remove-Item "$inc_src\condition_variable"
 Remove-Item "$inc_src\future"
-# Remove-Item "$inc_src\mutex" <mutex> is used in internal headers, leave it
 Remove-Item "$inc_src\semaphore"
-Remove-Item "$inc_src\shared_mutex"
 Remove-Item "$inc_src\thread"
+
+# We don't remove mutexes for compatibility. In nirvana they are no-op.
+# Remove-Item "$inc_src\mutex" <mutex> is used in internal headers, leave it
+# Remove-Item "$inc_src\shared_mutex"
 
 xcopy $inc_src $inc_dir /s /y
 $inc_src = "$PWD\build\libcxx\x64\include\c++abi"
