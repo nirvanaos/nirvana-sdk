@@ -68,11 +68,12 @@ set (CMAKE_C_FLAGS_RELEASE_INIT ${release_flags})
 include_directories (SYSTEM
   "${LLVM_PATH}/${clang_lib}/include"
 	"${CMAKE_CURRENT_LIST_DIR}/nirvana/library/CRTL/Include"
-	"${CMAKE_CURRENT_LIST_DIR}/out/sdk/include"
 	"${CMAKE_CURRENT_LIST_DIR}/nirvana/library/Include"
 	"${CMAKE_CURRENT_LIST_DIR}/build/idl/library/Include"
 	"${CMAKE_CURRENT_LIST_DIR}/nirvana/orb/Include"
 	"${CMAKE_CURRENT_LIST_DIR}/build/idl/orb/Include"
+# Keep this include last for repeatable result of build_nirvana_all script
+	"${CMAKE_CURRENT_LIST_DIR}/out/sdk/include"
 )
 
 set (CMAKE_RC_COMPILER ${llvm_bin}/llvm-rc.exe)
