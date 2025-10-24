@@ -27,6 +27,9 @@ jobs:
         with:
           submodules: recursive
 
+      - name: Setup anew (or from cache) vcpkg (and does not build any package)
+        uses: lukka/run-vcpkg@v11
+
       - name: Download LLVM
         uses: robinraju/release-downloader@v1
         with:
