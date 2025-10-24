@@ -11,6 +11,7 @@ on:
 
 env:
   LLVM_PATH: "${{ github.workspace }}\\llvm-release"
+  LLVM_VERSION: "21.1.4"
   NIRVANA_SDK: "${{ github.workspace }}\\out\\sdk"
   NIRVANA_TOOLS: "${{ github.workspace }}\\out\\tools\\windows\\x64"
 
@@ -34,12 +35,12 @@ jobs:
         uses: robinraju/release-downloader@v1
         with:
           repository: llvm/llvm-project
-          tag: "llvmorg-21.1.0"
-          fileName: clang+llvm-21.1.0-x86_64-pc-windows-msvc.tar.xz
+          tag: "llvmorg-${{ env.LLVM_VERSION }}"
+          fileName: clang+llvm-${{ env.LLVM_VERSION }}-x86_64-pc-windows-msvc.tar.xz
 
       - name: Extract LLVM
         shell: pwsh
-        run: './unpack-tar-xz.ps1 clang+llvm-21.1.0-x86_64-pc-windows-msvc llvm-release'
+        run: './unpack-tar-xz.ps1 clang+llvm-${{ env.LLVM_VERSION }}-x86_64-pc-windows-msvc llvm-release'
 
       - name: Pull LLVM
         run: ./pull_llvm.ps1
