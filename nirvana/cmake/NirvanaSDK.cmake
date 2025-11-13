@@ -97,7 +97,7 @@ function (nirvana_module module_name)
 	cmake_parse_arguments (arg "" "${one_args}" "${multi_args}" ${ARGN})
 
   add_executable (${module_name})
-  target_link_libraries (${module_name} PRIVATE libcoreimport.a)
+  target_link_libraries (${module_name} PRIVATE libCoreImport.a)
   target_link_options (${module_name} PRIVATE "LINKER:/noentry,/dll,/dynamicbase")
 
   set (idl_options ${arg_OPTIONS})

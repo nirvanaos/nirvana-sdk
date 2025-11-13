@@ -81,16 +81,12 @@ if (${NIRVANA_TARGET_PLATFORM} STREQUAL "x86")
   add_link_options ("LINKER:/safeseh:no")
 endif ()
 
-#set (NIRVANA_STANDARD_LIBRARIES "-lc++ -lc++experimental -lc++abi -lcrtl -lnirvana -lm -lunwind")
-#set (CMAKE_C_STANDARD_LIBRARIES ${NIRVANA_STANDARD_LIBRARIES})
-#set (CMAKE_CXX_STANDARD_LIBRARIES ${NIRVANA_STANDARD_LIBRARIES})
-
 link_libraries (
  c++
 	c++experimental
 	c++abi
 	crtl
-	nirvana
+	Nirvana
 	m
 	unwind
 )

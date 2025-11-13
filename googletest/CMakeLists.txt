@@ -8,7 +8,7 @@ target_include_directories (googletest-nirvana
 	PRIVATE googletest/googletest
 )
 
-target_link_libraries (googletest-nirvana PUBLIC nirvana)
+target_link_libraries (googletest-nirvana PUBLIC Nirvana)
 
 target_compile_definitions (googletest-nirvana PUBLIC GTEST_HAS_POSIX_RE=0 GTEST_HAS_SEH=0)
 

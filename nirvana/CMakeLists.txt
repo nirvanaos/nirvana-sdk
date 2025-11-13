@@ -51,18 +51,18 @@ endfunction ()
 
 if (${NIRVANA_BUILD})
 
-add_library (nirvana STATIC)
+add_library (Nirvana STATIC)
 
-target_precompile_headers (nirvana PRIVATE 
+target_precompile_headers (Nirvana PRIVATE 
 	$<$<COMPILE_LANGUAGE:CXX>:<Nirvana/Nirvana.h$<ANGLE-R>>)
 
 elseif (${NIRVANA_IDL})
 
-add_custom_target (nirvana ALL)
+add_custom_target (Nirvana ALL)
 
 endif ()
 
 add_subdirectory (library)
 add_subdirectory (orb)
 
-add_dependencies (nirvana nirvana_idl corba_idl)
+add_dependencies (Nirvana nirvana_idl corba_idl)
