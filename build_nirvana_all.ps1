@@ -26,6 +26,7 @@ xcopy nirvana\library\CRTL\Include\*.h $inc_dir\ /y /s
 xcopy nirvana\library\CRTL\Include\*. $inc_dir\ /y /s
 
 xcopy nirvana\library\Mock\Include\*.h $core_inc_dir\ /y /s
+xcopy nirvana\library\Port\Include\*.h $core_inc_dir\ /y /s
 
 xcopy $PWD\googletest\googletest\googletest\include\gtest\*.* $inc_dir\gtest\ /y /s
 
