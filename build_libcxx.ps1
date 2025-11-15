@@ -70,7 +70,6 @@ $Env:NIRVANA_TARGET_PLATFORM = "$platform"
 
 cmake -G "Ninja Multi-Config" -S "$llvm_root\runtimes" -B $build_dir --toolchain "$PWD\toolchain.cmake" `
  -DBUILD_SHARED_LIBS=OFF                              `
- -DCMAKE_INSTALL_PREFIX="$dest_dir"                   `
  -DCMAKE_POLICY_DEFAULT_CMP0177=NEW                   `
  -DCMAKE_SYSTEM_NAME=Generic                          `
  -DLLVM_ENABLE_RUNTIMES="libcxx;libcxxabi;libunwind"  `
