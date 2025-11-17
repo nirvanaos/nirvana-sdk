@@ -21,6 +21,9 @@ list (APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/nirvana/cmake")
 include (NirvanaTargetPlatform)
 set (LLVM_DEFAULT_TARGET_TRIPLE ${NIRVANA_TARGET_TRIPLE} CACHE STRING "" FORCE)
 
+set (CMAKE_CXX_COMPILER_TARGET ${NIRVANA_TARGET_TRIPLE})
+set (CMAKE_C_COMPILER_TARGET ${NIRVANA_TARGET_TRIPLE})
+
 # Do not undefine _WIN64 because this breaks the unwind code
 
 set (c_compile_flags "-nostdinc -fshort-wchar -fdwarf-exceptions\

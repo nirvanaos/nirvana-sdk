@@ -54,6 +54,7 @@ link_libraries (
 	${NIRVANA_LIB_DIR}/$<CONFIG>/libm.a
 	${NIRVANA_LIB_DIR}/$<CONFIG>/libc++abi.a
 	${NIRVANA_LIB_DIR}/$<CONFIG>/libunwind.a
+	${NIRVANA_LIB_DIR}/$<CONFIG>/libclang_rt.builtins.a
 )
 
 endif ()
