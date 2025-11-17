@@ -1,6 +1,6 @@
 $ErrorActionPreference = "Stop"
-$core_sdk_dir = "$PWD\out\core-sdk\windows"
-$tools_dir = "$PWD\out\tools\windows"
+$core_sdk_dir = "$PWD\out\core-sdk\Windows"
+$tools_dir = "$PWD\out\tools\Windows"
 
 if ($args.count -ge 1) {
 	$platform = $args[0]
