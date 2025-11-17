@@ -66,6 +66,10 @@ jobs:
         run: ./build_libcxx_all.ps1
         shell: pwsh
 
+      - name: Build compiler-rt
+        run: ./build_rt_all.ps1
+        shell: pwsh
+
       - name: Build Nirvana
         run: ./build_nirvana_all.ps1
         shell: pwsh
