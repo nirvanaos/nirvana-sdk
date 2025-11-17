@@ -29,3 +29,8 @@ if ($LASTEXITCODE -ne 0) {
 if ($LASTEXITCODE -ne 0) {
   exit $LASTEXITCODE
 }
+
+& "$PSScriptRoot\build_rt_all.ps1"
+if ($LASTEXITCODE -ne 0) {
+  exit $LASTEXITCODE
+}

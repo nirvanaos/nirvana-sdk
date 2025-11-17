@@ -29,11 +29,15 @@ set (CMAKE_SYSTEM_NAME Generic)
 list (APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}")
 include (NirvanaTargetPlatform)
 
+set (CMAKE_CXX_COMPILER_TARGET ${NIRVANA_TARGET_TRIPLE})
+set (CMAKE_C_COMPILER_TARGET ${NIRVANA_TARGET_TRIPLE})
+
 set (c_compile_flags "-nostdinc -fshort-wchar -fdwarf-exceptions -mlong-double-64\
  -U_WIN32 -U__MINGW__ -U__MINGW32__ -U__MINGW64__\
  -fno-builtin-memcpy -fno-builtin-wmemcpy -fno-builtin-memmove -fno-builtin-wmemmove\
  -fno-builtin-strcpy -fno-builtin-wcscpy -fno-builtin-strncpy -fno-builtin-wcsncpy\
- -Wno-character-conversion --target=${NIRVANA_TARGET_TRIPLE}"
+ -Wno-character-conversion\
+ --target=${NIRVANA_TARGET_TRIPLE}"
 )
 
 if (${NIRVANA_TARGET_PLATFORM} STREQUAL "x64")
@@ -89,4 +93,5 @@ link_libraries (
 	Nirvana
 	m
 	unwind
+	clang_rt.builtins
 )
