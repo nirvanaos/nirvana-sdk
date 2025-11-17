@@ -37,8 +37,7 @@ cmake -G "Ninja Multi-Config" -S "$llvm_root\compiler-rt" -B $build_dir --toolch
  -DCOMPILER_RT_STATIC_CXX_LIBRARY=ON                  `
  -DCOMPILER_RT_USE_ATOMIC_LIBRARY=ON                  `
  -DCOMPILER_RT_USE_BUILTINS_LIBRARY=ON                `
- -DCOMPILER_RT_USE_LLVM_UNWINDER=ON                   `
- -DCMAKE_SYSTEM_NAME=Generic
+ -DCOMPILER_RT_USE_LLVM_UNWINDER=ON
 
 $Env:NIRVANA_TARGET_PLATFORM = ""
 
