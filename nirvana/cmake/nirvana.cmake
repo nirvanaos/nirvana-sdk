@@ -24,7 +24,7 @@ set (CMAKE_ASM_COMPILER ${llvm_bin}/clang.exe)
 set (CMAKE_RC_COMPILER ${llvm_bin}/llvm-rc.exe)
 #set (CMAKE_LINKER ${llvm_bin}/lld-link.exe)
 
-set (CMAKE_SYSTEM_NAME Generic)
+#set (CMAKE_SYSTEM_NAME Generic)
 
 list (APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}")
 include (NirvanaTargetPlatform)
@@ -85,13 +85,6 @@ if (${NIRVANA_TARGET_PLATFORM} STREQUAL "x86")
   add_link_options ("LINKER:/safeseh:no")
 endif ()
 
-link_libraries (
- c++
-	c++experimental
-	c++abi
-	crtl
-	Nirvana
-	m
-	unwind
-	clang_rt.builtins
-)
+set (NIRVANA_LIBRARIES "-lc++ -lc++experimental -lc++abi -lm -lcrtl -lNirvana -lunwind -lclang_rt.builtins")
+set (CMAKE_CXX_STANDARD_LIBRARIES ${NIRVANA_LIBRARIES})
+set (CMAKE_C_STANDARD_LIBRARIES ${NIRVANA_LIBRARIES})
