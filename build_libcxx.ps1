@@ -30,7 +30,7 @@ $cpp_with_containers = $common_flags + ";-includeNirvana/force_include.h"
 #$cxx_flags = $cpp_with_containers + ";-U_WIN32;-D__FreeBSD__"
 $cxx_flags = $cpp_with_containers + ";-U_WIN32"
 
-$extra_defines = "_LIBCPP_HAS_CLOCK_GETTIME"
+$extra_defines = "_LIBCPP_HAS_CLOCK_GETTIME;_LIBCPP_USING_GETENTROPY"
 
 # Windows flags
 $win_sdk_inc_dir = "${env:WindowsSdkDir}Include\${env:WindowsSDKVersion}"
