@@ -4,9 +4,9 @@ file (TO_CMAKE_PATH $ENV{NIRVANA_SDK} NIRVANA_SDK_DIR)
 file (TO_CMAKE_PATH $ENV{NIRVANA_TOOLS} NIRVANA_TOOLS_DIR)
 set (NIDL2CPP ${NIRVANA_TOOLS_DIR}/nidl2cpp.exe)
 
-function (nirvana_module_idl module_name)
+function (nirvana_compile_idl target)
 
-	set (multi_args IDL_FILES OPTIONS)
+	set (multi_args IDL_FILES OPTIONS OUT_H)
 	cmake_parse_arguments (arg "" "" "${multi_args}" ${ARGN})
 
   set (client_h 1)
@@ -47,9 +47,16 @@ function (nirvana_module_idl module_name)
 
   set (idl_generated)
 
-  set (idl_root "${CMAKE_CURRENT_BINARY_DIR}/${module_name}.generated")
+  set (idl_out_dir "${CMAKE_CURRENT_BINARY_DIR}/${target}.generated")
+	if (arg_OUT_H)
+		set (idl_out_h ${arg_OUT_H})
+	else ()
+		set (idl_out_h ${idl_out_dir})
+	endif ()
+	set (idl_out_cpp ${idl_out_dir})
+	set (idl_out_proxy ${idl_out_dir})
   if (client_h OR server)
-    target_include_directories (${module_name} PUBLIC ${idl_root})
+    target_include_directories (${target} PUBLIC ${idl_out_h})
   endif ()
 
 	foreach (f IN LISTS arg_IDL_FILES)
@@ -59,25 +66,34 @@ function (nirvana_module_idl module_name)
     cmake_path (RELATIVE_PATH f OUTPUT_VARIABLE r_path)
     cmake_path (GET r_path PARENT_PATH r_dir)
 
-    set (out_dir "${idl_root}/${r_dir}")
+    set (out_h "${idl_out_h}/${r_dir}")
+    set (out_cpp "${idl_out_cpp}/${r_dir}")
+    set (out_proxy "${idl_out_proxy}/${r_dir}")
 
     set (out_files)
+		set (out_options)
+  	if (client_h OR server OR arg_OUT_H)
+			set (out_options -out_h ${out_h})
+		endif ()
+
     if (${client_h})
-      list (APPEND out_files "${out_dir}/${f_name}.h")
-    endif ()
-    if (${client_cpp})
-      list (APPEND out_files "${out_dir}/${f_name}.cpp")
+      list (APPEND out_files "${out_h}/${f_name}.h")
     endif ()
     if (${server})
-      list (APPEND out_files "${out_dir}/${f_name}_s.h")
+      list (APPEND out_files "${out_h}/${f_name}_s.h")
+    endif ()
+    if (${client_cpp})
+      list (APPEND out_files "${out_cpp}/${f_name}.cpp")
+			list (APPEND out_options -out_cpp ${out_cpp})
     endif ()
     if (${proxy})
-      list (APPEND out_files "${out_dir}/${f_name}_p.cpp")
+      list (APPEND out_files "${out_proxy}/${f_name}_p.cpp")
+			list (APPEND out_options -out_proxy ${out_proxy})
     endif ()
 
     add_custom_command (
       OUTPUT ${out_files}
-      COMMAND ${NIDL2CPP} ARGS ${arg_OPTIONS} -I ${NIRVANA_SDK_DIR}/include -out ${out_dir} ${f}
+      COMMAND ${NIDL2CPP} ARGS ${arg_OPTIONS} -I ${NIRVANA_SDK_DIR}/include ${out_options} ${f}
       DEPENDS ${f}
       VERBATIM
     )
@@ -86,7 +102,7 @@ function (nirvana_module_idl module_name)
 
 	endforeach ()
 
-  target_sources (${module_name} PRIVATE ${idl_generated})
+  target_sources (${target} PRIVATE ${idl_generated})
 
 endfunction ()
 
@@ -121,7 +137,7 @@ function (nirvana_module module_name)
   endif ()
 
   if (arg_IDL_FILES)
-    nirvana_module_idl (${module_name} IDL_FILES ${arg_IDL_FILES} OPTIONS ${idl_options})
+    nirvana_compile_idl (${module_name} IDL_FILES ${arg_IDL_FILES} OPTIONS ${idl_options})
   endif ()
 
 endfunction ()
