@@ -6,7 +6,7 @@ set (NIDL2CPP ${NIRVANA_TOOLS_DIR}/nidl2cpp.exe)
 
 function (nirvana_compile_idl target)
 
-	set (multi_args IDL_FILES OPTIONS OUT_H)
+	set (multi_args IDL_FILES OPTIONS OUT_H IDL_ROOT)
 	cmake_parse_arguments (arg "" "" "${multi_args}" ${ARGN})
 
   set (client_h 1)
@@ -59,16 +59,32 @@ function (nirvana_compile_idl target)
     target_include_directories (${target} PUBLIC ${idl_out_h})
   endif ()
 
+	if (arg_IDL_ROOT)
+		cmake_path (ABSOLUTE_PATH arg_IDL_ROOT NORMALIZE OUTPUT_VARIABLE idl_root)
+	else ()
+		set (idl_root ${CMAKE_CURRENT_SOURCE_DIR})
+	endif ()
+
 	foreach (f IN LISTS arg_IDL_FILES)
 		cmake_path (GET f STEM f_name)
 
-    cmake_path (ABSOLUTE_PATH f NORMALIZE OUTPUT_VARIABLE a_path)
-    cmake_path (RELATIVE_PATH f OUTPUT_VARIABLE r_path)
-    cmake_path (GET r_path PARENT_PATH r_dir)
+    cmake_path (ABSOLUTE_PATH f BASE_DIRECTORY ${idl_root} NORMALIZE OUTPUT_VARIABLE a_path)
+		cmake_path (IS_PREFIX idl_root ${a_path} is_prefix)
+		if (NOT is_prefix)
+			message (WARNING "${f} is not in ${idl_root} tree")
+			cmake_path (GET f FILENAME r_path)
+		else ()
+    	cmake_path (RELATIVE_PATH a_path BASE_DIRECTORY ${idl_root} OUTPUT_VARIABLE r_path)
+		endif ()
 
-    set (out_h "${idl_out_h}/${r_dir}")
-    set (out_cpp "${idl_out_cpp}/${r_dir}")
-    set (out_proxy "${idl_out_proxy}/${r_dir}")
+    set (out_h "${idl_out_h}/${r_path}")
+    cmake_path (GET out_h PARENT_PATH out_h)
+
+    set (out_cpp "${idl_out_cpp}/${r_path}")
+    cmake_path (GET out_cpp PARENT_PATH out_cpp)
+
+    set (out_proxy "${idl_out_proxy}/${r_path}")
+    cmake_path (GET out_proxy PARENT_PATH out_proxy)
 
     set (out_files)
 		set (out_options)
@@ -93,8 +109,8 @@ function (nirvana_compile_idl target)
 
     add_custom_command (
       OUTPUT ${out_files}
-      COMMAND ${NIDL2CPP} ARGS ${arg_OPTIONS} -I ${NIRVANA_SDK_DIR}/include ${out_options} ${f}
-      DEPENDS ${f}
+      COMMAND ${NIDL2CPP} ARGS ${arg_OPTIONS} -I ${NIRVANA_SDK_DIR}/include ${out_options} ${a_path}
+      DEPENDS ${a_path}
       VERBATIM
     )
 
