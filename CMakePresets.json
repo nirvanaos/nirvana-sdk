@@ -18,7 +18,7 @@
       "inherits": "base",
       "name": "x64",
       "binaryDir": "${sourceDir}/build/nirvana/x64",
-      "environment": {
+      "cacheVariables": {
         "NIRVANA_TARGET_PLATFORM": "x64"
       }
     },
@@ -26,7 +26,7 @@
       "inherits": "base",
       "name": "x86",
       "binaryDir": "${sourceDir}/build/nirvana/x86",
-      "environment": {
+      "cacheVariables": {
         "NIRVANA_TARGET_PLATFORM": "x86"
       }
     }
@@ -34,25 +34,25 @@
   "buildPresets": [
     {
       "name": "x64-debug",
-      "displayName": "x64 Debug",
+      "displayName": "Debug",
       "configurePreset": "x64",
       "configuration": "Debug"
     },
     {
       "name": "x64-release",
-      "displayName": "x64 Release",
+      "displayName": "Release",
       "configurePreset": "x64",
       "configuration": "Release"
     },
     {
       "name": "x86-debug",
-      "displayName": "x86 Debug",
+      "displayName": "Debug",
       "configurePreset": "x86",
       "configuration": "Debug"
     },
     {
       "name": "x86-release",
-      "displayName": "x86 Release",
+      "displayName": "Release",
       "configurePreset": "x86",
       "configuration": "Release"
     }
@@ -60,7 +60,7 @@
   "testPresets": [
     {
       "name": "x64-debug",
-      "displayName": "x64 Debug",
+      "displayName": "Debug",
       "configurePreset": "x64",
       "configuration": "Debug",
       "output": {
@@ -70,7 +70,7 @@
     },
     {
       "name": "x64-release",
-      "displayName": "x64 Release",
+      "displayName": "Release",
       "configurePreset": "x64",
       "configuration": "Release",
       "output": {
@@ -80,7 +80,7 @@
     },
     {
       "name": "x86-debug",
-      "displayName": "x86 Debug",
+      "displayName": "Debug",
       "configurePreset": "x86",
       "configuration": "Debug",
       "output": {
@@ -90,7 +90,7 @@
     },
     {
       "name": "x86-release",
-      "displayName": "x86 Release",
+      "displayName": "Release",
       "configurePreset": "x86",
       "configuration": "Release",
       "output": {
