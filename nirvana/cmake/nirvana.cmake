@@ -6,7 +6,7 @@ set (LLVM_PATH $ENV{LLVM_PATH})
 if (NOT EXISTS "${LLVM_PATH}/${clang_lib}")
   set (LLVM_PATH $ENV{ProgramFiles}/LLVM)
   if (NOT EXISTS "${LLVM_PATH}/${clang_lib}")
-    message (FATAL_ERROR "Please, install LLVM from https://github.com/llvm/llvm-project/releases/download/llvmorg-21.1.0/LLVM-21.1.0-win64.exe")
+    message (FATAL_ERROR "Please, install LLVM from https://github.com/llvm/llvm-project/releases/download/llvmorg-21.1.4/LLVM-21.1.4-win64.exe")
   endif ()
 endif ()
 
@@ -33,7 +33,7 @@ set (CMAKE_CXX_COMPILER_TARGET ${NIRVANA_TARGET_TRIPLE})
 set (CMAKE_C_COMPILER_TARGET ${NIRVANA_TARGET_TRIPLE})
 
 set (c_compile_flags "-nostdinc -fshort-wchar -fdwarf-exceptions -mlong-double-64\
- -U_WIN32 -U__MINGW__ -U__MINGW32__ -U__MINGW64__\
+ -U_WIN32 -UWIN32 -U_WIN64 -U__MINGW__ -U__MINGW32__ -U__MINGW64__\
  -fno-builtin-memcpy -fno-builtin-wmemcpy -fno-builtin-memmove -fno-builtin-wmemmove\
  -fno-builtin-strcpy -fno-builtin-wcscpy -fno-builtin-strncpy -fno-builtin-wcsncpy\
  -Wno-character-conversion\
