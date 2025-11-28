@@ -24,7 +24,7 @@ set (CMAKE_ASM_COMPILER ${llvm_bin}/clang.exe)
 set (CMAKE_RC_COMPILER ${llvm_bin}/llvm-rc.exe)
 #set (CMAKE_LINKER ${llvm_bin}/lld-link.exe)
 
-#set (CMAKE_SYSTEM_NAME Generic)
+set (CMAKE_SYSTEM_NAME Generic)
 
 list (APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}")
 include (NirvanaTargetPlatform)
