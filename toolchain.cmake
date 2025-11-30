@@ -56,17 +56,17 @@ set (CMAKE_CXX_FLAGS_INIT ${cpp_compile_flags})
 set (CMAKE_C_FLAGS_INIT ${c_compile_flags})
 set (CMAKE_ASM_FLAGS_INIT ${c_compile_flags})
 
-set (debug_flags "-gdwarf-4")
+#set (debug_flags "-gdwarf-4")
 #set (debug_flags "-gcodeview")
 #set (release_flags "-fno-builtin")
-set (release_flags "")
+#set (release_flags "")
 
-set (CMAKE_CXX_FLAGS_DEBUG_INIT ${debug_flags})
-set (CMAKE_C_FLAGS_DEBUG_INIT ${debug_flags})
-set (CMAKE_ASM_FLAGS_DEBUG_INIT ${debug_flags})
+#set (CMAKE_CXX_FLAGS_DEBUG_INIT ${debug_flags})
+#set (CMAKE_C_FLAGS_DEBUG_INIT ${debug_flags})
+#set (CMAKE_ASM_FLAGS_DEBUG_INIT ${debug_flags})
 
-set (CMAKE_CXX_FLAGS_RELEASE_INIT ${release_flags})
-set (CMAKE_C_FLAGS_RELEASE_INIT ${release_flags})
+#set (CMAKE_CXX_FLAGS_RELEASE_INIT ${release_flags})
+#set (CMAKE_C_FLAGS_RELEASE_INIT ${release_flags})
 
 include_directories (SYSTEM
   "${LLVM_PATH}/${clang_lib}/include"
@@ -81,4 +81,6 @@ include_directories (SYSTEM
 
 set (CMAKE_RC_COMPILER ${llvm_bin}/llvm-rc.exe)
 #set (CMAKE_LINKER ${llvm_bin}/lld-link.exe)
-set (CMAKE_CXX_STANDARD_LIBRARIES "")
+set (NIRVANA_LIBRARIES "-lc++ -lc++experimental -lc++abi -lm -lunwind -lclang_rt.builtins")
+set (CMAKE_CXX_STANDARD_LIBRARIES ${NIRVANA_LIBRARIES})
+set (CMAKE_C_STANDARD_LIBRARIES ${NIRVANA_LIBRARIES})

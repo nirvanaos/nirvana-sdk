@@ -52,16 +52,16 @@ set (CMAKE_CXX_FLAGS_INIT ${cpp_compile_flags})
 set (CMAKE_C_FLAGS_INIT ${c_compile_flags})
 set (CMAKE_ASM_FLAGS_INIT ${c_compile_flags})
 
-set (debug_flags "-gdwarf-4")
+#set (debug_flags "-gdwarf-4")
 #set (debug_flags "-gcodeview")
-set (release_flags "")
+#set (release_flags "")
 
-set (CMAKE_CXX_FLAGS_DEBUG_INIT ${debug_flags})
-set (CMAKE_C_FLAGS_DEBUG_INIT ${debug_flags})
-set (CMAKE_ASM_FLAGS_DEBUG_INIT ${debug_flags})
+#set (CMAKE_CXX_FLAGS_DEBUG_INIT ${debug_flags})
+#set (CMAKE_C_FLAGS_DEBUG_INIT ${debug_flags})
+#set (CMAKE_ASM_FLAGS_DEBUG_INIT ${debug_flags})
 
-set (CMAKE_CXX_FLAGS_RELEASE_INIT ${release_flags})
-set (CMAKE_C_FLAGS_RELEASE_INIT ${release_flags})
+#set (CMAKE_CXX_FLAGS_RELEASE_INIT ${release_flags})
+#set (CMAKE_C_FLAGS_RELEASE_INIT ${release_flags})
 
 file (TO_CMAKE_PATH $ENV{NIRVANA_SDK} NIRVANA_SDK_DIR)
 include_directories (SYSTEM
@@ -75,11 +75,9 @@ include_directories (SYSTEM
 # If mingw32 is installed (GitHub) this causes library collisions.
 add_link_options (-fuse-ld=lld -nodefaultlibs "--sysroot=${LLVM_PATH}"
 "LINKER:SHELL:/incremental:no /opt:ref /nodefaultlib /noimplib /section:olfbind,r /merge:.eh_frame=.rdata\
-  /machine:${NIRVANA_TARGET_PLATFORM}$<$<CONFIG:Debug>: /debug:dwarf>")
+  /machine:${NIRVANA_TARGET_PLATFORM}")
 
 link_directories ("${NIRVANA_SDK_DIR}/lib/${NIRVANA_TARGET_PLATFORM}/$<CONFIG>")
-#set(CMAKE_CXX_STANDARD_LINK_DIRECTORIES "${NIRVANA_SDK_DIR}/lib/${NIRVANA_TARGET_PLATFORM}/$<CONFIG>")
-#set(CMAKE_C_STANDARD_LINK_DIRECTORIES "${NIRVANA_SDK_DIR}/lib/${NIRVANA_TARGET_PLATFORM}/$<CONFIG>")
 
 if (${NIRVANA_TARGET_PLATFORM} STREQUAL "x86")
   add_link_options ("LINKER:/safeseh:no")

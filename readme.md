@@ -112,10 +112,3 @@ First we need to build all third-party libraries and tools:
 ### Build
 
 Use CMake with settings from CMakePresets.json file.
-
-### Debug
-
-For debugging x64 platform use [LLDB DAP extension](https://marketplace.visualstudio.com/items?itemName=llvm-vs-code-extensions.lldb-dap) with lldb-dap.executable-path set to lldb-dap.exe path in the LLVM release unpacked.
-
-For debugging x86 platform I'm using [GDB DAP extension](https://marketplace.visualstudio.com/items?itemName=OlegTolmatcev.gdb-dap)
-because using lldb-dap currently causes problems.

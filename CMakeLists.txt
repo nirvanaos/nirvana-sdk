@@ -23,8 +23,6 @@ if (${NIRVANA_BUILD})
 
 include (CTest)
 
-set (NIRVANA_LIB_DIR "${CMAKE_SOURCE_DIR}/out/sdk/lib/${NIRVANA_TARGET_PLATFORM}")
-
 # For find_package
 set (mockhost_DIR "${CMAKE_SOURCE_DIR}/build/${NIRVANA_TARGET_PLATFORM}/vcpkg_installed/${NIRVANA_TARGET_PLATFORM}-windows/share/mockhost")
 
@@ -33,8 +31,12 @@ set (mockhost_DIR "${CMAKE_SOURCE_DIR}/build/${NIRVANA_TARGET_PLATFORM}/vcpkg_in
 # If mingw32 is installed (GitHub) this causes library collisions.
 add_link_options (-fuse-ld=lld -nodefaultlibs "--sysroot=${LLVM_PATH}"
 "LINKER:SHELL:/incremental:no /opt:ref /nodefaultlib /noimplib /section:olfbind,r /merge:.eh_frame=.rdata\
- /machine:${NIRVANA_TARGET_PLATFORM} '-L$<TARGET_FILE_DIR:crtl>'\
-$<$<CONFIG:Debug>: /debug:dwarf>")
+ /machine:${NIRVANA_TARGET_PLATFORM}")
+
+link_directories (
+	"${CMAKE_SOURCE_DIR}/out/sdk/lib/${NIRVANA_TARGET_PLATFORM}/$<CONFIG>"
+	"$<TARGET_FILE_DIR:crtl>" # for CRTL startup object files.
+)
 
 if (${NIRVANA_TARGET_PLATFORM} STREQUAL "x86")
   add_link_options ("LINKER:/safeseh:no")
@@ -48,15 +50,6 @@ add_compile_options (
 	"-U_WIN32"
   "-fno-ms-compatibility"
   "-fno-ms-extensions"
-)
-
-link_libraries (
-	${NIRVANA_LIB_DIR}/$<CONFIG>/libc++.a
-	${NIRVANA_LIB_DIR}/$<CONFIG>/libc++experimental.a
-	${NIRVANA_LIB_DIR}/$<CONFIG>/libm.a
-	${NIRVANA_LIB_DIR}/$<CONFIG>/libc++abi.a
-	${NIRVANA_LIB_DIR}/$<CONFIG>/libunwind.a
-	${NIRVANA_LIB_DIR}/$<CONFIG>/libclang_rt.builtins.a
 )
 
 endif ()
