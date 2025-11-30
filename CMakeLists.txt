@@ -24,6 +24,8 @@ if (${NIRVANA_BUILD})
 include (CTest)
 
 set (NIRVANA_LIB_DIR "${CMAKE_SOURCE_DIR}/out/sdk/lib/${NIRVANA_TARGET_PLATFORM}")
+
+# For find_package
 set (mockhost_DIR "${CMAKE_SOURCE_DIR}/build/${NIRVANA_TARGET_PLATFORM}/vcpkg_installed/${NIRVANA_TARGET_PLATFORM}-windows/share/mockhost")
 
 # We need to specify --sysroot to avoid searching mingw32 possible installed.

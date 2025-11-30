@@ -1,6 +1,7 @@
 $ErrorActionPreference = "Stop"
 $core_sdk_dir = "$PWD\out\core-sdk\Windows"
 $tools_dir = "$PWD\out\tools\Windows"
+$build_dir = "$PWD\build\nirvana"
 
 if ($args.count -ge 1) {
 	$platform = $args[0]
@@ -31,3 +32,6 @@ xcopy "$install_root\$vcpkg_triplet\bin\mockhost.dll" "$core_sdk_dir\bin\$platfo
 xcopy "$install_root\$vcpkg_triplet\debug\bin\mockhost.dll" "$core_sdk_dir\bin\$platform\Debug\" /y
 
 xcopy "$install_root\$vcpkg_triplet\tools\nidl2cpp\nidl2cpp.exe" "$tools_dir\$platform\" /y
+
+xcopy "$install_root\$vcpkg_triplet\bin\mockhost.dll" "$build_dir\$platform\Release\" /y
+xcopy "$install_root\$vcpkg_triplet\debug\bin\mockhost.dll" "$build_dir\$platform\Debug\" /y
