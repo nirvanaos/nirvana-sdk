@@ -6,7 +6,7 @@ set (LLVM_PATH $ENV{LLVM_PATH})
 if (NOT EXISTS "${LLVM_PATH}/${clang_lib}")
   set (LLVM_PATH $ENV{ProgramFiles}/LLVM)
   if (NOT EXISTS "${LLVM_PATH}/${clang_lib}")
-    message (FATAL_ERROR "Please, install LLVM from https://github.com/llvm/llvm-project/releases/download/llvmorg-21.1.4/LLVM-21.1.4-win64.exe")
+    message (FATAL_ERROR "Please, install LLVM from https://github.com/llvm/llvm-project/releases/")
   endif ()
 endif ()
 
@@ -46,7 +46,8 @@ elseif (${NIRVANA_TARGET_PLATFORM} STREQUAL "x86")
 	string (CONCAT c_compile_flags ${c_compile_flags} " -m32 -msse2 -mfpmath=sse")
 endif ()
 
-string (CONCAT cpp_compile_flags ${c_compile_flags} " -fsized-deallocation")
+string (CONCAT cpp_compile_flags ${c_compile_flags} " -nostdinc++ -fsized-deallocation\
+ -fdata-sections -ffunction-sections")
 
 set (CMAKE_CXX_FLAGS_INIT ${cpp_compile_flags})
 set (CMAKE_C_FLAGS_INIT ${c_compile_flags})
@@ -73,8 +74,8 @@ include_directories (SYSTEM
 # We need to specify --sysroot to avoid searching mingw32 possible installed.
 # Without the --sysroot CLang search mingw32 library paths.
 # If mingw32 is installed (GitHub) this causes library collisions.
-add_link_options (-fuse-ld=lld -nodefaultlibs "--sysroot=${LLVM_PATH}"
-"LINKER:SHELL:/incremental:no /opt:ref /nodefaultlib /noimplib /section:olfbind,r /merge:.eh_frame=.rdata\
+add_link_options (-fuse-ld=lld -nodefaultlibs -flto "--sysroot=${LLVM_PATH}"
+"LINKER:SHELL:/incremental:no /OPT:REF /nodefaultlib /noimplib /section:olfbind,r /merge:.eh_frame=.rdata\
   /machine:${NIRVANA_TARGET_PLATFORM}")
 
 link_directories ("${NIRVANA_SDK_DIR}/lib/${NIRVANA_TARGET_PLATFORM}/$<CONFIG>")

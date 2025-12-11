@@ -11,7 +11,7 @@ on:
 
 env:
   LLVM_PATH: "${{ github.workspace }}\\llvm-release"
-  LLVM_VERSION: "21.1.4"
+  LLVM_VERSION: "21.1.7"
   NIRVANA_SDK: "${{ github.workspace }}\\out\\sdk"
   NIRVANA_TOOLS: "${{ github.workspace }}\\out\\tools\\windows\\x64"
 
