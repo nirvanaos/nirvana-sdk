@@ -74,7 +74,7 @@ include_directories (SYSTEM
 # We need to specify --sysroot to avoid searching mingw32 possible installed.
 # Without the --sysroot CLang search mingw32 library paths.
 # If mingw32 is installed (GitHub) this causes library collisions.
-add_link_options (-fuse-ld=lld -nodefaultlibs -flto "--sysroot=${LLVM_PATH}"
+add_link_options (-fuse-ld=lld -nodefaultlibs "--sysroot=${LLVM_PATH}"
 "LINKER:SHELL:/incremental:no /OPT:REF /nodefaultlib /noimplib /section:olfbind,r /merge:.eh_frame=.rdata\
   /machine:${NIRVANA_TARGET_PLATFORM}")
 
