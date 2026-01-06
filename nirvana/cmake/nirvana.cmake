@@ -66,6 +66,7 @@ set (CMAKE_ASM_FLAGS_INIT ${c_compile_flags})
 
 file (TO_CMAKE_PATH $ENV{NIRVANA_SDK} NIRVANA_SDK_DIR)
 include_directories (SYSTEM
+	${NIRVANA_SDK_DIR}/include/library
 	${NIRVANA_SDK_DIR}/include/c++/v1
   "${LLVM_PATH}/${clang_lib}/include"
 	${NIRVANA_SDK_DIR}/include

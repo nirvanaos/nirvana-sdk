@@ -70,7 +70,7 @@ set (CMAKE_ASM_FLAGS_INIT ${c_compile_flags})
 #set (CMAKE_C_FLAGS_RELEASE_INIT ${release_flags})
 
 include_directories (
-	"${CMAKE_CURRENT_LIST_DIR}/nirvana/library/c++/Include"
+	"${CMAKE_CURRENT_LIST_DIR}/nirvana/library/container/Include"
 	"${CMAKE_CURRENT_LIST_DIR}/nirvana/library/Include"
 	"${CMAKE_CURRENT_LIST_DIR}/build/idl/library/Include"
 	"${CMAKE_CURRENT_LIST_DIR}/nirvana/orb/Include"
