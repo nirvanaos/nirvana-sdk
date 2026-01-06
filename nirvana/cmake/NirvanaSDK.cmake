@@ -109,7 +109,7 @@ function (nirvana_compile_idl target)
 
 		add_custom_command (
 			OUTPUT ${out_files}
-			COMMAND ${NIDL2CPP} ARGS ${arg_OPTIONS} -I ${NIRVANA_SDK_DIR}/include ${out_options} ${a_path}
+			COMMAND ${NIDL2CPP} ARGS ${arg_OPTIONS} -I ${NIRVANA_SDK_DIR}/include/library ${out_options} ${a_path}
 			DEPENDS ${a_path}
 			VERBATIM
 		)

@@ -34,6 +34,7 @@ set (CMAKE_C_COMPILER_TARGET ${NIRVANA_TARGET_TRIPLE})
 
 set (c_compile_flags "-nostdinc -fshort-wchar -fdwarf-exceptions -mlong-double-64\
  -U_WIN32 -UWIN32 -U_WIN64 -U__MINGW__ -U__MINGW32__ -U__MINGW64__\
+ -DGTEST_HAS_POSIX_RE=0 -DGTEST_HAS_SEH=0\
  -fno-builtin-memcpy -fno-builtin-wmemcpy -fno-builtin-memmove -fno-builtin-wmemmove\
  -fno-builtin-strcpy -fno-builtin-wcscpy -fno-builtin-strncpy -fno-builtin-wcsncpy\
  -Wno-character-conversion\

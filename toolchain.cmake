@@ -31,6 +31,7 @@ set (c_compile_flags "-nostdinc -fshort-wchar -fdwarf-exceptions\
  -fno-builtin-strcpy -fno-builtin-wcscpy -fno-builtin-strncpy -fno-builtin-wcsncpy\
  -Wno-character-conversion\
  -U__MINGW__ -U__MINGW32__ -U__MINGW64__\
+ -DGTEST_HAS_POSIX_RE=0 -DGTEST_HAS_SEH=0\
  --target=${NIRVANA_TARGET_TRIPLE}"
 )
 
