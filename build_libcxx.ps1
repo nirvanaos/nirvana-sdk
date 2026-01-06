@@ -22,7 +22,7 @@ $common_flags = "-Wno-user-defined-literals;" +
 "-Wno-covered-switch-default;" +
 "-Wno-unused-function"
 
-$cpp_with_containers = $common_flags + ";-includeNirvana/force_include.h"
+$cpp_with_containers = $common_flags
 
 # If we keep _WIN32 defined in libc++ it includes Windows.h and other Windows stuff.
 # We mustn't depend on any Windows things so we undefine _WIN32 in libc++.

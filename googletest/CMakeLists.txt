@@ -14,7 +14,4 @@ target_compile_definitions (googletest-nirvana PUBLIC GTEST_HAS_POSIX_RE=0 GTEST
 
 if (MSVC)
 	target_compile_options(googletest-nirvana PRIVATE "/FI Nirvana/force_include.h")
-else ()
-	target_compile_options(googletest-nirvana PRIVATE "-includeNirvana/force_include.h")
 endif ()
-
