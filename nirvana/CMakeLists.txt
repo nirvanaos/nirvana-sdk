@@ -53,8 +53,8 @@ if (${NIRVANA_BUILD})
 
 add_library (Nirvana STATIC)
 
-#target_precompile_headers (Nirvana PRIVATE 
-#	$<$<COMPILE_LANGUAGE:CXX>:<Nirvana/Nirvana.h$<ANGLE-R>>)
+target_precompile_headers (Nirvana PRIVATE 
+	$<$<COMPILE_LANGUAGE:CXX>:<Nirvana/Nirvana.h$<ANGLE-R>>)
 
 elseif (${NIRVANA_IDL})
 
